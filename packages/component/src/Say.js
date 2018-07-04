@@ -38,9 +38,6 @@ export default class Say extends React.Component {
     }
 
     utterance.volume = volume;
-    utterance.onboundary = event => {
-      console.log(event);
-    };
 
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
