@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+  - "10"
+before_script:
+  - npx version-from-git --travis --no-git-tag-version
+  - npm run bootstrap
+  - node scripts/syncVersion
+  - npm run build
+before_deploy:
+  - cp -r packages/component/lib .
+deploy:
+  - provider: npm
+    api_key:
+      secure: "HP5n5C3Lrosthf9MeGGD/jiONvw/Kko4G9HTj8Iqe7NiKWTduB0VIrgCfQdx7s0aWslCYxuUl7rupZtalj8WZLDNUvqxgXIerLwrRgPVY0ePCP23EypFIN6hgBoxtN7VK76W+PYan69sOD76IYE+gF3BY6HGIxeXQZzcVo2Do1BFQA2hzHYMYYTt7TU+cguwtujjikgOT990K2z4ah4G3jFLZKluBLsz/FO0pqlpnWJ6WrOVwUjctXOOX1PKp+OxpN1XAZJRcPsgl3+vjZPmBK7/ArSdKw7OnKiNs8I0QkRLupmLhZdxiXCc6anyWn/3gxVkk3yiiVlIgRo6GXcOHcc3SDdgg/fn6WrbV39KPIjFnp4z3z+DjJdtXP05Vb/W3g5fQS4A6A9xq6c+aSCvg1p2zocwC97GvLIp4MOhlyMHi3d51PPjNf1tpeuTrbsFQMkW/TKfrKKkhC1Acbfp4CQCvIVbo7UNnzRKFvu5AGlHYoi2gHOvXEbZ806+xOmxeaEddvAmpDjdvVLeAXIbpx2+1zNteDCX36y3bPgZ0jTpLjTsc6KDNRY/GkF8jgiQmtrCetKF2Ke+qIPDRYuXmGV8357mOICD9SNam40F/cq/mKcD6Ciq1Z/WAO6KE56u9TIenZT5dB/nQt9myRrDzSS+RbvB9ex/dkGF5DkDArM="
+    email: "compulim@hotmail.com"
+    on:
+      branch: master
+    skip_cleanup: true
+    tag: master
+  - provider: npm
+    api_key:
+      secure: "HP5n5C3Lrosthf9MeGGD/jiONvw/Kko4G9HTj8Iqe7NiKWTduB0VIrgCfQdx7s0aWslCYxuUl7rupZtalj8WZLDNUvqxgXIerLwrRgPVY0ePCP23EypFIN6hgBoxtN7VK76W+PYan69sOD76IYE+gF3BY6HGIxeXQZzcVo2Do1BFQA2hzHYMYYTt7TU+cguwtujjikgOT990K2z4ah4G3jFLZKluBLsz/FO0pqlpnWJ6WrOVwUjctXOOX1PKp+OxpN1XAZJRcPsgl3+vjZPmBK7/ArSdKw7OnKiNs8I0QkRLupmLhZdxiXCc6anyWn/3gxVkk3yiiVlIgRo6GXcOHcc3SDdgg/fn6WrbV39KPIjFnp4z3z+DjJdtXP05Vb/W3g5fQS4A6A9xq6c+aSCvg1p2zocwC97GvLIp4MOhlyMHi3d51PPjNf1tpeuTrbsFQMkW/TKfrKKkhC1Acbfp4CQCvIVbo7UNnzRKFvu5AGlHYoi2gHOvXEbZ806+xOmxeaEddvAmpDjdvVLeAXIbpx2+1zNteDCX36y3bPgZ0jTpLjTsc6KDNRY/GkF8jgiQmtrCetKF2Ke+qIPDRYuXmGV8357mOICD9SNam40F/cq/mKcD6Ciq1Z/WAO6KE56u9TIenZT5dB/nQt9myRrDzSS+RbvB9ex/dkGF5DkDArM="
+    email: "compulim@hotmail.com"
+    on:
+      tags: true
+    skip_cleanup: true
+  - provider: pages
+    skip-cleanup: true
+    github-token:
+      secure: "Wv7Vhom4IuzdS4fwpQNmXtYA9KtIJR6UOS02ZFcwh+tg7PSJIdKYx9BrUE3JhlBTYtB+HHtX76y05Vjo8+93WO/HJc51SK4U7fMw2CwdTbx4VmgyqN+jIS+ATG2hmz5Dc/4zpNAeYFdpjBNgb6N1dgaRRcyEqiCCcKm0vBxg9Zcfu5I+iluwl/NlTo54Zy+1EVSnaSjCCukK937Um8re+YKFuTPlf2zzQ45obQEGgSDfvyEG3UN9GA5V9LKC0g3ZJtIvlO8meIwuJvCOY/7jKuWLRKZe+uuvHcVeyo9NqZFcKHAXf9jUpQWtcW9ZREg4+XmMklYU5oKGag9S4mHhXJev0grX21g2HOYNhnKLnyXvqCJXuZ9KC6xLGcwYE07Ja3y0q2rYzTeSN+E4UCJKZ9Sthi8Ls+12qZJmg406+EF/d9qJkEAFQBWeF8oNwsGyNzser7kWtApwhWqt52vCDPJlf7DBYn1E+luEPNc8uMEAoH1f9xTMZhOZLdituv+fvzenzTAhFYwUvcb/nhoyCWTtNttP0ERRCSPosSpDn/aFigiHNcHS5g2+1Zoz33YdWMi8uiCoycIIZS2V8xTsvAhKVHFKse2Cz3A/n7kgA0FKL1mnY0c4pm3cuZQ597nihWou0Y/N6D2aD5azAMbgP/MgTXLE637xMqua+qqYf9Y="
+    on:
+      branch: master
+    local-dir: packages/playground/build
+  - provider: releases
+    api_key:
+      secure: "Wv7Vhom4IuzdS4fwpQNmXtYA9KtIJR6UOS02ZFcwh+tg7PSJIdKYx9BrUE3JhlBTYtB+HHtX76y05Vjo8+93WO/HJc51SK4U7fMw2CwdTbx4VmgyqN+jIS+ATG2hmz5Dc/4zpNAeYFdpjBNgb6N1dgaRRcyEqiCCcKm0vBxg9Zcfu5I+iluwl/NlTo54Zy+1EVSnaSjCCukK937Um8re+YKFuTPlf2zzQ45obQEGgSDfvyEG3UN9GA5V9LKC0g3ZJtIvlO8meIwuJvCOY/7jKuWLRKZe+uuvHcVeyo9NqZFcKHAXf9jUpQWtcW9ZREg4+XmMklYU5oKGag9S4mHhXJev0grX21g2HOYNhnKLnyXvqCJXuZ9KC6xLGcwYE07Ja3y0q2rYzTeSN+E4UCJKZ9Sthi8Ls+12qZJmg406+EF/d9qJkEAFQBWeF8oNwsGyNzser7kWtApwhWqt52vCDPJlf7DBYn1E+luEPNc8uMEAoH1f9xTMZhOZLdituv+fvzenzTAhFYwUvcb/nhoyCWTtNttP0ERRCSPosSpDn/aFigiHNcHS5g2+1Zoz33YdWMi8uiCoycIIZS2V8xTsvAhKVHFKse2Cz3A/n7kgA0FKL1mnY0c4pm3cuZQ597nihWou0Y/N6D2aD5azAMbgP/MgTXLE637xMqua+qqYf9Y="
+    on:
+      tags: true
+    skip_cleanup: true
