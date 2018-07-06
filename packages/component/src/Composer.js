@@ -10,7 +10,18 @@ function createContext({
 }) {
   return {
     cancel: () => speechSynthesis.cancel(),
-    speak: ({ lang, pitch = 1, rate = 1, text, voice, volume = 1 }) => {
+    speak: ({
+      lang,
+      onBoundary,
+      onEnd,
+      onError,
+      onStart,
+      pitch = 1,
+      rate = 1,
+      text,
+      voice,
+      volume = 1
+    }) => {
       const utterance = new speechSynthesisUtterance(text);
       const { voiceURI } = voice || {};
 
@@ -19,6 +30,11 @@ function createContext({
       utterance.rate = rate;
       utterance.voice = voiceURI && [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI);
       utterance.volume = volume;
+
+      utterance.onboundary = onBoundary;
+      utterance.onend = onEnd;
+      utterance.onerror = onError;
+      utterance.onstart = onStart;
 
       speechSynthesis.speak(utterance);
     }

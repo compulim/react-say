@@ -35,11 +35,10 @@ You may want to customize the speech by varying pitch and rate. You can use `<Co
 import { Composer, Say } from 'react-say';
 
 export default props =>
-  <Composer
-    pitch={ 1.1 }
-    rate={ 1.5 }
-  >
+  <Composer>
     <Say
+      pitch={ 1.1 }
+      rate={ 1.5 }
       text="A quick brown fox jumped over the lazy dogs."
     />
   </Composer>

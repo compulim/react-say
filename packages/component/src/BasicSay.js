@@ -11,6 +11,10 @@ const BasicSay = props =>
   >
     <Say
       lang={ props.lang }
+      onBoundary={ props.onBoundary }
+      onEnd={ props.onEnd }
+      onError={ props.onError }
+      onStart={ props.onStart }
       pitch={ props.pitch }
       rate={ props.rate }
       text={ props.text }
@@ -31,6 +35,10 @@ BasicSay.defaultProps = {
 
 BasicSay.propTypes = {
   lang: PropTypes.string,
+  onBoundary: PropTypes.func,
+  onEnd: PropTypes.func,
+  onError: PropTypes.func,
+  onStart: PropTypes.func,
   pitch: PropTypes.number,
   rate: PropTypes.number,
   speechSynthesis: PropTypes.any,
