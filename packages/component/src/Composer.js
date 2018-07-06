@@ -25,10 +25,13 @@ function createContext({
       const utterance = new speechSynthesisUtterance(text);
       const { voiceURI } = voice || {};
 
-      utterance.lang = lang;
+      // Edge will mute if "lang" is set to ""
+      utterance.lang = lang || '';
       utterance.pitch = pitch;
       utterance.rate = rate;
-      utterance.voice = voiceURI && [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI);
+
+      // Edge will error when "voice" is set to "undefined"
+      utterance.voice = voiceURI ? [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI) : null;
       utterance.volume = volume;
 
       utterance.onboundary = onBoundary;

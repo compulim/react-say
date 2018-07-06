@@ -8,6 +8,10 @@ export default props =>
       <button onClick={ event => {
         context.speak({
           lang: props.lang,
+          onBoundary: props.onBoundary,
+          onEnd: props.onEnd,
+          onError: props.onError,
+          onStart: props.onStart,
           pitch: props.pitch,
           rate: props.rate,
           text: props.text,
