@@ -9,16 +9,23 @@ export default class Say extends React.Component {
   }
 
   render() {
-    const { props } = this;
+    const { lang, pitch, rate, text, voice, volume } = this.props;
 
     return (
       <Context.Consumer>
-        { context => context.speak(props.text) }
+        { context => context.speak({ lang, pitch, rate, text, voice, volume }) }
       </Context.Consumer>
     );
   }
 }
 
 Say.propTypes = {
-  text: PropTypes.string
+  lang: PropTypes.string,
+  pitch: PropTypes.number,
+  rate: PropTypes.number,
+  onEnd: PropTypes.func,
+  onStart: PropTypes.func,
+  text: PropTypes.string,
+  voice: PropTypes.any,
+  volume: PropTypes.number
 };

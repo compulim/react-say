@@ -5,24 +5,19 @@ import React from 'react';
 import Context from './Context';
 
 function createContext({
-  lang,
-  pitch,
-  rate,
   speechSynthesis,
-  speechSynthesisUtterance,
-  voiceURI,
-  volume
+  speechSynthesisUtterance
 }) {
   return {
     cancel: () => speechSynthesis.cancel(),
-    speak: text => {
-      const voice = [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI);
+    speak: ({ lang, pitch = 1, rate = 1, text, voice, volume = 1 }) => {
       const utterance = new speechSynthesisUtterance(text);
+      const { voiceURI } = voice || {};
 
       utterance.lang = lang;
       utterance.pitch = pitch;
       utterance.rate = rate;
-      utterance.voice = voice;
+      utterance.voice = voiceURI && [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI);
       utterance.volume = volume;
 
       speechSynthesis.speak(utterance);
@@ -65,13 +60,8 @@ export default class Composer extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { props } = this;
     const changed = [
-      'lang',
-      'pitch',
-      'rate',
       'speechSynthesis',
-      'speechSynthesisUtterance',
-      'voiceURI',
-      'volume'
+      'speechSynthesisUtterance'
     ].some(name => nextProps[name] !== props[name]);
 
     if (changed) {
@@ -84,7 +74,8 @@ export default class Composer extends React.Component {
         context.cancel();
 
         return {
-          context: createContext(nextProps)
+          context: createContext(nextProps),
+          voices: getVoices(nextProps.speechSynthesis)
         };
       });
     }
@@ -116,19 +107,11 @@ export default class Composer extends React.Component {
 }
 
 Composer.defaultProps = {
-  pitch: 1,
-  rate: 1,
   speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance,
-  volume: 1
+  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
 };
 
 Composer.propTypes = {
-  lang: PropTypes.string,
-  pitch: PropTypes.number,
-  rate: PropTypes.number,
   speechSynthesis: PropTypes.any,
-  speechSynthesisUtterance: PropTypes.any,
-  voice: PropTypes.any,
-  volume: PropTypes.number
+  speechSynthesisUtterance: PropTypes.any
 };

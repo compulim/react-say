@@ -6,15 +6,17 @@ import Say from './Say';
 
 const BasicSay = props =>
   <Composer
-    lang={ props.lang }
-    pitch={ props.pitch }
-    rate={ props.rate }
     speechSynthesis={ props.speechSynthesis }
     speechSynthesisUtterance={ props.speechSynthesisUtterance }
-    voice={ props.voice }
-    volume={ props.volume }
   >
-    <Say text={ props.text }>
+    <Say
+      lang={ props.lang }
+      pitch={ props.pitch }
+      rate={ props.rate }
+      text={ props.text }
+      voice={ props.voice }
+      volume={ props.volume }
+    >
       { props.children }
     </Say>
   </Composer>
