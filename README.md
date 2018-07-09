@@ -75,12 +75,39 @@ export default props =>
 
 > Note: it also works with `<SayButton>`.
 
+## Bring your own `SpeechSynthesis`
+
+You can bring your own `window.speechSynthesis` and `window.speechSynthesisUtterance` for custom speech synthesis. For example, you can bring Azure Cognitive Services thru [`web-speech-cognitive-services`](https://npmjs.com/package/web-speech-cognitive-services') package.
+
+```jsx
+import Say from 'react-say';
+import { speechSynthesis, SpeechSynthesisUtterance, SubscriptionKey } from 'web-speech-cognitive-services';
+
+// You will need to wait until the speech token has been exchanged
+// The part has been omitted for code clarity
+speechSynthesis.speechToken = new SubscriptionKey('your subscription key');
+
+export default props =>
+  <Say
+    speak="A quick brown fox jumped over the lazy dogs."
+    speechSynthesis={ speechSynthesis }
+    speechSynthesisUtterance={ SpeechSynthesisUtterance }
+    voice={ voices => [].find.call(voices, v => v.lang === 'zh-HK') }
+  />
+```
+
+> Note: `speechSynthesis` is camel-casing because it is an instance.
+
 # Caveats
 
 * If `<Say>` or `<SayButton>` is unmounted, the utterance will continue to speak
    * Web Speech does not support stopping or dequeueing a pending utterance, only to cancel all utterances at once
    * Since the utterance is already queued, speaking, or spoken, we cannot stop it and not cancelling other "innocent" utterance
    * We decided to let it continue but not firing any events after unmount
+
+# Roadmap
+
+* [ ] Prettify playground page
 
 # Contributions
 

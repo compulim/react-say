@@ -41,6 +41,13 @@ export default class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <a href="https://github.com/compulim/react-say">
+          <img
+            alt="Fork me on GitHub"
+            src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+            style={{ position: 'absolute', top: 0, right: 0, border: 0 }}
+          />
+        </a>
         <Say speak="I am ready to say whatever you want me to." />
         <Composer>
           { ({ voices }) =>
