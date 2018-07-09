@@ -2,7 +2,17 @@
   "name": "react-say",
   "version": "1.0.0",
   "description": "A React component that synthesis text into speech using Web Speech API",
-  "keywords": [],
+  "keywords": [
+    "react",
+    "speak",
+    "speech synthesis",
+    "speechsynthesis",
+    "text to speech",
+    "tts",
+    "utterance",
+    "web speech",
+    "webspeech"
+  ],
   "main": "lib/index.js",
   "files": [
     "lib/**/*"
