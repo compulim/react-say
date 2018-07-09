@@ -75,6 +75,13 @@ export default props =>
 
 > Note: it also works with `<SayButton>`.
 
+# Caveats
+
+* If `<Say>` or `<SayButton>` is unmounted, the utterance will continue to speak
+   * Web Speech does not support stopping or dequeueing a pending utterance, only to cancel all utterances at once
+   * Since the utterance is already queued, speaking, or spoken, we cannot stop it and not cancelling other "innocent" utterance
+   * We decided to let it continue but not firing any events after unmount
+
 # Contributions
 
 Like us? [Star](https://github.com/compulim/react-say/stargazers) us.
