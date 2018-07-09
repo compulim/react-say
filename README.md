@@ -77,7 +77,7 @@ export default props =>
 
 ## Bring your own `SpeechSynthesis`
 
-You can bring your own `window.speechSynthesis` and `window.speechSynthesisUtterance` for custom speech synthesis. For example, you can bring Azure Cognitive Services thru [`web-speech-cognitive-services`](https://npmjs.com/package/web-speech-cognitive-services') package.
+You can bring your own `window.speechSynthesis` and `window.speechSynthesisUtterance` for custom speech synthesis. For example, you can bring Azure Cognitive Services thru [`web-speech-cognitive-services`](https://npmjs.com/package/web-speech-cognitive-services) package.
 
 ```jsx
 import Say from 'react-say';
