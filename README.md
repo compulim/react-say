@@ -19,50 +19,61 @@ First, run `npm install react-say` for production build. Or run `npm install rea
 The following will speak the text immediately upon showing up. Some browsers may not speak the text until the user interacted with the page.
 
 ```jsx
-import BasicSay from 'react-say';
+import Say from 'react-say';
 
 export default props =>
-  <BasicSay
-    text="A quick brown fox jumped over the lazy dogs."
-  />
+  <Say speak="A quick brown fox jumped over the lazy dogs." />
 ```
 
-## Customizing pitch/rate
+## Customizing pitch/rate/volume
 
-You may want to customize the speech by varying pitch and rate. You can use `<Composer>` and `<Say>` to say your text.
+You may want to customize the speech by varying pitch, rate, and volume. You can use `<Composer>` and `<Say>` to say your text.
 
 ```jsx
-import { Composer, Say } from 'react-say';
+import Say from 'react-say';
 
 export default props =>
-  <Composer>
-    <Say
-      pitch={ 1.1 }
-      rate={ 1.5 }
-      text="A quick brown fox jumped over the lazy dogs."
-    />
-  </Composer>
+  <Say
+    pitch={ 1.1 }
+    rate={ 1.5 }
+    speak="A quick brown fox jumped over the lazy dogs."
+    volume={ .8 }
+  />
 ```
 
 > Note: variation will take effect for new/modified `<Say>`
 
 ## Say button
 
-Since some browsers may block speak synthesis before the user interacting with the page, you can use `<SayButton>` for the purpose.
+You may want to say something after the user interacted with the page, for example, after clicking on a button. We have built `<SayButton>` that speak immediately after clicking on it. Some browsers may requires "priming" with a button.
 
 ```jsx
-import { Composer, SayButton } from 'react-say';
+import { SayButton } from 'react-say';
 
 export default props =>
-  <Composer>
-    <SayButton
-      onClick={ event => console.log(event) }
-      text="A quick brown fox jumped over the lazy dogs."
-    >
-      Tell me a story
-    </SayButton>
-  </Composer>
+  <SayButton
+    onClick={ event => console.log(event) }
+    speak="A quick brown fox jumped over the lazy dogs."
+  >
+    Tell me a story
+  </SayButton>
 ```
+
+## Selecting voice
+
+Instead of passing a `SpeechSynthesisVoice` object, you can pass a function `(voices: SpeechSynthesisVoice[]) => SpeechSynthesisVoice` to select the voice just before the text is synthesized.
+
+```jsx
+import Say from 'react-say';
+
+export default props =>
+  <Say
+    speak="A quick brown fox jumped over the lazy dogs."
+    voice={ voices => [].find.call(voices, v => v.lang === 'zh-HK') }
+  />
+```
+
+> Note: it also works with `<SayButton>`.
 
 # Contributions
 

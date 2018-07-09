@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import BasicSay, { Composer, Say, SayButton } from 'component';
+import Say, { Composer, SayButton } from 'component';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -41,13 +41,13 @@ export default class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <BasicSay text="I am ready to say whatever you want me to." />
+        <Say speak="I am ready to say whatever you want me to." />
         <Composer>
           { ({ voices }) =>
             <React.Fragment>
               <h1>&lt;Say&gt;</h1>
               {
-                state.autoSpeak && <Say text={ state.autoSpeak } />
+                state.autoSpeak && <Say speak={ state.autoSpeak } />
               }
               <ul>
                 {
@@ -67,33 +67,33 @@ export default class App extends React.Component {
               </ul>
               <h1>&lt;SayButton&gt;</h1>
               <SayButton
-                text="A quick brown fox jumped over the lazy dogs."
+                speak="A quick brown fox jumped over the lazy dogs."
                 voice={ state.selectedVoice }
               >
                 A quick brown fox jumped over the lazy dogs.
               </SayButton>
               <SayButton
-                text="你想我噏乜呀？"
-                voice={ state.selectedVoice }
+                speak="你想我噏乜呀？"
+                voice={ voices => voices.find(voice => voice.lang === 'zh-HK') }
               >
                 你想我噏乜呀？
               </SayButton>
               <SayButton
                 pitch={ 2 }
-                text="High pitch"
+                speak="High pitch"
                 voice={ state.selectedVoice }
               >
                 High pitch
               </SayButton>
               <SayButton
                 pitch={ .5 }
-                text="Low pitch"
+                speak="Low pitch"
                 voice={ state.selectedVoice }
               >
                 Low pitch
               </SayButton>
               <SayButton
-                text="Low volume"
+                speak="Low volume"
                 voice={ state.selectedVoice }
                 volume={ .1 }
               >
@@ -101,14 +101,14 @@ export default class App extends React.Component {
               </SayButton>
               <SayButton
                 rate={ 2 }
-                text="High rate"
+                speak="High rate"
                 voice={ state.selectedVoice }
               >
                 High rate
               </SayButton>
               <SayButton
                 rate={ .5 }
-                text="Low rate"
+                speak="Low rate"
                 voice={ state.selectedVoice }
               >
                 Low rate

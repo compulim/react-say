@@ -1,33 +1,48 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Context from './Context';
+import Composer from './Composer';
+import SayPrimitive from './SayPrimitive';
 
-export default class Say extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.text !== this.props.text;
-  }
+const Say = props =>
+  <Composer
+    speechSynthesis={ props.speechSynthesis }
+    speechSynthesisUtterance={ props.speechSynthesisUtterance }
+  >
+    <SayPrimitive
+      lang={ props.lang }
+      onBoundary={ props.onBoundary }
+      onEnd={ props.onEnd }
+      onError={ props.onError }
+      onStart={ props.onStart }
+      pitch={ props.pitch }
+      rate={ props.rate }
+      speak={ props.speak }
+      voice={ props.voice }
+      volume={ props.volume }
+    >
+      { props.children }
+    </SayPrimitive>
+  </Composer>
 
-  render() {
-    const { lang, onBoundary, onEnd, onError, onStart, pitch, rate, text, voice, volume } = this.props;
-
-    return (
-      <Context.Consumer>
-        { context => context.speak({ lang, onBoundary, onEnd, onError, onStart, pitch, rate, text, voice, volume }) }
-      </Context.Consumer>
-    );
-  }
-}
+Say.defaultProps = {
+  speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+};
 
 Say.propTypes = {
   lang: PropTypes.string,
-  pitch: PropTypes.number,
-  rate: PropTypes.number,
   onBoundary: PropTypes.func,
   onEnd: PropTypes.func,
   onError: PropTypes.func,
   onStart: PropTypes.func,
-  text: PropTypes.string,
-  voice: PropTypes.any,
+  pitch: PropTypes.number,
+  rate: PropTypes.number,
+  speechSynthesis: PropTypes.any,
+  speechSynthesisUtterance: PropTypes.any,
+  speak: PropTypes.string,
+  voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };
+
+export default Say

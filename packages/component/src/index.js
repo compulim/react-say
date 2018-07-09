@@ -1,14 +1,14 @@
-import BasicSay from './BasicSay';
+import Say from './Say';
 import Composer from './Composer';
 import Context from './Context';
-import Say from './Say';
 import SayButton from './SayButton';
+import SayPrimitive from './SayPrimitive';
 
-export default BasicSay
+export default Say
 
 export {
   Composer,
   Context,
-  Say,
-  SayButton
+  SayButton,
+  SayPrimitive
 }

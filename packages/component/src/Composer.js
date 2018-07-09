@@ -23,19 +23,35 @@ function createContext({
       volume = 1
     }) => {
       const utterance = new speechSynthesisUtterance(text);
-      const { voiceURI } = voice || {};
-      const targetVoice = voiceURI && [].find.call(speechSynthesis.getVoices(), v => v.voiceURI === voiceURI);
+      let targetVoice;
+
+      if (typeof voice === 'function') {
+        targetVoice = voice.call(speechSynthesis, speechSynthesis.getVoices());
+      } else {
+        const { voiceURI } = voice || {};
+
+        targetVoice = voiceURI && [].find.call([].slice.call(speechSynthesis.getVoices()), v => v.voiceURI === voiceURI);
+      }
 
       // Edge will mute if "lang" is set to ""
       utterance.lang = lang || '';
-      utterance.pitch = pitch;
-      utterance.rate = rate;
-      utterance.volume = volume;
+
+      if (utterance.pitch || utterance.pitch === 0) {
+        utterance.pitch = pitch;
+      }
+
+      if (utterance.rate || utterance.rate === 0) {
+        utterance.rate = rate;
+      }
 
       // Cognitive Services will error when "voice" is set to "null"
       // Edge will error when "voice" is set to "undefined"
       if (targetVoice) {
         utterance.voice = targetVoice;
+      }
+
+      if (utterance.volume || utterance.volume === 0) {
+        utterance.volume = volume;
       }
 
       utterance.onboundary = onBoundary;
@@ -135,6 +151,16 @@ Composer.defaultProps = {
 };
 
 Composer.propTypes = {
+  lang: PropTypes.string,
+  onBoundary: PropTypes.func,
+  onEnd: PropTypes.func,
+  onError: PropTypes.func,
+  onStart: PropTypes.func,
+  pitch: PropTypes.number,
+  rate: PropTypes.number,
+  text: PropTypes.string,
+  voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
+  volume: PropTypes.number,
   speechSynthesis: PropTypes.any,
   speechSynthesisUtterance: PropTypes.any
 };

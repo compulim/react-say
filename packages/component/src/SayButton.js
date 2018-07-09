@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Context from './Context';
 
-export default props =>
+const SayButton = props =>
   <Context.Consumer>
     { context =>
       <button onClick={ event => {
@@ -14,7 +15,7 @@ export default props =>
           onStart: props.onStart,
           pitch: props.pitch,
           rate: props.rate,
-          text: props.text,
+          text: props.speak,
           voice: props.voice,
           volume: props.volume
         });
@@ -24,3 +25,18 @@ export default props =>
       </button>
     }
   </Context.Consumer>
+
+SayButton.propTypes = {
+  lang: PropTypes.string,
+  onBoundary: PropTypes.func,
+  onEnd: PropTypes.func,
+  onError: PropTypes.func,
+  onStart: PropTypes.func,
+  pitch: PropTypes.number,
+  rate: PropTypes.number,
+  speak: PropTypes.string,
+  voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
+  volume: PropTypes.number
+};
+
+export default SayButton;
