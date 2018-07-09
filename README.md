@@ -92,7 +92,6 @@ export default props =>
     speak="A quick brown fox jumped over the lazy dogs."
     speechSynthesis={ speechSynthesis }
     speechSynthesisUtterance={ SpeechSynthesisUtterance }
-    voice={ voices => [].find.call(voices, v => v.lang === 'zh-HK') }
   />
 ```
 
