@@ -8,7 +8,7 @@ export default class Say extends React.Component {
     super(props);
 
     this.handleBoundary = this.handleBoundary.bind(this);
-    this.handleEnd = this.handleBoundary.bind(this);
+    this.handleEnd = this.handleEnd.bind(this);
     this.handleError = this.handleError.bind(this);
     this.handleStart = this.handleStart.bind(this);
   }
