@@ -155,7 +155,7 @@ class SpeechContext {
   }
 
   async cancel() {
-    console.debug(`CANCELLING QUEUED ITEMS: ${ this.queueWithCurrent.length }`);
+    // console.debug(`CANCELLING QUEUED ITEMS: ${ this.queueWithCurrent.length }`);
 
     this.queueWithCurrent.forEach(entry => entry.cancelled = true);
 
@@ -167,7 +167,7 @@ class SpeechContext {
       await cancelAll;
     } catch (err) {}
 
-    console.debug(`ALL CANCELLED OR FINISHED`);
+    // console.debug(`ALL CANCELLED OR FINISHED`);
   }
 
   speak(utteranceLike) {
