@@ -91,6 +91,13 @@ async function speakUtterance({ speechSynthesis }, { reject, resolve, utterance 
     // - Audio doesn't play if the speech is started from a user event
     // - If no audio is played, the "start" event won't fire
 
+    // For Chrome quirks, we need a custom queue, because we need to definitely know when to expect a "start" event.
+    // If we don't have a queue, the "start" event could be happening long time later because it's still pending in the queue.
+
+    // But with the custom queue, the first item might be started from non-user event. That means in Safari, the first item is muted.
+    // And after the first fail, the custom queue will play the second item from a non-user event code path. That means, all subsequent
+    // items are blocked until Safari has the very first item queued from user event.
+
     // console.debug(`STARTING: ${ utterance.text }`);
 
     await retry(async () => {
