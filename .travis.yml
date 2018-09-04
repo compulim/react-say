@@ -6,6 +6,8 @@ before_script:
   - npm run bootstrap
   - node scripts/syncVersion
   - npm run build
+script:
+  - echo Test disabled
 before_deploy:
   - cp -r packages/component/lib .
 deploy:
