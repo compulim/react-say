@@ -10,7 +10,8 @@ const SayButton = props =>
   >
     { context =>
       <button onClick={ event => {
-        context.cancel();
+        props.exclusive && context.cancel();
+
         context.speak({
           lang: props.lang,
           onBoundary: props.onBoundary,

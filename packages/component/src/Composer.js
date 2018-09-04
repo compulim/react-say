@@ -13,6 +13,10 @@ function createUtterance(utteranceLike, ponyfill) {
   const { SpeechSynthesisUtterance } = ponyfill;
   const {
     lang,
+    onBoundary,
+    onEnd,
+    onError,
+    onStart,
     pitch = 1,
     rate = 1,
     text,
@@ -51,20 +55,99 @@ function createUtterance(utteranceLike, ponyfill) {
     utterance.volume = volume;
   }
 
+  if (utterance.addEventListener) {
+    utterance.addEventListener('boundary', onBoundary);
+    utterance.addEventListener('end', onEnd);
+    utterance.addEventListener('error', onError);
+    utterance.addEventListener('start', onStart);
+  }
+
   return utterance;
+}
+
+async function speakUtterance({ speechSynthesis }, { reject, resolve, utterance }) {
+  try {
+    const startDeferred = createDeferred();
+    const errorDeferred = createDeferred();
+    const endDeferred = createDeferred();
+
+    utterance.addEventListener('end', endDeferred.resolve);
+    utterance.addEventListener('error', errorDeferred.resolve);
+    utterance.addEventListener('start', startDeferred.resolve);
+
+    // if (speechSynthesis.speaking) {
+    //   console.warn(`ASSERTION: speechSynthesis.speaking should not be truthy before we call speak`);
+    // }
+
+    // Chrome quirks:
+    // 1. Speak an utterance
+    // 2. Cancel in the midway
+    // 3. Speak another utterance
+    // Expected: speaking is falsy, then turn to truthy, then receive "start" event, and audio played
+    // Actual: speaking is falsy, then turn to truthy (which is wrong), but receive no "start" event, and no audio played
+    // Workaround: retry 2 times with a second
+
+    // Safari quirks:
+    // - Audio doesn't play if the speech is started from a user event
+    // - If no audio is played, the "start" event won't fire
+
+    // console.debug(`STARTING: ${ utterance.text }`);
+
+    await retry(async () => {
+      speechSynthesis.speak(utterance);
+
+      try {
+        await Promise.race([
+          startDeferred.promise,
+          timeout(1000)
+        ]);
+      } catch (error) {
+        // This is required for Chrome quirks.
+        // Chrome doesn't know it can't start speech, and it just wait there forever.
+        // We need to cancel it out.
+        speechSynthesis.cancel();
+
+        throw error;
+      }
+    }, 2, 0);
+
+    // console.debug(`STARTED: ${ utterance.text }`);
+
+    const endEvent = await Promise.race([
+      errorDeferred.promise,
+      endDeferred.promise,
+      spinWaitUntil(() => !speechSynthesis.speaking).then(() => sleep(500)).then(() => ({ type: 'end', artificial: true }))
+    ]);
+
+    // if (speechSynthesis.speaking) {
+    //   console.warn(`ASSERTION: speechSynthesis.speaking should not be truthy after speak is stopped`);
+    // }
+
+    // console.debug(`ENDED: ${ next.utteranceLike.text }`);
+
+    switch (endEvent.type) {
+      case 'cancel':
+        speechSynthesis.cancel();
+        throw new Error('cancelled');
+
+      case 'error':
+        throw endEvent.error;
+    }
+
+    return resolve();
+  } catch (error) {
+    return reject(error);
+  }
 }
 
 class SpeechContext {
   constructor(ponyfill) {
-    this.current = null;
-    this.queue = [];
+    this.queueWithCurrent = [];
 
     this.cancel = this.cancel.bind(this);
     this.speak = this.speak.bind(this);
-    this._signalNextDeferred = null;
 
     this.setPonyfill(ponyfill);
-    this._loop();
   }
 
   setPonyfill({ speechSynthesis, SpeechSynthesisUtterance }) {
@@ -72,20 +155,11 @@ class SpeechContext {
   }
 
   async cancel() {
-    // console.debug(`CANCELLING QUEUED ITEMS: ${ this.queue.length }`);
+    console.debug(`CANCELLING QUEUED ITEMS: ${ this.queueWithCurrent.length }`);
 
-    this.queue.forEach(entry => entry.cancelled = true);
+    this.queueWithCurrent.forEach(entry => entry.cancelled = true);
 
-    if (this.current) {
-      this.current.cancelled = true;
-    }
-
-    const cancelAll = Promise.all(
-      [
-        this.current && this.current.deferred.promise,
-        ...this.queue.map(({ deferred: { promise } }) => promise)
-      ].map(promise => promise && promise.catch(err => 0))
-    );
+    const cancelAll = Promise.all(this.queueWithCurrent.map(({ deferred: { promise } }) => promise.catch(err => 0)));
 
     this.ponyfill.speechSynthesis.cancel();
 
@@ -93,7 +167,7 @@ class SpeechContext {
       await cancelAll;
     } catch (err) {}
 
-    // console.debug(`ALL CANCELLED OR FINISHED`);
+    console.debug(`ALL CANCELLED OR FINISHED`);
   }
 
   speak(utteranceLike) {
@@ -103,129 +177,52 @@ class SpeechContext {
 
     if (
       utteranceLike.uniqueID
-      && (
-        (this.current && this.current.utteranceLike.uniqueID === utteranceLike.uniqueID)
-        || this.queue.find(({ utteranceLike: { uniqueID } }) => utteranceLike.uniqueID === uniqueID)
-      )
+      && this.queueWithCurrent.find(({ utteranceLike: { uniqueID } }) => utteranceLike.uniqueID === uniqueID)
     ) {
       // Do not queue duplicated speak with same unique ID
       return;
     }
 
-    this.queue.push({
+    this.queueWithCurrent.push({
       deferred,
       utteranceLike
     });
 
-    this._signalNextDeferred && this._signalNextDeferred.resolve();
+    if (this.queueWithCurrent.length === 1) {
+      this._next();
+    }
 
     return deferred.promise;
   }
 
-  async _loop() {
-    // TODO: Consider putting the loop back to "in-process"
-    //       Because browsers may disable speech if not triggered from mouse click, need investigation
-    for (;;) {
-      const next = this.queue.shift();
+  _next() {
+    const entry = this.queueWithCurrent[0];
 
-      if (!next) {
-        this._signalNextDeferred = createDeferred();
+    if (!entry) { return; }
 
-        await Promise.race([
-          sleep(1000),
-          this._signalNextDeferred.promise
-        ]);
+    entry.deferred.promise.then(() => {
+      this.queueWithCurrent.shift();
+      this._next();
+    }, () => {
+      // TODO: If the error is due to Safari restriction on user touch
+      //       The next loop on the next audio will also fail because it was not queued with a user touch
+      this.queueWithCurrent.shift();
+      this._next();
+    });
 
-        continue;
-      }
+    if (entry.cancelled) {
+      // console.debug(`CANCELLED BEFORE PLAY: ${ entry.utteranceLike.text }`);
 
-      this.current = next;
-
-      const speakPromise = async () => {
-        if (next.cancelled) {
-          // console.debug(`CANCELLED BEFORE START: ${ next.utteranceLike.text }`);
-
-          return;
-        }
-
-        const { ponyfill } = this;
-        const { speechSynthesis } = ponyfill;
-        const utterance = createUtterance(next.utteranceLike, ponyfill);
-        const startDeferred = createDeferred();
-        const errorDeferred = createDeferred();
-        const endDeferred = createDeferred();
-
-        utterance.addEventListener('end', endDeferred.resolve);
-        utterance.addEventListener('error', errorDeferred.resolve);
-        utterance.addEventListener('start', startDeferred.resolve);
-
-        // if (speechSynthesis.speaking) {
-        //   console.warn(`ASSERTION: speechSynthesis.speaking should not be truthy before we call speak`);
-        // }
-
-        // Chrome quirks:
-        // 1. Speak an utterance
-        // 2. Cancel in the midway
-        // 3. Speak another utterance
-        // Expected: speaking is falsy, then turn to truthy, then receive "start" event
-        // Actual: speaking is falsy, then turn to truthy, but receive no "start" event
-
-        // console.debug(`STARTING: ${ next.utteranceLike.text }`);
-
-        ponyfill.speechSynthesis.speak(utterance);
-
-        try {
-          await Promise.race([
-            startDeferred.promise,
-            timeout(1000)
-          ]);
-        } catch (error) {
-          speechSynthesis.cancel();
-          throw error;
-        }
-
-        // if (!speechSynthesis.speaking) {
-        //   console.warn(`ASSERTION: speechSynthesis.speaking should not be falsy after speak is started`);
-        // }
-
-        utterance.onStart && utterance.onStart(endEvent);
-
-        // console.debug(`STARTED: ${ next.utteranceLike.text }`);
-
-        const endEvent = await Promise.race([
-          errorDeferred.promise,
-          endDeferred.promise,
-          spinWaitUntil(() => next.cancelled).then(() => ({ type: 'cancel' }), 100),
-          spinWaitUntil(() => !speechSynthesis.speaking).then(() => sleep(500)).then(() => ({ type: 'end', artificial: true }))
-        ]);
-
-        if (endEvent.type === 'cancel') {
-          speechSynthesis.cancel();
-
-          return;
-        }
-
-        // if (speechSynthesis.speaking) {
-        //   console.warn(`ASSERTION: speechSynthesis.speaking should not be truthy after speak is stopped`);
-        // }
-
-        // console.debug(`ENDED: ${ next.utteranceLike.text }`);
-
-        if (endEvent.type === 'error') {
-          utterance.onError && utterance.onError(endEvent);
-        } else {
-          utterance.onEnd && utterance.onEnd(endEvent);
-        }
-      };
-
-      await retry(speakPromise, 3, 500).then(() => {
-        next.utteranceLike.onEnd && next.utteranceLike.onEnd({ type: 'end' });
-        next.deferred.resolve();
-      }, error => {
-        next.utteranceLike.onError && next.utteranceLike.onError({ type: 'error', error });
-        next.deferred.reject(error);
-      });
+      return entry.deferred.reject(new Error('cancelled'));
     }
+
+    const utterance = createUtterance(entry.utteranceLike, this.ponyfill);
+
+    speakUtterance(this.ponyfill, {
+      reject: entry.deferred.reject,
+      resolve: entry.deferred.resolve,
+      utterance
+    });
   }
 }
 

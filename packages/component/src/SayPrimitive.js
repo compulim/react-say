@@ -47,9 +47,7 @@ export default class Say extends React.Component {
     return (
       <Context.Consumer>
         { context => {
-            if (exclusive) {
-              context.cancel();
-            }
+            exclusive && context.cancel();
 
             context.speak({
               lang,
