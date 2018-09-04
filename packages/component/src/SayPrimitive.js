@@ -11,9 +11,12 @@ export default class Say extends React.Component {
     this.handleEnd = this.handleEnd.bind(this);
     this.handleError = this.handleError.bind(this);
     this.handleStart = this.handleStart.bind(this);
+
+    this.state = { uniqueID: Date.now() + Math.random() };
   }
 
   componentWillUnmount() {
+    // TODO: Should dequeue self on unmount
     this.unmounted = true;
   }
 
@@ -38,29 +41,39 @@ export default class Say extends React.Component {
   }
 
   render() {
-    const { lang, pitch, rate, speak: text, voice, volume } = this.props;
+    const { exclusive, lang, pitch, rate, speak: text, voice, volume } = this.props;
+    const { uniqueID } = this.state;
 
     return (
       <Context.Consumer>
-        { context => context.speak({
-            lang,
-            onBoundary: this.handleBoundary,
-            onEnd: this.handleEnd,
-            onError: this.handleError,
-            onStart: this.handleStart,
-            pitch,
-            rate,
-            text,
-            voice,
-            volume
-          })
-        }
+        { context => {
+            if (exclusive) {
+              context.cancel();
+            }
+
+            context.speak({
+              lang,
+              onBoundary: this.handleBoundary,
+              onEnd: this.handleEnd,
+              onError: this.handleError,
+              onStart: this.handleStart,
+              pitch,
+              rate,
+              text,
+              uniqueID,
+              voice,
+              volume
+            });
+
+            return false;
+        } }
       </Context.Consumer>
     );
   }
 }
 
 Say.propTypes = {
+  exclusive: PropTypes.bool,
   lang: PropTypes.string,
   pitch: PropTypes.number,
   rate: PropTypes.number,

@@ -18,7 +18,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "test": "lerna run test"
   },
@@ -32,24 +32,16 @@
     "url": "https://github.com/compulim/react-say/issues"
   },
   "homepage": "https://github.com/compulim/react-say#readme",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-env": "^2.4.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "jest": "^22.4.4",
-    "lerna": "^2.11.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4",
-    "rimraf": "^2.6.2"
-  },
   "dependencies": {
     "classnames": "^2.2.6",
-    "glamor": "^2.20.40"
+    "event-as-promise": "^1.0.3",
+    "glamor": "^2.20.40",
+    "memoize-one": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.4.1"
+  },
+  "devDependencies": {
+    "lerna": "^2.11.0"
   }
 }

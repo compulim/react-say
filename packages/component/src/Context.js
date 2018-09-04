@@ -1,9 +1,5 @@
 import React from 'react';
 
-const Context = React.createContext({
-  cancel: () => {},
-  getVoices: () => [],
-  speak: () => {}
-});
+const Context = React.createContext();
 
 export default Context

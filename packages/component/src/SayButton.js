@@ -4,9 +4,13 @@ import React from 'react';
 import Context from './Context';
 
 const SayButton = props =>
-  <Context.Consumer>
+  <Context.Consumer
+    speechSynthesis={ props.speechSynthesis }
+    speechSynthesisUtterance={ props.speechSynthesisUtterance }
+  >
     { context =>
       <button onClick={ event => {
+        context.cancel();
         context.speak({
           lang: props.lang,
           onBoundary: props.onBoundary,
@@ -19,6 +23,7 @@ const SayButton = props =>
           voice: props.voice,
           volume: props.volume
         });
+
         props.onClick && props.onClick(event);
       } }>
         { props.children }
@@ -27,6 +32,7 @@ const SayButton = props =>
   </Context.Consumer>
 
 SayButton.propTypes = {
+  exclusive: PropTypes.bool,
   lang: PropTypes.string,
   onBoundary: PropTypes.func,
   onEnd: PropTypes.func,

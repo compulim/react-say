@@ -10,6 +10,7 @@ const Say = props =>
     speechSynthesisUtterance={ props.speechSynthesisUtterance }
   >
     <SayPrimitive
+      exclusive={ props.exclusive }
       lang={ props.lang }
       onBoundary={ props.onBoundary }
       onEnd={ props.onEnd }
@@ -31,6 +32,7 @@ Say.defaultProps = {
 };
 
 Say.propTypes = {
+  exclusive: PropTypes.bool,
   lang: PropTypes.string,
   onBoundary: PropTypes.func,
   onEnd: PropTypes.func,
