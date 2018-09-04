@@ -57,8 +57,7 @@ export default class App extends React.Component {
               style={{ position: 'absolute', top: 0, right: 0, border: 0 }}
             />
           </a>
-          <Say speak="Are you a dog?" />
-          {/* <Say speak="I am ready to say whatever you want me to." /> */}
+          <Say speak="I am ready to say whatever you want me to." />
           <Composer>
             { ({ voices }) =>
               <React.Fragment>
