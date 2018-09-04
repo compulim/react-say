@@ -99,14 +99,19 @@ export default props =>
 
 # Caveats
 
-* If `<Say>` or `<SayButton>` is unmounted, the utterance will continue to speak
-   * Web Speech does not support stopping or dequeueing a pending utterance, only to cancel all utterances at once
-   * Since the utterance is already queued, speaking, or spoken, we cannot stop it and not cancelling other "innocent" utterance
-   * We decided to let it continue but not firing any events after unmount
+* Instead of using the native queue for utterances, we implement our own speech queue for browser compatibility reasons
+   * Queue is managed by `<Composer>`, all `<Say>` and `<SayButton>` inside the same `<Composer>` will share the same queue
+   * Native queue does not support partial cancel, when `cancel` is called, all pending utterances are stopped
+   * If `<Say>` or `<SayButton>` is unmounted, the utterance can be stopped without affecting other pending utterances
+   * Utterance order can be changed on-the-fly
+* Browser quirks
+   * Chrome: if `cancel` and `speak` are called repeatedly, `speak` will appear to succeed (`speaking === true`) but audio is never played (`start` event is never fired)
+   * Safari: when speech is not triggered by user event (e.g. mouse click or tap), the speech will not be played
+      * Workaround: on page load, prime the speech engine by any user events
 
 # Roadmap
 
-* [ ] Prettify playground page
+* [x] Prettify playground page
 
 # Contributions
 
