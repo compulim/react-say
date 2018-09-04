@@ -3,7 +3,7 @@ import React from 'react';
 
 import Context from './Context';
 
-export default class Say extends React.Component {
+class SayPrimitive extends React.Component {
   constructor(props) {
     super(props);
 
@@ -12,12 +12,14 @@ export default class Say extends React.Component {
     this.handleError = this.handleError.bind(this);
     this.handleStart = this.handleStart.bind(this);
 
-    this.state = { uniqueID: Date.now() + Math.random() };
+    this.state = { id: Date.now() + Math.random() };
   }
 
   componentWillUnmount() {
     // TODO: Should dequeue self on unmount
     this.unmounted = true;
+
+    this.props.context.cancel(this.state.id).catch(err => 0);
   }
 
   handleBoundary(event) {
@@ -41,41 +43,42 @@ export default class Say extends React.Component {
   }
 
   render() {
-    const { exclusive, lang, pitch, rate, speak: text, voice, volume } = this.props;
-    const { uniqueID } = this.state;
+    (async () => {
+      const { context, lang, pitch, rate, speak: text, voice, volume } = this.props;
+      const { id } = this.state;
 
-    return (
-      <Context.Consumer>
-        { context => {
-            (async () => {
-              if (exclusive) {
-                await context.cancel();
-              }
+      context.speak({
+        id,
+        lang,
+        onBoundary: this.handleBoundary,
+        onEnd: this.handleEnd,
+        onError: this.handleError,
+        onStart: this.handleStart,
+        pitch,
+        rate,
+        text,
+        voice,
+        volume
+      });
+    })().catch(err => console.error(err));
 
-              context.speak({
-                lang,
-                onBoundary: this.handleBoundary,
-                onEnd: this.handleEnd,
-                onError: this.handleError,
-                onStart: this.handleStart,
-                pitch,
-                rate,
-                text,
-                uniqueID,
-                voice,
-                volume
-              });
-            })();
-
-            return false;
-        } }
-      </Context.Consumer>
-    );
+    return false;
   }
 }
 
-Say.propTypes = {
-  exclusive: PropTypes.bool,
+const SayPrimitiveWithContext = props =>
+  <Context.Consumer>
+    { context =>
+      <SayPrimitive
+        context={ context }
+        { ...props }
+      >
+        { props.children }
+      </SayPrimitive>
+    }
+  </Context.Consumer>
+
+SayPrimitiveWithContext.propTypes = {
   lang: PropTypes.string,
   pitch: PropTypes.number,
   rate: PropTypes.number,
@@ -87,3 +90,5 @@ Say.propTypes = {
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };
+
+export default SayPrimitiveWithContext

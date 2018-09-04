@@ -6,12 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `exclusive` props: will cancel other utterances on speak
+- Utterance queue are now controlled by `<Composer>` instance, instead of native `speechSynthesis` for better browser compatibility
+   - Chrome: does not fire `start` and `end` events if `speak`/`cancel` are called too fast
+   - Safari: does not play audio or `start` event if the first utterance is not triggered by user event
+- Unmounting elements will cancel the speech in progress or pending speech
 
 ### Changed
 - Lerna bootstrap will no longer hoist
-- Utterance queue are now controlled by `<Composer>` instead of `speechSynthesis` for better compatibility
-   - Chrome does not fire `start` and `end` events if `speak`/`cancel` are called too fast
+- Updated playground
 
 ## [1.0.0] - 2018-07-09
 ### Added
