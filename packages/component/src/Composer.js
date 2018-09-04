@@ -251,7 +251,7 @@ export default class Composer extends React.Component {
 
     this.handleVoicesChanged = this.handleVoicesChanged.bind(this);
 
-    props.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
+    props.speechSynthesis.addEventListener && props.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
 
     this.mergeContext = memoize(({ cancel, speak }, voices) => ({
       cancel,
@@ -277,7 +277,7 @@ export default class Composer extends React.Component {
 
     if (changed) {
       if (props.speechSynthesis) {
-        props.speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
+        props.speechSynthesis.removeEventListener && props.speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
       }
 
       this.state.context.setPonyfill({
@@ -286,7 +286,7 @@ export default class Composer extends React.Component {
       });
 
       if (nextProps.speechSynthesis) {
-        nextProps.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
+        nextProps.speechSynthesis.addEventListener && nextProps.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
       }
 
       this.setState(() => ({ voices: getSerializableVoices(nextProps.speechSynthesis) }));
@@ -296,7 +296,7 @@ export default class Composer extends React.Component {
   componentWillUnmount() {
     const { speechSynthesis } = this.props;
 
-    speechSynthesis && speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
+    speechSynthesis && speechSynthesis.removeEventListener && speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
   }
 
   handleVoicesChanged({ target }) {
