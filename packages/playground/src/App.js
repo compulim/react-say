@@ -1,5 +1,6 @@
 import { css } from 'glamor';
 import React from 'react';
+import { speechSynthesis, SpeechSynthesisUtterance, SubscriptionKey } from 'web-speech-cognitive-services';
 
 import Say, { Composer, SayButton } from 'component';
 
@@ -23,11 +24,29 @@ export default class extends React.Component {
     super(props);
 
     this.handleAddClick = this.handleAddClick.bind(this);
+    this.handleBingSpeechKeyChange = this.handleBingSpeechKeyChange.bind(this);
+    this.handleBingSpeechKeySubmit = this.handleBingSpeechKeySubmit.bind(this);
+    this.handleClearBingSpeechKey = this.handleClearBingSpeechKey.bind(this);
     this.handleRemoveFromQueue = this.handleRemoveFromQueue.bind(this);
     this.handleSayEnd = this.handleRemoveFromQueue.bind(this);
     this.handleSelectedVoiceChange = this.handleSelectedVoiceChange.bind(this);
 
+    const params = new URLSearchParams(window.location.search);
+    const bingSpeechKey = params.get('s');
+    let ponyfill;
+
+    if (bingSpeechKey) {
+      ponyfill = {
+        speechSynthesis,
+        SpeechSynthesisUtterance
+      };
+
+      speechSynthesis.speechToken = new SubscriptionKey(bingSpeechKey);
+    }
+
     this.state = {
+      bingSpeechKey,
+      ponyfill,
       queued: [],
       selectedVoiceURI: null
     };
@@ -41,15 +60,28 @@ export default class extends React.Component {
     }));
   }
 
+  handleBingSpeechKeyChange({ target: { value } }) {
+    this.setState(() => ({ bingSpeechKey: value }));
+  }
+
+  handleBingSpeechKeySubmit(event) {
+    event.preventDefault();
+    window.location.href = `?s=${ encodeURIComponent(this.state.bingSpeechKey) }`;
+  }
+
+  handleClearBingSpeechKey() {
+    this.setState(() => ({ bingSpeechKey: '' }));
+  }
+
   handleRemoveFromQueue(targetID) {
     this.setState(({ queued }) => ({
       queued: queued.filter(({ id }) => id !== targetID)
     }));
   }
 
-  handleSelectedVoiceChange(nextSelectedVoiceURI) {
+  handleSelectedVoiceChange({ target: { value } }) {
     this.setState(() => ({
-      selectedVoiceURI: nextSelectedVoiceURI
+      selectedVoiceURI: value
     }));
   }
 
@@ -57,7 +89,10 @@ export default class extends React.Component {
     const { state } = this;
 
     return (
-      <Composer>
+      <Composer
+        speechSynthesis={ state.ponyfill && state.ponyfill.speechSynthesis }
+        speechSynthesisUtterance={ state.ponyfill && state.ponyfill.SpeechSynthesisUtterance }
+      >
         { ({ voices }) =>
           <div className={ ROOT_CSS }>
             <section className="words">
@@ -85,7 +120,12 @@ export default class extends React.Component {
                 <ul>
                   { SEGMENTS.map(segment =>
                     <li key={ segment }>
-                      <SayButton speak={ segment }>{ segment }</SayButton>
+                      <SayButton
+                        speak={ segment }
+                        voice={ voices => voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI) || voices.find(({ lang }) => lang === window.navigator.language) }
+                      >
+                        { segment }
+                      </SayButton>
                     </li>
                   ) }
                 </ul>
@@ -98,7 +138,11 @@ export default class extends React.Component {
                   <li>
                     <SayButton
                       speak="一於記住一於記住每天向前望"
-                      voice={ voices => voices.find(voice => voice.lang === 'zh-HK') }
+                      voice={ voices => {
+                        const voice = voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI);
+
+                        return (voice && voice.lang === 'zh-HK') ? voice : voices.find(voice => voice.lang === 'zh-HK');
+                      } }
                     >
                       一於記住一於記住每天向前望
                     </SayButton>
@@ -106,7 +150,11 @@ export default class extends React.Component {
                   <li>
                     <SayButton
                       speak="お誕生日おめでとう"
-                      voice={ voices => voices.find(voice => voice.lang === 'ja-JP') }
+                      voice={ voices => {
+                        const voice = voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI);
+
+                        return (voice && voice.lang === 'ja-JP') ? voice : voices.find(voice => voice.lang === 'ja-JP');
+                      } }
                     >
                       お誕生日おめでとう
                     </SayButton>
@@ -130,7 +178,7 @@ export default class extends React.Component {
                             pitch={ pitch }
                             rate={ rate }
                             speak={ text }
-                            voice={ voices => voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI) }
+                            voice={ voices => voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI) || voices.find(({ lang }) => lang === window.navigator.language) }
                           />
                         </li>
                       ) }
@@ -143,21 +191,41 @@ export default class extends React.Component {
                 <header>
                   <h1>Available voices</h1>
                 </header>
-                <ul>
+                <select
+                  onChange={ this.handleSelectedVoiceChange }
+                  value={ state.selectedVoiceURI }
+                >
+                  <option>Browser language default ({ window.navigator.language })</option>
                   { voices.map(({ lang, name, voiceURI }) =>
-                    <li key={ voiceURI }>
-                      <label>
-                        <input
-                          checked={ voiceURI === state.selectedVoiceURI }
-                          onChange={ this.handleSelectedVoiceChange.bind(null, voiceURI) }
-                          name="voice"
-                          type="radio"
-                        />
-                        [{ lang }] { name }
-                      </label>
-                    </li>
+                    <option key={ voiceURI }value={ voiceURI }>{ `[${ lang }] ${ name || voiceURI }` }</option>
                   ) }
-                </ul>
+                </select>
+              </article>
+              <article>
+                <header>
+                  <h1>Other services</h1>
+                </header>
+                <form onSubmit={ this.handleBingSpeechKeySubmit }>
+                  <p>
+                    <label>
+                      Bing Speech key
+                      <input
+                        onChange={ this.handleBingSpeechKeyChange }
+                        type="text"
+                        value={ state.bingSpeechKey }
+                      />
+                      <button
+                        onClick={ this.handleClearBingSpeechKey }
+                        type="button"
+                      >
+                        &times;
+                      </button>
+                    </label>
+                  </p>
+                  <p>
+                    <button>Save</button>
+                  </p>
+                </form>
               </article>
             </section>
           </div>

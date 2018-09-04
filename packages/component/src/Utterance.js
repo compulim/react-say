@@ -5,7 +5,7 @@ import spinWaitUntil from './spinWaitUntil';
 import timeout from './timeout';
 
 function createNativeUtterance(utteranceLike, ponyfill) {
-  const { SpeechSynthesisUtterance } = ponyfill;
+  const { speechSynthesis, SpeechSynthesisUtterance } = ponyfill;
   const {
     lang,
     onBoundary,
@@ -48,7 +48,9 @@ function createNativeUtterance(utteranceLike, ponyfill) {
   }
 
   if (utterance.addEventListener) {
-    utterance.addEventListener('boundary', onBoundary);
+    if (onBoundary) {
+      utterance.addEventListener('boundary', onBoundary);
+    }
 
     // Since browser quirks, start/error/end events are emulated for best compatibility
   }
