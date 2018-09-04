@@ -9,8 +9,10 @@ const SayButton = props =>
     speechSynthesisUtterance={ props.speechSynthesisUtterance }
   >
     { context =>
-      <button onClick={ event => {
-        props.exclusive && context.cancel();
+      <button onClick={ async event => {
+        if (props.exclusive) {
+          await context.cancel();
+        }
 
         context.speak({
           lang: props.lang,

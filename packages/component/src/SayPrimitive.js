@@ -47,21 +47,25 @@ export default class Say extends React.Component {
     return (
       <Context.Consumer>
         { context => {
-            exclusive && context.cancel();
+            (async () => {
+              if (exclusive) {
+                await context.cancel();
+              }
 
-            context.speak({
-              lang,
-              onBoundary: this.handleBoundary,
-              onEnd: this.handleEnd,
-              onError: this.handleError,
-              onStart: this.handleStart,
-              pitch,
-              rate,
-              text,
-              uniqueID,
-              voice,
-              volume
-            });
+              context.speak({
+                lang,
+                onBoundary: this.handleBoundary,
+                onEnd: this.handleEnd,
+                onError: this.handleError,
+                onStart: this.handleStart,
+                pitch,
+                rate,
+                text,
+                uniqueID,
+                voice,
+                volume
+              });
+            })();
 
             return false;
         } }

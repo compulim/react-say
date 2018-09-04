@@ -123,15 +123,10 @@ async function speakUtterance({ speechSynthesis }, { reject, resolve, utterance 
     //   console.warn(`ASSERTION: speechSynthesis.speaking should not be truthy after speak is stopped`);
     // }
 
-    // console.debug(`ENDED: ${ next.utteranceLike.text }`);
+    // console.debug(`ENDED: ${ utterance.text }`);
 
-    switch (endEvent.type) {
-      case 'cancel':
-        speechSynthesis.cancel();
-        throw new Error('cancelled');
-
-      case 'error':
-        throw endEvent.error;
+    if (endEvent.type === 'error') {
+      throw endEvent.error;
     }
 
     return resolve();
