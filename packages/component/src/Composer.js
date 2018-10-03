@@ -94,7 +94,12 @@ export default class Composer extends React.Component {
 
     this.handleVoicesChanged = this.handleVoicesChanged.bind(this);
 
-    props.speechSynthesis.addEventListener && props.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
+    let voices = [];
+
+    if (props.speechSynthesis) {
+      props.speechSynthesis.addEventListener && props.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
+      voices = props.speechSynthesis.getVoices();
+    }
 
     this.mergeContext = memoize(({ cancel, speak }, voices) => ({
       cancel,
@@ -107,7 +112,7 @@ export default class Composer extends React.Component {
         speechSynthesis: props.speechSynthesis,
         SpeechSynthesisUtterance: props.speechSynthesisUtterance
       }),
-      voices: props.speechSynthesis.getVoices()
+      voices
     };
   }
 
@@ -128,11 +133,14 @@ export default class Composer extends React.Component {
         SpeechSynthesisUtterance: nextProps.speechSynthesisUtterance
       });
 
+      let nextVoices = [];
+
       if (nextProps.speechSynthesis) {
         nextProps.speechSynthesis.addEventListener && nextProps.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
+        nextVoices = nextProps.speechSynthesis.getVoices() || [];
       }
 
-      this.setState(() => ({ voices: nextProps.speechSynthesis.getVoices() }));
+      this.setState(() => ({ voices: nextVoices }));
     }
   }
 

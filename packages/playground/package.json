@@ -6,11 +6,13 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "component": "^1.0.0",
+    "core-js": "^2.5.7",
     "glamor": "^2.20.40",
     "microsoft-speech-browser-sdk": "^0.0.12",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
+    "url-search-params-polyfill": "^5.0.0",
     "web-speech-cognitive-services": "2.1.1-master.0f7758b"
   },
   "scripts": {

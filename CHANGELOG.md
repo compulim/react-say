@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Lerna bootstrap will no longer hoist
 - Updated playground
 
+### Fixed
+- Null reference on `props.speechSynthesis`
+
 ## [1.0.0] - 2018-07-09
 ### Added
 - Initial release
