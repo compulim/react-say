@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Lerna bootstrap will no longer hoist
-- Updated playground
+- Playground: Bump to `react@16.6.0`, `react-dom@16.6.0`, and `react-scripts@2.0.5`
 
 ### Fixed
 - Null reference on `props.speechSynthesis`
