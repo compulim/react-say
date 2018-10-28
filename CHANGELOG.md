@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.1.0] - 2018-10-28
 ### Added
 - Utterance queue are now controlled by `<Composer>` instance, instead of native `speechSynthesis` for better browser compatibility
    - Chrome: does not fire `start` and `end` events if `speak`/`cancel` are called too fast
