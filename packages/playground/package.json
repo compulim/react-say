@@ -11,8 +11,7 @@
     "microsoft-speech-browser-sdk": "^0.0.12",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-script": "^2.0.5",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^2.0.5",
     "url-search-params-polyfill": "^5.0.0",
     "web-speech-cognitive-services": "2.1.1-master.0f7758b"
   },
@@ -21,5 +20,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
