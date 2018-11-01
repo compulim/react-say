@@ -1,6 +1,6 @@
 {
   "name": "react-say",
-  "version": "1.1.1-0",
+  "version": "1.1.2-0",
   "description": "A React component that synthesis text into speech using Web Speech API",
   "keywords": [
     "react",
