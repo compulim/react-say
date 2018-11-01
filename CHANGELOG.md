@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Bump to [`event-as-promise@1.0.5`](https://npmjs.com/package/event-as-promise/v/1.0.5)
 
 ## [1.1.0] - 2018-10-28
 ### Added
@@ -15,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Lerna bootstrap will no longer hoist
-- Playground: Bump to `react@16.6.0`, `react-dom@16.6.0`, and `react-scripts@2.0.5`
+- Playground: Bump to [`react@16.6.0`](https://npmjs.com/package/react/v/16.6.0), [`react-dom@16.6.0`](https://npmjs.com/package/react-dom/v/16.6.0), and [`react-scripts@2.0.5`](https://npmjs.com/package/react-scripts/v/2.0.5)
 
 ### Fixed
 - Null reference on `props.speechSynthesis`
