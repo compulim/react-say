@@ -1,13 +1,13 @@
 {
   "plugins": [
-    "transform-object-rest-spread",
-    "transform-runtime"
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-runtime"
   ],
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "forceAllTransforms": true,
       "modules": "commonjs"
     }],
-    "react"
+    "@babel/preset-react"
   ]
 }
