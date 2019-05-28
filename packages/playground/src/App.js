@@ -193,7 +193,7 @@ export default class extends React.Component {
                 </header>
                 <select
                   onChange={ this.handleSelectedVoiceChange }
-                  value={ state.selectedVoiceURI }
+                  value={ state.selectedVoiceURI || '' }
                 >
                   <option>Browser language default ({ window.navigator.language })</option>
                   { voices.map(({ lang, name, voiceURI }) =>
@@ -212,7 +212,7 @@ export default class extends React.Component {
                       <input
                         onChange={ this.handleBingSpeechKeyChange }
                         type="text"
-                        value={ state.bingSpeechKey }
+                        value={ state.bingSpeechKey || '' }
                       />
                       <button
                         onClick={ this.handleClearBingSpeechKey }

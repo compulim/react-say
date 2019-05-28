@@ -1,1 +1,1 @@
-test('setup', () => {});
+test('Setup', () => {});

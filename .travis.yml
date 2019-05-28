@@ -7,7 +7,7 @@ before_script:
   - node scripts/syncVersion
   - npm run build
 script:
-  - echo Test disabled
+  - npm test
 before_deploy:
   - cp -r packages/component/lib .
 deploy:
