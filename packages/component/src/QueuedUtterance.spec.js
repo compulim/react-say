@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import createMockSpeechSynthesisPonyfill, { jestFnWithPromises } from './createMockSpeechSynthesisPonyfill';
 import hasResolved from 'has-resolved';
 import QueuedUtterance from './QueuedUtterance';
