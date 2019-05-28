@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
 - Add babel-runtime dependency
+
+### Fixed
+- Fix [#8](https://github.com/compulim/react-say/issues/8) by removing workaround for Chrome bug, in [PR #7](https://github.com/compulim/react-say/pull/7)
+   - The workaround caused unnecessary kill-and-retry if the speech synthesizer legitimately took more than a second to signal `start` event
 
 ## [1.1.1] - 2018-10-31
 ### Changed
