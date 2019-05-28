@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
-import createDeferred from './createDeferred';
+import createMockSpeechSynthesisPonyfill, { jestFnWithPromises } from './createMockSpeechSynthesisPonyfill';
 import hasResolved from 'has-resolved';
-import EventEmitter from 'events';
 import QueuedUtterance from './QueuedUtterance';
 
 function createErrorEvent(message) {
@@ -15,61 +14,10 @@ function createErrorEvent(message) {
   return event;
 }
 
-function jestFnWithPromises(implementation) {
-  const fn = jest.fn((...args) => {
-    fn.deferreds[fn.deferreds.length - 1].resolve(args);
-    fn.deferreds = [...fn.deferreds, createDeferred()];
-    fn.promises = fn.deferreds.map(({ promise }) => promise);
-
-    implementation && implementation(...args);
-  });
-
-  const firstDeferred = createDeferred();
-
-  fn.deferreds = [firstDeferred];
-  fn.promises = [firstDeferred.promise];
-
-  return fn;
-}
-
-function createMockPonyfill() {
-  class SpeechSynthesisUtterance {
-    constructor(text) {
-      this._events = new EventEmitter();
-
-      this.text = text;
-    }
-
-    addEventListener(name, handler) {
-      this._events.addListener(name, handler);
-    }
-
-    dispatchEvent(event) {
-      this._events.emit(event.type, event);
-    }
-
-    removeEventListener(name, handler) {
-      this._events.removeListener(name, handler);
-    }
-  }
-
-  return {
-    speechSynthesis: {
-      cancel: jestFnWithPromises(),
-      getVoices: () => [{
-        name: 'Cantonese',
-        voiceURI: 'http://localhost/voice/zh-YUE'
-      }],
-      speak: jestFnWithPromises()
-    },
-    SpeechSynthesisUtterance
-  };
-}
-
 let ponyfill;
 
 beforeEach(() => {
-  ponyfill = createMockPonyfill();
+  ponyfill = createMockSpeechSynthesisPonyfill();
 });
 
 test('speak with success', async () => {
