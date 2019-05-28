@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Context from './Context';
-import Utterance from './Utterance';
+import QueuedUtterance from './QueuedUtterance';
 
 class SpeechContext {
   constructor(ponyfill) {
     this.queueWithCurrent = [];
 
     this.cancel = this.cancel.bind(this);
-    this.cancelAll = this.cancelAll.bind(this);
+    // this.cancelAll = this.cancelAll.bind(this);
     this.speak = this.speak.bind(this);
 
     this.setPonyfill(ponyfill);
@@ -28,21 +28,21 @@ class SpeechContext {
     }
   }
 
-  async cancelAll() {
-    // console.debug(`CANCELLING QUEUED ITEMS: ${ this.queueWithCurrent.length }`);
+  // async cancelAll() {
+  //   // console.debug(`CANCELLING QUEUED ITEMS: ${ this.queueWithCurrent.length }`);
 
-    // this.queueWithCurrent.forEach(entry => entry.cancelled = true);
+  //   // this.queueWithCurrent.forEach(entry => entry.cancelled = true);
 
-    // const cancelAll = Promise.all(this.queueWithCurrent.map(({ deferred: { promise } }) => promise.catch(err => 0)));
+  //   // const cancelAll = Promise.all(this.queueWithCurrent.map(({ deferred: { promise } }) => promise.catch(err => 0)));
 
-    // this.ponyfill.speechSynthesis.cancel();
+  //   // this.ponyfill.speechSynthesis.cancel();
 
-    // try {
-    //   await cancelAll;
-    // } catch (err) {}
+  //   // try {
+  //   //   await cancelAll;
+  //   // } catch (err) {}
 
-    // console.debug(`ALL CANCELLED OR FINISHED`);
-  }
+  //   // console.debug(`ALL CANCELLED OR FINISHED`);
+  // }
 
   speak(utteranceLike) {
     // console.debug(`QUEUED: ${ utteranceLike.text }`);
@@ -57,34 +57,40 @@ class SpeechContext {
       return;
     }
 
-    const utterance = new Utterance(utteranceLike);
+    const utterance = new QueuedUtterance(utteranceLike);
 
     this.queueWithCurrent = [...this.queueWithCurrent, utterance];
+    this._run();
 
-    if (this.queueWithCurrent.length === 1) {
-      this._next();
-    }
-
-    return utterance.deferred.promise;
+    return utterance.promise;
   }
 
-  _next() {
-    const utterance = this.queueWithCurrent[0];
+  async _run() {
+    if (this._running) {
+      return;
+    }
 
-    if (!utterance) { return; }
+    this._running = true;
 
-    const { id } = utterance;
-    const promise = utterance.speak(this.ponyfill);
+    try {
+      let utterance;
 
-    promise.then(() => {
-      this.queueWithCurrent = this.queueWithCurrent.filter(utterance => utterance.id !== id);
-      this._next();
-    }, () => {
-      // TODO: If the error is due to Safari restriction on user touch
-      //       The next loop on the next audio will also fail because it was not queued with a user touch
-      this.queueWithCurrent = this.queueWithCurrent.filter(utterance => utterance.id !== id);
-      this._next();
-    });
+      while ((utterance = this.queueWithCurrent[0])) {
+        try {
+          await utterance.speak(this.ponyfill);
+        } catch (err) {
+          // TODO: If the error is due to Safari restriction on user touch
+          //       The next loop on the next audio will also fail because it was not queued with a user touch
+
+          console.error(err);
+          // err.message !== 'cancelled' && console.error(err);
+        }
+
+        this.queueWithCurrent = this.queueWithCurrent.filter(target => target !== utterance);
+      }
+    } finally {
+      this._running = false;
+    }
   }
 }
 
