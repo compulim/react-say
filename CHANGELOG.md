@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
-- Add babel-runtime dependency
+- Added babel-runtime dependency
+- Bumped dependencies by `npm audit` in [PR #9](https://github.com/compulim/react-say/pull/9)
+   - `@babel/core@7.4.5` and related packages
+   - `jest@24.8.0`
+   - `lerna@3.14.1`
+   - `memoize-one@5.0.4`
+   - `react-scripts@3.0.1`
+   - `rimraf@2.6.3`
 
 ### Fixed
 - Fix [#8](https://github.com/compulim/react-say/issues/8) by removing workaround for Chrome bug, in [PR #7](https://github.com/compulim/react-say/pull/7)
