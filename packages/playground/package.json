@@ -11,7 +11,7 @@
     "microsoft-speech-browser-sdk": "^0.0.12",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-scripts": "^2.0.5",
+    "react-scripts": "^3.0.1",
     "url-search-params-polyfill": "^5.0.0",
     "web-speech-cognitive-services": "2.1.1-master.0f7758b"
   },
