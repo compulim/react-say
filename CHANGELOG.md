@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.2.0] - 2019-05-28
 ### Changed
-- Added babel-runtime dependency
+- Added babel-runtime dependency, by [@corinagum](https://github.com/corinagum) in [PR #5](https://github.com/compulim/react-say/pull/5)
 - Bumped dependencies by `npm audit` in [PR #9](https://github.com/compulim/react-say/pull/9)
    - `@babel/core@7.4.5` and related packages
    - `jest@24.8.0`
