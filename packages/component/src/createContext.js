@@ -13,11 +13,11 @@ export default function createContext({ speechSynthesis, SpeechSynthesisUtteranc
     running = true;
 
     try {
-      let utterance;
+      let queuedUtterance;
 
-      while ((utterance = queueWithCurrent[0])) {
+      while ((queuedUtterance = queueWithCurrent[0])) {
         try {
-          await utterance.speak(ponyfill);
+          await queuedUtterance.speak(ponyfill);
         } catch (err) {
           // TODO: If the error is due to Safari restriction on user touch
           //       The next loop on the next audio will also fail because it was not queued with a user touch
@@ -25,7 +25,7 @@ export default function createContext({ speechSynthesis, SpeechSynthesisUtteranc
           err.message !== 'cancelled' && console.error(err);
         }
 
-        queueWithCurrent = queueWithCurrent.filter(target => target !== utterance);
+        queueWithCurrent = queueWithCurrent.filter(target => target !== queuedUtterance);
       }
     } finally {
       running = false;
@@ -42,25 +42,22 @@ export default function createContext({ speechSynthesis, SpeechSynthesisUtteranc
     setPonyfill({ speechSynthesis, SpeechSynthesisUtterance }) {
       ponyfill = { speechSynthesis, SpeechSynthesisUtterance };
     },
-    speak(utteranceLike) {
-      // console.debug(`QUEUED: ${ utteranceLike.text }`);
+    speak(id, utterance, { onEnd, onError, onStart } = {}) {
+      // console.debug(`QUEUED: ${ utterance.text }`);
 
-      if (
-        utteranceLike.id
-        && queueWithCurrent.find(({ id }) => id === utteranceLike.id)
-      ) {
+      if (id && queueWithCurrent.find(({ id: targetId }) => id === targetId)) {
         // Do not queue duplicated speak with same unique ID
         // console.debug('NOT QUEUEING DUPE');
 
         return Promise.reject(new Error('Utterance with same ID is queued'));
       }
 
-      const utterance = new QueuedUtterance(utteranceLike);
+      const queuedUtterance = new QueuedUtterance(id, utterance, { onEnd, onError, onStart });
 
-      queueWithCurrent = [...queueWithCurrent, utterance];
+      queueWithCurrent = [...queueWithCurrent, queuedUtterance];
       run();
 
-      return utterance.promise;
+      return queuedUtterance.promise;
     }
   };
 }

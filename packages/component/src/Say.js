@@ -1,29 +1,64 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Composer from './Composer';
-import SayPrimitive from './SayPrimitive';
+import createNativeUtterance from './createNativeUtterance';
+import SayUtterance from './SayUtterance';
 
-const Say = props =>
-  <Composer
-    speechSynthesis={ props.speechSynthesis }
-    speechSynthesisUtterance={ props.speechSynthesisUtterance }
-  >
-    <SayPrimitive
-      lang={ props.lang }
-      onBoundary={ props.onBoundary }
-      onEnd={ props.onEnd }
-      onError={ props.onError }
-      onStart={ props.onStart }
-      pitch={ props.pitch }
-      rate={ props.rate }
-      speak={ props.speak }
-      voice={ props.voice }
-      volume={ props.volume }
+const Say = ({
+  speechSynthesis,
+  speechSynthesisUtterance: SpeechSynthesisUtterance,
+  children,
+  lang,
+  onBoundary,
+  onEnd,
+  onError,
+  onStart,
+  pitch,
+  rate,
+  speak: text,
+  voice,
+  volume
+}) => {
+  const utterance = useMemo(() => createNativeUtterance({
+    speechSynthesis,
+    SpeechSynthesisUtterance
+  }, {
+    lang,
+    onBoundary,
+    pitch,
+    rate,
+    text,
+    voice,
+    volume
+  }), [
+    children,
+    lang,
+    onBoundary,
+    pitch,
+    rate,
+    speechSynthesis,
+    SpeechSynthesisUtterance,
+    text,
+    voice,
+    volume
+  ]);
+
+  return (
+    <Composer
+      speechSynthesis={ speechSynthesis }
+      speechSynthesisUtterance={ SpeechSynthesisUtterance }
     >
-      { props.children }
-    </SayPrimitive>
-  </Composer>
+      <SayUtterance
+        onEnd={ onEnd }
+        onError={ onError }
+        onStart={ onStart }
+        utterance={ utterance }
+      />
+      { children }
+    </Composer>
+  );
+}
 
 Say.defaultProps = {
   speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
@@ -31,6 +66,7 @@ Say.defaultProps = {
 };
 
 Say.propTypes = {
+  children: PropTypes.any,
   lang: PropTypes.string,
   onBoundary: PropTypes.func,
   onEnd: PropTypes.func,

@@ -1,7 +1,8 @@
 {
-  "name": "react-say",
+  "name": "root",
   "version": "1.2.1-0",
   "description": "A React component that synthesis text into speech using Web Speech API",
+  "private": true,
   "keywords": [
     "react",
     "speak",
@@ -44,6 +45,8 @@
     "react": "^16.4.1"
   },
   "devDependencies": {
-    "lerna": "^3.14.1"
+    "lerna": "^3.14.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }

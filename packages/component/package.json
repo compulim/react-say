@@ -1,6 +1,6 @@
 {
-  "name": "component",
-  "version": "1.0.0",
+  "name": "react-say",
+  "version": "0.0.0-0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -18,14 +18,16 @@
     "@babel/preset-react": "^7.0.0",
     "has-resolved": "^1.1.0",
     "jest": "^24.8.0",
-    "react": "^16.4.2",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
+    "@babel/runtime": "^7.6.3",
     "classnames": "^2.2.6",
     "event-as-promise": "^1.0.5",
     "glamor": "^2.20.40",
     "memoize-one": "^5.0.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }

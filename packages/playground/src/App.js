@@ -2,7 +2,7 @@ import { css } from 'glamor';
 import React from 'react';
 import { speechSynthesis, SpeechSynthesisUtterance, SubscriptionKey } from 'web-speech-cognitive-services';
 
-import Say, { Composer, SayButton } from 'component';
+import Say, { Composer, SayButton } from 'react-say';
 
 const ROOT_CSS = css({
   display: 'flex',
@@ -30,6 +30,10 @@ export default class extends React.Component {
     this.handleRemoveFromQueue = this.handleRemoveFromQueue.bind(this);
     this.handleSayEnd = this.handleRemoveFromQueue.bind(this);
     this.handleSelectedVoiceChange = this.handleSelectedVoiceChange.bind(this);
+
+    this.selectCantoneseVoice = this.selectLocalizedVoice.bind(this, 'zh-HK');
+    this.selectJapaneseVoice = this.selectLocalizedVoice.bind(this, 'ja-JP');
+    this.selectVoice = this.selectVoice.bind(this);
 
     const params = new URLSearchParams(window.location.search);
     const bingSpeechKey = params.get('s');
@@ -85,6 +89,20 @@ export default class extends React.Component {
     }));
   }
 
+  selectVoice(voices) {
+    const { selectedVoiceURI } = this.state;
+
+    return voices.find(({ voiceURI }) => voiceURI === selectedVoiceURI) || voices.find(({ lang }) => lang === window.navigator.language);
+  }
+
+  selectLocalizedVoice(language, voices) {
+    const { selectedVoiceURI } = this.state;
+
+    const voice = voices.find(({ voiceURI }) => voiceURI === selectedVoiceURI);
+
+    return (voice && voice.lang === language) ? voice : voices.find(voice => voice.lang === language);
+  }
+
   render() {
     const { state } = this;
 
@@ -122,7 +140,7 @@ export default class extends React.Component {
                     <li key={ segment }>
                       <SayButton
                         speak={ segment }
-                        voice={ voices => voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI) || voices.find(({ lang }) => lang === window.navigator.language) }
+                        voice={ this.selectVoice }
                       >
                         { segment }
                       </SayButton>
@@ -138,11 +156,7 @@ export default class extends React.Component {
                   <li>
                     <SayButton
                       speak="一於記住一於記住每天向前望"
-                      voice={ voices => {
-                        const voice = voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI);
-
-                        return (voice && voice.lang === 'zh-HK') ? voice : voices.find(voice => voice.lang === 'zh-HK');
-                      } }
+                      voice={ this.selectCantoneseVoice }
                     >
                       一於記住一於記住每天向前望
                     </SayButton>
@@ -150,11 +164,7 @@ export default class extends React.Component {
                   <li>
                     <SayButton
                       speak="お誕生日おめでとう"
-                      voice={ voices => {
-                        const voice = voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI);
-
-                        return (voice && voice.lang === 'ja-JP') ? voice : voices.find(voice => voice.lang === 'ja-JP');
-                      } }
+                      voice={ this.selectJapaneseVoice }
                     >
                       お誕生日おめでとう
                     </SayButton>
@@ -178,7 +188,7 @@ export default class extends React.Component {
                             pitch={ pitch }
                             rate={ rate }
                             speak={ text }
-                            voice={ voices => voices.find(({ voiceURI }) => voiceURI === state.selectedVoiceURI) || voices.find(({ lang }) => lang === window.navigator.language) }
+                            voice={ this.selectVoice }
                           />
                         </li>
                       ) }
