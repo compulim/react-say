@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import Context from './Context';
 
-const SayPrimitive = ({
+const SayUtterance = ({
   onEnd,
   onError,
   onStart,
@@ -55,8 +55,8 @@ const SayPrimitive = ({
   return false;
 };
 
-SayPrimitive.propTypes = {
+SayUtterance.propTypes = {
   utterance: PropTypes.any
 };
 
-export default SayPrimitive
+export default SayUtterance
