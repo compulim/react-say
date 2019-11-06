@@ -6,8 +6,6 @@ import createNativeUtterance from './createNativeUtterance';
 import SayUtterance from './SayUtterance';
 
 const Say = ({
-  speechSynthesis,
-  speechSynthesisUtterance: SpeechSynthesisUtterance,
   children,
   lang,
   onBoundary,
@@ -15,40 +13,40 @@ const Say = ({
   onError,
   onStart,
   pitch,
+  ponyfill,
   rate,
   speak: text,
   voice,
   volume
 }) => {
-  const utterance = useMemo(() => createNativeUtterance({
-    speechSynthesis,
-    SpeechSynthesisUtterance
-  }, {
-    lang,
-    onBoundary,
-    pitch,
-    rate,
-    text,
-    voice,
-    volume
-  }), [
-    children,
-    lang,
-    onBoundary,
-    pitch,
-    rate,
-    speechSynthesis,
-    SpeechSynthesisUtterance,
-    text,
-    voice,
-    volume
-  ]);
+  const utterance = useMemo(() =>
+    createNativeUtterance(
+      ponyfill,
+      {
+        lang,
+        onBoundary,
+        pitch,
+        rate,
+        text,
+        voice,
+        volume
+      }
+    ),
+    [
+      children,
+      lang,
+      onBoundary,
+      pitch,
+      ponyfill,
+      rate,
+      text,
+      voice,
+      volume
+    ]
+  );
 
   return (
-    <Composer
-      speechSynthesis={ speechSynthesis }
-      speechSynthesisUtterance={ SpeechSynthesisUtterance }
-    >
+    <Composer ponyfill={ ponyfill }>
       <SayUtterance
         onEnd={ onEnd }
         onError={ onError }
@@ -61,8 +59,10 @@ const Say = ({
 }
 
 Say.defaultProps = {
-  speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  ponyfill: {
+    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+    SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  }
 };
 
 Say.propTypes = {
@@ -73,9 +73,11 @@ Say.propTypes = {
   onError: PropTypes.func,
   onStart: PropTypes.func,
   pitch: PropTypes.number,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any,
+    speechSynthesisUtterance: PropTypes.any
+  }),
   rate: PropTypes.number,
-  speechSynthesis: PropTypes.any,
-  speechSynthesisUtterance: PropTypes.any,
   speak: PropTypes.string,
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number

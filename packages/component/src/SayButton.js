@@ -12,10 +12,9 @@ const SayButton = ({
   onError,
   onStart,
   pitch,
+  ponyfill,
   rate,
   speak: text,
-  speechSynthesis,
-  speechSynthesisUtterance: SpeechSynthesisUtterance,
   voice,
   volume
 }) => {
@@ -31,10 +30,9 @@ const SayButton = ({
     onError,
     onStart,
     pitch,
+    ponyfill,
     rate,
     speak: text,
-    speechSynthesis,
-    speechSynthesisUtterance: SpeechSynthesisUtterance,
     voice,
     volume
   };
@@ -61,10 +59,12 @@ SayButton.propTypes = {
   onError: PropTypes.func,
   onStart: PropTypes.func,
   pitch: PropTypes.number,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any,
+    speechSynthesisUtterance: PropTypes.any
+  }),
   rate: PropTypes.number,
   speak: PropTypes.string,
-  speechSynthesis: PropTypes.any,
-  speechSynthesisUtterance: PropTypes.any,
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };

@@ -7,6 +7,7 @@ function createErrorEvent(error) {
 
   return event;
 }
+
 async function speakUtterance(ponyfill, utterance, startCallback) {
   const { speechSynthesis } = ponyfill;
 

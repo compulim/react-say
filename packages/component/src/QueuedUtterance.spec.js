@@ -1,4 +1,5 @@
 import createMockSpeechSynthesisPonyfill, { jestFnWithPromises } from './createMockSpeechSynthesisPonyfill';
+import createNativeUtterance from './createNativeUtterance';
 import hasResolved from 'has-resolved';
 import QueuedUtterance from './QueuedUtterance';
 
@@ -16,14 +17,22 @@ beforeEach(() => {
   ponyfill = createMockSpeechSynthesisPonyfill();
 });
 
+function createMockUtterance(props) {
+  return createNativeUtterance(ponyfill, props);
+}
+
 test('speak with success', async () => {
   const onEnd = jest.fn();
   const onStart = jestFnWithPromises();
-  const utterance = new QueuedUtterance({
-    onEnd,
-    onStart,
-    text: 'Hello, World!'
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({ text: 'Hello, World!' }),
+    {
+      onEnd,
+      onStart
+    }
+  );
+createMockUtterance
   const promise = utterance.speak(ponyfill);
 
   expect(await hasResolved(promise)).toBeFalsy();
@@ -47,7 +56,7 @@ test('speak with success', async () => {
 });
 
 test('cancel before speak', async () => {
-  const utterance = new QueuedUtterance({ text: 'Hello, World!' });
+  const utterance = new QueuedUtterance('id', createMockUtterance({ text: 'Hello, World!' }), {});
 
   utterance.cancel();
 
@@ -59,24 +68,26 @@ test('cancel before speak', async () => {
 });
 
 test('cancel while speaking', async () => {
-  const utterance = new QueuedUtterance({ text: 'Hello, World!' });
+  const utterance = new QueuedUtterance('id', createMockUtterance({ text: 'Hello, World!' }), {});
 
   const promise = utterance.speak(ponyfill);
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
   nativeUtterance.dispatchEvent(new Event('start'));
   await ponyfill.speechSynthesis.speak.promises[0];
-  await utterance.cancel();
+
+  const cancelPromise = utterance.cancel();
 
   expect(ponyfill.speechSynthesis.cancel).toHaveBeenCalledTimes(1);
 
   nativeUtterance.dispatchEvent(new Event('end'));
 
+  await cancelPromise;
   await expect(promise).rejects.toThrow('cancelled');
 });
 
 test('cancel after speak completed', async () => {
-  const utterance = new QueuedUtterance({ text: 'Hello, World!' });
+  const utterance = new QueuedUtterance('id', createMockUtterance({ text: 'Hello, World!' }), {});
   const promise = utterance.speak(ponyfill);
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -89,10 +100,13 @@ test('cancel after speak completed', async () => {
 
 test('error before speak', async () => {
   const onError = jest.fn();
-  const utterance = new QueuedUtterance({
-    onError,
-    text: 'Hello, World!'
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({ text: 'Hello, World!' }),
+    {
+      onError
+    }
+  );
   const promise = utterance.speak(ponyfill);
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -105,10 +119,13 @@ test('error before speak', async () => {
 
 test('error while speaking', async () => {
   const onError = jest.fn();
-  const utterance = new QueuedUtterance({
-    onError,
-    text: 'Hello, World!'
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({ text: 'Hello, World!' }),
+    {
+      onError
+    }
+  );
   const promise = utterance.speak(ponyfill);
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -121,10 +138,14 @@ test('error while speaking', async () => {
 });
 
 test('select voice using selector function', async () => {
-  const utterance = new QueuedUtterance({
-    text: 'Hello, World!',
-    voice: voices => voices.find(({ name }) => name === 'Cantonese')
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({
+      text: 'Hello, World!',
+      voice: voices => voices.find(({ name }) => name === 'Cantonese')
+    }),
+    {}
+  );
 
   utterance.speak(ponyfill);
 
@@ -135,12 +156,16 @@ test('select voice using selector function', async () => {
 });
 
 test('select voice using voiceURI', async () => {
-  const utterance = new QueuedUtterance({
-    text: 'Hello, World!',
-    voice: {
-      voiceURI: 'http://localhost/voice/zh-YUE'
-    }
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({
+      text: 'Hello, World!',
+      voice: {
+        voiceURI: 'http://localhost/voice/zh-YUE'
+      }
+    }),
+    {}
+  );
 
   utterance.speak(ponyfill);
 
@@ -151,13 +176,17 @@ test('select voice using voiceURI', async () => {
 });
 
 test('set lang, pitch, rate, and volume', async () => {
-  const utterance = new QueuedUtterance({
-    lang: 'zh-YUE',
-    pitch: .1,
-    rate: .2,
-    text: 'Hello, World!',
-    volume: .3
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({
+      lang: 'zh-YUE',
+      pitch: .1,
+      rate: .2,
+      text: 'Hello, World!',
+      volume: .3
+    }),
+    {}
+  );
 
   utterance.speak(ponyfill);
 
@@ -170,13 +199,17 @@ test('set lang, pitch, rate, and volume', async () => {
 });
 
 test('set lang = null, pitch = 0, rate = 0, and volume = 0', async () => {
-  const utterance = new QueuedUtterance({
-    lang: null,
-    pitch: 0,
-    rate: 0,
-    text: 'Hello, World!',
-    volume: 0
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({
+      lang: null,
+      pitch: 0,
+      rate: 0,
+      text: 'Hello, World!',
+      volume: 0
+    }),
+    {}
+  );
 
   utterance.speak(ponyfill);
 
@@ -190,10 +223,14 @@ test('set lang = null, pitch = 0, rate = 0, and volume = 0', async () => {
 
 test('onBoundary should fire', async () => {
   const onBoundary = jest.fn();
-  const utterance = new QueuedUtterance({
-    onBoundary,
-    text: 'Hello, World!'
-  });
+  const utterance = new QueuedUtterance(
+    'id',
+    createMockUtterance({
+      onBoundary,
+      text: 'Hello, World!'
+    }),
+    {}
+  );
 
   utterance.speak(ponyfill);
 

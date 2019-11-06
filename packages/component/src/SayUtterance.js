@@ -49,7 +49,6 @@ const SayUtterance = ({
       cancelled = true;
       context.cancel(id);
     };
-  // }, [context, setStarted, utterance]);
   }, [context, setStarted, utterance]);
 
   return false;
