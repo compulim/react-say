@@ -2,7 +2,7 @@ import { css } from 'glamor';
 import React from 'react';
 import { speechSynthesis, SpeechSynthesisUtterance, SubscriptionKey } from 'web-speech-cognitive-services';
 
-import Say, { Composer, SayButton } from 'react-say';
+import Say, { Composer, SayButton, SayUtterance } from 'react-say';
 
 const ROOT_CSS = css({
   display: 'flex',
@@ -29,6 +29,7 @@ export default class extends React.Component {
     this.handleClearBingSpeechKey = this.handleClearBingSpeechKey.bind(this);
     this.handleRemoveFromQueue = this.handleRemoveFromQueue.bind(this);
     this.handleSayEnd = this.handleRemoveFromQueue.bind(this);
+    this.handleSayUtteranceClick = this.handleSayUtteranceClick.bind(this);
     this.handleSelectedVoiceChange = this.handleSelectedVoiceChange.bind(this);
 
     this.selectCantoneseVoice = this.selectLocalizedVoice.bind(this, 'zh-HK');
@@ -37,7 +38,10 @@ export default class extends React.Component {
 
     const params = new URLSearchParams(window.location.search);
     const bingSpeechKey = params.get('s');
-    let ponyfill;
+    let ponyfill = {
+      speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+      SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+    };
 
     if (bingSpeechKey) {
       ponyfill = {
@@ -83,6 +87,18 @@ export default class extends React.Component {
     }));
   }
 
+  handleSayUtteranceClick(text) {
+    const { state: { ponyfill: { SpeechSynthesisUtterance } } } = this;
+
+    this.setState(({ queued }) => ({
+      queued: [...queued, {
+        id: Math.random(),
+        text,
+        utterance: new SpeechSynthesisUtterance(text)
+      }]
+    }));
+  }
+
   handleSelectedVoiceChange({ target: { value } }) {
     this.setState(() => ({
       selectedVoiceURI: value
@@ -107,10 +123,7 @@ export default class extends React.Component {
     const { state } = this;
 
     return (
-      <Composer
-        speechSynthesis={ state.ponyfill && state.ponyfill.speechSynthesis }
-        speechSynthesisUtterance={ state.ponyfill && state.ponyfill.SpeechSynthesisUtterance }
-      >
+      <Composer ponyfill={ state.ponyfill }>
         { ({ voices }) =>
           <div className={ ROOT_CSS }>
             <section className="words">
@@ -133,7 +146,7 @@ export default class extends React.Component {
               </article>
               <article>
                 <header>
-                  <h1>Say immediate</h1>
+                  <h1>Say button</h1>
                 </header>
                 <ul>
                   { SEGMENTS.map(segment =>
@@ -144,6 +157,20 @@ export default class extends React.Component {
                       >
                         { segment }
                       </SayButton>
+                    </li>
+                  ) }
+                </ul>
+              </article>
+              <article>
+                <header>
+                  <h1>Say utterance</h1>
+                </header>
+                <ul>
+                  { SEGMENTS.map(segment =>
+                    <li key={ segment }>
+                      <button onClick={ this.handleSayUtteranceClick.bind(null, segment) }>
+                        { segment }
+                      </button>
                     </li>
                   ) }
                 </ul>
@@ -179,17 +206,28 @@ export default class extends React.Component {
                 </header>
                 { state.queued.length ?
                     <ul>
-                      { state.queued.map(({ id, pitch, rate, text }) =>
+                      { state.queued.map(({ id, pitch, rate, text, utterance }) =>
                         <li key={ id }>
                           <button onClick={ this.handleRemoveFromQueue.bind(null, id) }>&times;</button>&nbsp;
                           <span>{ text }</span>
-                          <Say
-                            onEnd={ this.handleSayEnd.bind(null, id) }
-                            pitch={ pitch }
-                            rate={ rate }
-                            speak={ text }
-                            voice={ this.selectVoice }
-                          />
+                          {
+                            utterance ?
+                              <React.Fragment>
+                                <span>&nbsp;(Utterance)</span>
+                                <SayUtterance
+                                  onEnd={ this.handleSayEnd.bind(null, id) }
+                                  utterance={ utterance }
+                                />
+                              </React.Fragment>
+                            :
+                              <Say
+                                onEnd={ this.handleSayEnd.bind(null, id) }
+                                pitch={ pitch }
+                                rate={ rate }
+                                text={ text }
+                                voice={ this.selectVoice }
+                              />
+                          }
                         </li>
                       ) }
                     </ul>

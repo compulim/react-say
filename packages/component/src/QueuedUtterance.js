@@ -1,12 +1,5 @@
 import createDeferred from './createDeferred';
-
-function createErrorEvent(error) {
-  const event = new Event('error');
-
-  event.error = error;
-
-  return event;
-}
+import createErrorEvent from './createErrorEvent';
 
 async function speakUtterance(ponyfill, utterance, startCallback) {
   const { speechSynthesis } = ponyfill;
@@ -67,16 +60,16 @@ async function speakUtterance(ponyfill, utterance, startCallback) {
 }
 
 export default class QueuedUtterance {
-  constructor(id, utterance, { onEnd, onError, onStart }) {
+  constructor(ponyfill, utterance, { onEnd, onError, onStart }) {
     this._cancelled = false;
     this._deferred = createDeferred();
     this._onEnd = onEnd;
     this._onError = onError;
     this._onStart = onStart;
+    this._ponyfill = ponyfill;
     this._speaking = false;
     this._utterance = utterance;
 
-    this.id = id;
     this.promise = this._deferred.promise;
   }
 
@@ -85,7 +78,7 @@ export default class QueuedUtterance {
     this._cancel && await this._cancel();
   }
 
-  speak(ponyfill) {
+  speak() {
     if (this._speaking) {
       console.warn(`ASSERTION: QueuedUtterance is already speaking or has spoken.`);
     }
@@ -97,7 +90,7 @@ export default class QueuedUtterance {
         throw new Error('cancelled');
       }
 
-      await speakUtterance(ponyfill, this._utterance, cancel => {
+      await speakUtterance(this._ponyfill, this._utterance, cancel => {
         if (this._cancelled) {
           cancel();
 

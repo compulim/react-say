@@ -32,7 +32,7 @@ const SayButton = ({
     pitch,
     ponyfill,
     rate,
-    speak: text,
+    text,
     voice,
     volume
   };

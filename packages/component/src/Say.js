@@ -15,10 +15,16 @@ const Say = ({
   pitch,
   ponyfill,
   rate,
-  speak: text,
+  speak,
+  text,
   voice,
   volume
 }) => {
+  if (speak && !text) {
+    console.warn('react-say: "speak" prop is being deprecated and renamed to "text".');
+    text = speak;
+  }
+
   const utterance = useMemo(() =>
     createNativeUtterance(
       ponyfill,
@@ -33,7 +39,6 @@ const Say = ({
       }
     ),
     [
-      children,
       lang,
       onBoundary,
       pitch,
@@ -59,10 +64,21 @@ const Say = ({
 }
 
 Say.defaultProps = {
+  children: undefined,
+  lang: undefined,
+  onBoundary: undefined,
+  onEnd: undefined,
+  onError: undefined,
+  onStart: undefined,
+  pitch: undefined,
   ponyfill: {
     speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
     SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
-  }
+  },
+  rate: undefined,
+  speak: undefined,
+  voice: undefined,
+  volume: undefined
 };
 
 Say.propTypes = {
@@ -79,6 +95,7 @@ Say.propTypes = {
   }),
   rate: PropTypes.number,
   speak: PropTypes.string,
+  text: PropTypes.string.isRequired,
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };

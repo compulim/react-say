@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import Context from './Context';
+import useSpeak from './useSpeak';
+import createErrorEvent from './createErrorEvent';
 
 const SayUtterance = ({
   onEnd,
@@ -9,52 +11,54 @@ const SayUtterance = ({
   onStart,
   utterance
 }) => {
-  const context = useContext(Context);
-  const [started, setStarted] = useState(false);
+  const started = useRef(false);
+  const speak = useSpeak();
 
+  // This useEffect() is essentially converting Promise-based useSpeak() into events.
   useEffect(() => {
-    // After synthesis started, if utterance is changed, the event will be fired for wrong target.
+    // After synthesis started, if utterance has changed, the event will be fired by the wrong target.
     // Thus, we do not allow utterance to change after synthesis started.
-    if (started) {
-      // throw new Error('Cannot change utterance after synthesis started.');
-      console.warn('react-say: Should not change utterance after synthesis started.');
+    if (started.current) {
+      // Since we have already cancelled the previous utterance, we are not starting a new one.
+      // This is because if we start a new one, we could fire onStart event twice, which sound confusing to the developer.
+
+      return console.warn('react-say: Should not change utterance after synthesis started.');
     }
 
     let cancelled;
-    const id = Date.now() + Math.random();
+    const { cancel, promise } = speak(utterance, () => {
+      started.current = true;
+      !cancelled && onStart && onStart(new Event('start'));
+    });
 
-    context.speak(
-      id,
-      utterance,
-      {
-        onEnd: event => {
-          !cancelled && onEnd && onEnd(event);
-        },
-        onError: event => {
-          if (!cancelled) {
-            onError && onError(event);
-            setStarted(true);
-          }
-        },
-        onStart: event => {
-          if (!cancelled) {
-            onStart && onStart(event);
-            setStarted(true);
-          }
-        }
-      }
+    promise.then(
+      () => !cancelled && onEnd && onEnd(new Event('end')),
+      error => !cancelled && onError && onError(createErrorEvent(error))
     );
 
     return () => {
       cancelled = true;
-      context.cancel(id);
+      cancel();
     };
-  }, [context, setStarted, utterance]);
+  }, []);
 
   return false;
 };
 
+SayUtterance.defaultProps = {
+  onEnd: undefined,
+  onError: undefined,
+  onStart: undefined,
+  ponyfill: {
+    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+    SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  }
+};
+
 SayUtterance.propTypes = {
+  onEnd: PropTypes.func,
+  onError: PropTypes.func,
+  onStart: PropTypes.func,
   utterance: PropTypes.any
 };
 
