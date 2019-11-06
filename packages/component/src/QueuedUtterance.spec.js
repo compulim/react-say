@@ -103,7 +103,7 @@ test('error before speak', async () => {
   const promise = utterance.speak(ponyfill);
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
-  nativeUtterance.dispatchEvent(createErrorEvent('artificial'));
+  nativeUtterance.dispatchEvent(createErrorEvent(new Error('artificial')));
 
   await expect(promise).rejects.toThrow('artificial');
 
@@ -123,7 +123,7 @@ test('error while speaking', async () => {
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
   nativeUtterance.dispatchEvent(new Event('start'));
-  nativeUtterance.dispatchEvent(createErrorEvent('artificial'));
+  nativeUtterance.dispatchEvent(createErrorEvent(new Error('artificial')));
 
   await expect(promise).rejects.toThrow('artificial');
 
