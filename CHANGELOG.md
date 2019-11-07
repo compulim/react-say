@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Update build scripts to publish `/packages/component/package.json`, by [@compulim](https://github.com/compulim) in [PR #XXX](https://github.com/compulim/react-say/pull/XXX)
+- Rework of all components, by [@compulim](https://github.com/compulim) in [PR #XXX](https://github.com/compulim/react-say/pull/XXX)
+- Support nested `<Context>` and `<Composer>`
+   - Nested context will share the same queue, with different ponyfills
+   - Upgraded `<Composer>` component from class component to functional component
+- Added new `useSpeak()` hook, which returns a `speak(utterance, progressFn)` function to queue an utterance
+- New `<SayUtterance>` component to synthesis `SpeechSynthesisUtterance` instead of text
+   - `<Say>` is being refactored to use `<SayUtterance>` to simplify the codebase
+   - `<SayButton>` is being refactored to use `<Say>` to simplify the codebase
+- `Composer` signature is being updated
+   - `speak` no longer requires an `id` and will return `{ cancel: function, promise: Promise }`
+      - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
+      - `promise` will be resolved when the utterance is synthesized or errored
+   - `cancel` is removed because `speak` now expose a `cancel` function, which offer same functionality
+- All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
+   - Using browser speech would become as simple as `<Say ponyfill={ window }>`
+
 ## [1.2.0] - 2019-05-28
 ### Changed
 - Added babel-runtime dependency, by [@corinagum](https://github.com/corinagum) in [PR #5](https://github.com/compulim/react-say/pull/5)
