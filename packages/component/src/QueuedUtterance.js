@@ -18,8 +18,6 @@ async function speakUtterance(ponyfill, utterance, startCallback) {
 
   speechSynthesis.speak(utterance);
 
-  // await startDeferred.promise;
-
   const startEvent = await Promise.race([
     errorDeferred.promise,
     startDeferred.promise
@@ -28,8 +26,6 @@ async function speakUtterance(ponyfill, utterance, startCallback) {
   if (startEvent.type === 'error') {
     throw startEvent.error;
   }
-
-  // console.debug(`STARTED: ${ utterance.text }`);
 
   let finishedSpeaking;
   const endPromise = Promise.race([

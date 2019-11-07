@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-import Context from './Context';
 import useSpeak from './useSpeak';
 import createErrorEvent from './createErrorEvent';
 

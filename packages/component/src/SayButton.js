@@ -50,6 +50,25 @@ const SayButton = ({
   );
 };
 
+SayButton.defaultProps = {
+  children: undefined,
+  disabled: undefined,
+  lang: undefined,
+  onBoundary: undefined,
+  onEnd: undefined,
+  onError: undefined,
+  onStart: undefined,
+  pitch: undefined,
+  ponyfill: {
+    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+    speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  },
+  rate: undefined,
+  speak: undefined,
+  voice: undefined,
+  volume: undefined
+};
+
 SayButton.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,

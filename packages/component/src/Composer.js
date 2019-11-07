@@ -39,6 +39,7 @@ const Composer = ({ children, ponyfill }) => {
 };
 
 Composer.defaultProps = {
+  children: undefined,
   ponyfill: {
     speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
     SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
