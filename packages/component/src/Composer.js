@@ -1,4 +1,3 @@
-// import memoize from 'memoize-one';
 import PropTypes from 'prop-types';
 import React, { useContext, useMemo, useState } from 'react';
 

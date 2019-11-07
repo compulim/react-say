@@ -88,35 +88,6 @@ test('speak three utterances and cancel the second while the first is being spok
   await promise3;
 });
 
-// test('change ponyfill while speaking', async () => {
-//   const ponyfill1 = createMockSpeechSynthesisPonyfill();
-//   const context = createSpeak(ponyfill1);
-
-//   const { promise: promise1 } = speak(ponyfill, createUtterance({ text: 'Hello, World!' }));
-//   const { promise: promise2 } = speak(ponyfill, createUtterance({ text: 'Aloha!' }));
-
-//   const [[nativeUtterance1]] = ponyfill1.speechSynthesis.speak.mock.calls;
-
-//   expect(nativeUtterance1).toHaveProperty('text', 'Hello, World!');
-//   nativeUtterance1.dispatchEvent(new Event('start'));
-
-//   const ponyfill2 = createMockSpeechSynthesisPonyfill();
-
-//   context.setPonyfill(ponyfill2);
-
-//   nativeUtterance1.dispatchEvent(new Event('end'));
-
-//   await promise1;
-
-//   const [[nativeUtterance2]] = ponyfill2.speechSynthesis.speak.mock.calls;
-
-//   expect(nativeUtterance2).toHaveProperty('text', 'Aloha!');
-//   nativeUtterance2.dispatchEvent(new Event('start'));
-//   nativeUtterance2.dispatchEvent(new Event('end'));
-
-//   await promise2;
-// });
-
 test('error while speaking an utterance', async () => {
   const { promise } = speak(ponyfill, createUtterance({ text: 'Hello, World!' }));
 
@@ -134,21 +105,3 @@ test('error while speaking an utterance', async () => {
 
   expect(console.error).toHaveBeenCalledTimes(1);
 });
-
-// test('do not queue subsequent utterances with same ID', async () => {
-//   const promise1 = speak('dupe', createUtterance({ text: 'Hello, World!' }));
-//   const promise2 = speak('dupe', createUtterance({ text: 'Aloha!' }));
-//   const [[nativeUtterance1]] = ponyfill.speechSynthesis.speak.mock.calls;
-
-//   expect(ponyfill.speechSynthesis.speak).toHaveBeenCalledTimes(1);
-
-//   expect(nativeUtterance1).toHaveProperty('text', 'Hello, World!');
-//   nativeUtterance1.dispatchEvent(new Event('start'));
-//   nativeUtterance1.dispatchEvent(new Event('end'));
-
-//   await promise1;
-
-//   expect(ponyfill.speechSynthesis.speak).toHaveBeenCalledTimes(1);
-
-//   await expect(promise2).rejects.toThrow(/same\sID/);
-// });
