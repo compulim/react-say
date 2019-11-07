@@ -2,7 +2,31 @@
   "name": "react-say",
   "version": "0.0.0-0",
   "description": "",
+  "keywords": [
+    "react",
+    "speak",
+    "speech synthesis",
+    "speechsynthesis",
+    "text to speech",
+    "tts",
+    "utterance",
+    "web speech",
+    "webspeech"
+  ],
+  "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/compulim/react-say.git"
+  },
+  "bugs": {
+    "url": "https://github.com/compulim/react-say/issues"
+  },
+  "homepage": "https://github.com/compulim/react-say#readme",
   "main": "lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "build": "babel --out-dir lib --ignore **/*.spec.js,**/*.test.js --source-maps inline src/",
     "clean": "rimraf lib",

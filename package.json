@@ -3,37 +3,12 @@
   "version": "1.2.1-0",
   "description": "A React component that synthesis text into speech using Web Speech API",
   "private": true,
-  "keywords": [
-    "react",
-    "speak",
-    "speech synthesis",
-    "speechsynthesis",
-    "text to speech",
-    "tts",
-    "utterance",
-    "web speech",
-    "webspeech"
-  ],
-  "main": "lib/index.js",
-  "files": [
-    "lib/**/*"
-  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run --stream build",
     "start": "lerna run --parallel --stream start",
     "test": "lerna run --stream test"
   },
-  "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/compulim/react-say.git"
-  },
-  "bugs": {
-    "url": "https://github.com/compulim/react-say/issues"
-  },
-  "homepage": "https://github.com/compulim/react-say#readme",
   "devDependencies": {
     "lerna": "^3.14.1",
     "react": "^16.8.6",
