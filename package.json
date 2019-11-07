@@ -34,16 +34,6 @@
     "url": "https://github.com/compulim/react-say/issues"
   },
   "homepage": "https://github.com/compulim/react-say#readme",
-  "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "classnames": "^2.2.6",
-    "event-as-promise": "^1.0.3",
-    "glamor": "^2.20.40",
-    "memoize-one": "^5.0.4"
-  },
-  "peerDependencies": {
-    "react": "^16.4.1"
-  },
   "devDependencies": {
     "lerna": "^3.14.1",
     "react": "^16.8.6",
