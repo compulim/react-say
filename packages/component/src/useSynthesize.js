@@ -11,6 +11,6 @@ export default function useSynthesize() {
       utteranceOrText = createNativeUtterance(ponyfill, { text: utteranceOrText });
     }
 
-    synthesize(ponyfill, utterance, { onStart: progressFn && (() => progressFn()) });
+    return synthesize(ponyfill, utteranceOrText, { onStart: progressFn && (() => progressFn()) });
   };
 }
