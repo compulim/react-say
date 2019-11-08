@@ -2,27 +2,27 @@ import PropTypes from 'prop-types';
 import React, { useContext, useMemo, useState } from 'react';
 
 import Context from './Context';
-import createSpeak from './createSpeak';
+import createSynthesize from './createSynthesize';
 import useEvent from './useEvent';
 
 const Composer = ({ children, ponyfill }) => {
   const { speechSynthesis } = ponyfill;
 
-  // If we have the parent context, we will use that speak() function and its internal queue.
-  const { speak: parentSpeak } = useContext(Context) || {};
+  // If we have the parent context, we will use that synthesize() function and its internal queue.
+  const { synthesize: parentSynthesize } = useContext(Context) || {};
 
-  // If the parent context changed and no longer has a speak() function, we will create the queue.
+  // If the parent context changed and no longer has a synthesize() function, we will create the queue.
   // This is very unlikely to happen.
-  const speak = useMemo(() => parentSpeak || createSpeak(), [parentSpeak]);
+  const synthesize = useMemo(() => parentSynthesize || createSynthesize(), [parentSynthesize]);
   const [voices, setVoices] = useState(speechSynthesis.getVoices());
 
   useEvent(speechSynthesis, 'voiceschanged', () => setVoices(speechSynthesis.getVoices()));
 
   const context = useMemo(() => ({
     ponyfill,
-    speak,
+    synthesize,
     voices
-  }), [ponyfill, speak, voices]);
+  }), [ponyfill, synthesize, voices]);
 
   return (
     <Context.Provider value={ context }>

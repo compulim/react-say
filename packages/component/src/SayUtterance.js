@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 
-import useSpeak from './useSpeak';
+import useSynthesize from './useSynthesize';
 import createErrorEvent from './createErrorEvent';
 
 const SayUtterance = ({
@@ -11,9 +11,9 @@ const SayUtterance = ({
   utterance
 }) => {
   const started = useRef(false);
-  const speak = useSpeak();
+  const synthesize = useSynthesize();
 
-  // This useEffect() is essentially converting Promise-based useSpeak() into events.
+  // This useEffect() is essentially converting Promise-based useSynthesize() into events.
   useEffect(() => {
     // After synthesis started, if utterance has changed, the event will be fired by the wrong target.
     // Thus, we do not allow utterance to change after synthesis started.
@@ -25,7 +25,7 @@ const SayUtterance = ({
     }
 
     let cancelled;
-    const { cancel, promise } = speak(utterance, () => {
+    const { cancel, promise } = synthesize(utterance, () => {
       started.current = true;
       !cancelled && onStart && onStart(new Event('start'));
     });

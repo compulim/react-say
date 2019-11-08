@@ -1,6 +1,6 @@
 import QueuedUtterance from './QueuedUtterance';
 
-export default function createSpeak() {
+export default function createSynthesize() {
   let queueWithCurrent = [];
   let running;
 
