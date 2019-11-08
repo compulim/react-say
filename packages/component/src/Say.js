@@ -1,25 +1,26 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import Composer from './Composer';
+import Context from './Context';
 import createNativeUtterance from './createNativeUtterance';
 import SayUtterance from './SayUtterance';
 
 const Say = ({
-  children,
   lang,
   onBoundary,
   onEnd,
   onError,
   onStart,
   pitch,
-  ponyfill,
   rate,
   speak,
   text,
   voice,
   volume
 }) => {
+  const { ponyfill } = useContext(Context);
+
   if (speak && !text) {
     console.warn('react-say: "speak" prop is being deprecated and renamed to "text".');
     text = speak;
@@ -51,15 +52,13 @@ const Say = ({
   );
 
   return (
-    <Composer ponyfill={ ponyfill }>
-      <SayUtterance
-        onEnd={ onEnd }
-        onError={ onError }
-        onStart={ onStart }
-        utterance={ utterance }
-      />
-      { children }
-    </Composer>
+    <SayUtterance
+      onEnd={ onEnd }
+      onError={ onError }
+      onStart={ onStart }
+      ponyfill={ ponyfill }
+      utterance={ utterance }
+    />
   );
 }
 
@@ -71,10 +70,6 @@ Say.defaultProps = {
   onError: undefined,
   onStart: undefined,
   pitch: undefined,
-  ponyfill: {
-    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-    SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
-  },
   rate: undefined,
   speak: undefined,
   voice: undefined,
@@ -89,10 +84,6 @@ Say.propTypes = {
   onError: PropTypes.func,
   onStart: PropTypes.func,
   pitch: PropTypes.number,
-  ponyfill: PropTypes.shape({
-    speechSynthesis: PropTypes.any,
-    speechSynthesisUtterance: PropTypes.any
-  }),
   rate: PropTypes.number,
   speak: PropTypes.string,
   text: PropTypes.string.isRequired,
@@ -100,4 +91,23 @@ Say.propTypes = {
   volume: PropTypes.number
 };
 
-export default Say
+const SayWithContext = ({ ponyfill, ...props }) => (
+  <Composer ponyfill={ ponyfill }>
+    <Say {...props} />
+  </Composer>
+);
+
+SayWithContext.defaultProps = {
+  ...SayUtterance.defaultProps,
+  ponyfill: undefined
+};
+
+SayWithContext.propTypes = {
+  ...SayUtterance.propTypes,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any.isRequired,
+    SpeechSynthesisUtterance: PropTypes.any.isRequired
+  })
+};
+
+export default SayWithContext

@@ -59,10 +59,7 @@ SayButton.defaultProps = {
   onError: undefined,
   onStart: undefined,
   pitch: undefined,
-  ponyfill: {
-    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-    speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
-  },
+  ponyfill: undefined,
   rate: undefined,
   speak: undefined,
   voice: undefined,
@@ -79,8 +76,8 @@ SayButton.propTypes = {
   onStart: PropTypes.func,
   pitch: PropTypes.number,
   ponyfill: PropTypes.shape({
-    speechSynthesis: PropTypes.any,
-    speechSynthesisUtterance: PropTypes.any
+    speechSynthesis: PropTypes.any.isRequired,
+    SpeechSynthesisUtterance: PropTypes.any.isRequired
   }),
   rate: PropTypes.number,
   speak: PropTypes.string,

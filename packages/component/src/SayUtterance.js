@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import useSynthesize from './useSynthesize';
+import Composer from './Composer';
 import createErrorEvent from './createErrorEvent';
+import useSynthesize from './useSynthesize';
 
 const SayUtterance = ({
   onEnd,
@@ -47,18 +48,32 @@ const SayUtterance = ({
 SayUtterance.defaultProps = {
   onEnd: undefined,
   onError: undefined,
-  onStart: undefined,
-  ponyfill: {
-    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-    SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
-  }
+  onStart: undefined
 };
 
 SayUtterance.propTypes = {
   onEnd: PropTypes.func,
   onError: PropTypes.func,
-  onStart: PropTypes.func,
-  utterance: PropTypes.any
+  onStart: PropTypes.func
 };
 
-export default SayUtterance
+const SayUtteranceWithContext = ({ ponyfill, ...props }) => (
+  <Composer ponyfill={ ponyfill }>
+    <SayUtterance { ...props } />
+  </Composer>
+);
+
+SayUtteranceWithContext.defaultProps = {
+  ...SayUtterance.defaultProps,
+  ponyfill: undefined
+};
+
+SayUtteranceWithContext.propTypes = {
+  ...SayUtterance.propTypes,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any.isRequired,
+    SpeechSynthesisUtterance: PropTypes.any.isRequired
+  })
+};
+
+export default SayUtteranceWithContext
