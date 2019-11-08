@@ -1,23 +1,26 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 
+import migrateDeprecatedProps from './migrateDeprecatedProps';
 import Say from './Say';
 
-const SayButton = ({
-  children,
-  disabled,
-  lang,
-  onBoundary,
-  onEnd,
-  onError,
-  onStart,
-  pitch,
-  ponyfill,
-  rate,
-  speak: text,
-  voice,
-  volume
-}) => {
+const SayButton = props => {
+  const {
+    children,
+    disabled,
+    lang,
+    onBoundary,
+    onEnd,
+    onError,
+    onStart,
+    pitch,
+    ponyfill,
+    rate,
+    text,
+    voice,
+    volume
+  } = migrateDeprecatedProps(props, SayButton);
+
   const [busy, setBusy] = useState(false);
   const handleClick = useCallback(() => setBusy(true));
   const sayProps = {
@@ -61,7 +64,7 @@ SayButton.defaultProps = {
   pitch: undefined,
   ponyfill: undefined,
   rate: undefined,
-  speak: undefined,
+  text: undefined,
   voice: undefined,
   volume: undefined
 };
@@ -80,7 +83,7 @@ SayButton.propTypes = {
     SpeechSynthesisUtterance: PropTypes.any.isRequired
   }),
   rate: PropTypes.number,
-  speak: PropTypes.string,
+  text: PropTypes.string,
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };

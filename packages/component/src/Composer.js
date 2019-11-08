@@ -3,13 +3,16 @@ import React, { useContext, useMemo, useState } from 'react';
 
 import Context from './Context';
 import createSynthesize from './createSynthesize';
+import migrateDeprecatedProps from './migrateDeprecatedProps';
 import useEvent from './useEvent';
 
-const Composer = ({ children, ponyfill }) => {
+const Composer = props => {
+  const { children, ponyfill: ponyfillFromProps } = migrateDeprecatedProps(props, Composer);
+
   // If we have the parent context, we will use that synthesize() function and its internal queue.
   const { ponyfill: parentPonyfill, synthesize: parentSynthesize } = useContext(Context) || {};
 
-  ponyfill = ponyfill || parentPonyfill || {
+  const ponyfill = ponyfillFromProps || parentPonyfill || {
     speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
     SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance,
   };

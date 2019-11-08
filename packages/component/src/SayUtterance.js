@@ -3,14 +3,17 @@ import React, { useEffect, useRef } from 'react';
 
 import Composer from './Composer';
 import createErrorEvent from './createErrorEvent';
+import migrateDeprecatedProps from './migrateDeprecatedProps';
 import useSynthesize from './useSynthesize';
 
-const SayUtterance = ({
-  onEnd,
-  onError,
-  onStart,
-  utterance
-}) => {
+const SayUtterance = props => {
+  const {
+    onEnd,
+    onError,
+    onStart,
+    utterance
+  } = migrateDeprecatedProps(props);
+
   const started = useRef(false);
   const synthesize = useSynthesize();
 

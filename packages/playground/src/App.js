@@ -152,7 +152,7 @@ export default class extends React.Component {
                   { SEGMENTS.map(segment =>
                     <li key={ segment }>
                       <SayButton
-                        speak={ segment }
+                        text={ segment }
                         voice={ this.selectVoice }
                       >
                         { segment }
@@ -182,7 +182,7 @@ export default class extends React.Component {
                 <ul>
                   <li>
                     <SayButton
-                      speak="一於記住一於記住每天向前望"
+                      text="一於記住一於記住每天向前望"
                       voice={ this.selectCantoneseVoice }
                     >
                       一於記住一於記住每天向前望
@@ -190,7 +190,7 @@ export default class extends React.Component {
                   </li>
                   <li>
                     <SayButton
-                      speak="お誕生日おめでとう"
+                      text="お誕生日おめでとう"
                       voice={ this.selectJapaneseVoice }
                     >
                       お誕生日おめでとう

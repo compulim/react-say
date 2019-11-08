@@ -4,21 +4,24 @@ import React, { useContext, useMemo } from 'react';
 import Composer from './Composer';
 import Context from './Context';
 import createNativeUtterance from './createNativeUtterance';
+import migrateDeprecatedProps from './migrateDeprecatedProps';
 import SayUtterance from './SayUtterance';
 
-const Say = ({
-  lang,
-  onBoundary,
-  onEnd,
-  onError,
-  onStart,
-  pitch,
-  rate,
-  speak,
-  text,
-  voice,
-  volume
-}) => {
+const Say = props => {
+  const {
+    lang,
+    onBoundary,
+    onEnd,
+    onError,
+    onStart,
+    pitch,
+    rate,
+    speak,
+    text,
+    voice,
+    volume
+  } = migrateDeprecatedProps(props, Say);
+
   const { ponyfill } = useContext(Context);
 
   if (speak && !text) {
