@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - New `<SayUtterance>` component to synthesis `SpeechSynthesisUtterance` instead of text
       - `<Say>` is being refactored to use `<SayUtterance>` to simplify the codebase
       - `<SayButton>` is being refactored to use `<Say>` to simplify the codebase
+   - `<Say>` no longer renders its children
    - `Composer` signature is being updated
       - New `synthesize` function to replace `speak` and `cancel`
          - When called, it will return `{ cancel: Function, promise: Promise }`
