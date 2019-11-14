@@ -1,49 +1,17 @@
 {
-  "name": "react-say",
+  "name": "root",
   "version": "1.2.1-0",
   "description": "A React component that synthesis text into speech using Web Speech API",
-  "keywords": [
-    "react",
-    "speak",
-    "speech synthesis",
-    "speechsynthesis",
-    "text to speech",
-    "tts",
-    "utterance",
-    "web speech",
-    "webspeech"
-  ],
-  "main": "lib/index.js",
-  "files": [
-    "lib/**/*"
-  ],
+  "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run --stream build",
-    "test": "lerna run --stream test",
-    "watch": "lerna run --parallel --stream watch"
-  },
-  "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/compulim/react-say.git"
-  },
-  "bugs": {
-    "url": "https://github.com/compulim/react-say/issues"
-  },
-  "homepage": "https://github.com/compulim/react-say#readme",
-  "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "classnames": "^2.2.6",
-    "event-as-promise": "^1.0.3",
-    "glamor": "^2.20.40",
-    "memoize-one": "^5.0.4"
-  },
-  "peerDependencies": {
-    "react": "^16.4.1"
+    "start": "lerna run --parallel --stream start",
+    "test": "lerna run --stream test"
   },
   "devDependencies": {
-    "lerna": "^3.14.1"
+    "lerna": "^3.14.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }

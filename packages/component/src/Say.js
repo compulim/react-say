@@ -1,36 +1,86 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import Composer from './Composer';
-import SayPrimitive from './SayPrimitive';
+import Context from './Context';
+import createNativeUtterance from './createNativeUtterance';
+import migrateDeprecatedProps from './migrateDeprecatedProps';
+import SayUtterance from './SayUtterance';
 
-const Say = props =>
-  <Composer
-    speechSynthesis={ props.speechSynthesis }
-    speechSynthesisUtterance={ props.speechSynthesisUtterance }
-  >
-    <SayPrimitive
-      lang={ props.lang }
-      onBoundary={ props.onBoundary }
-      onEnd={ props.onEnd }
-      onError={ props.onError }
-      onStart={ props.onStart }
-      pitch={ props.pitch }
-      rate={ props.rate }
-      speak={ props.speak }
-      voice={ props.voice }
-      volume={ props.volume }
-    >
-      { props.children }
-    </SayPrimitive>
-  </Composer>
+const Say = props => {
+  const {
+    lang,
+    onBoundary,
+    onEnd,
+    onError,
+    onStart,
+    pitch,
+    rate,
+    speak,
+    text,
+    voice,
+    volume
+  } = migrateDeprecatedProps(props, Say);
+
+  const { ponyfill } = useContext(Context);
+
+  if (speak && !text) {
+    console.warn('react-say: "speak" prop is being deprecated and renamed to "text".');
+    text = speak;
+  }
+
+  const utterance = useMemo(() =>
+    createNativeUtterance(
+      ponyfill,
+      {
+        lang,
+        onBoundary,
+        pitch,
+        rate,
+        text,
+        voice,
+        volume
+      }
+    ),
+    [
+      lang,
+      onBoundary,
+      pitch,
+      ponyfill,
+      rate,
+      text,
+      voice,
+      volume
+    ]
+  );
+
+  return (
+    <SayUtterance
+      onEnd={ onEnd }
+      onError={ onError }
+      onStart={ onStart }
+      ponyfill={ ponyfill }
+      utterance={ utterance }
+    />
+  );
+}
 
 Say.defaultProps = {
-  speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  children: undefined,
+  lang: undefined,
+  onBoundary: undefined,
+  onEnd: undefined,
+  onError: undefined,
+  onStart: undefined,
+  pitch: undefined,
+  rate: undefined,
+  speak: undefined,
+  voice: undefined,
+  volume: undefined
 };
 
 Say.propTypes = {
+  children: PropTypes.any,
   lang: PropTypes.string,
   onBoundary: PropTypes.func,
   onEnd: PropTypes.func,
@@ -38,11 +88,29 @@ Say.propTypes = {
   onStart: PropTypes.func,
   pitch: PropTypes.number,
   rate: PropTypes.number,
-  speechSynthesis: PropTypes.any,
-  speechSynthesisUtterance: PropTypes.any,
   speak: PropTypes.string,
+  text: PropTypes.string.isRequired,
   voice: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   volume: PropTypes.number
 };
 
-export default Say
+const SayWithContext = ({ ponyfill, ...props }) => (
+  <Composer ponyfill={ ponyfill }>
+    <Say {...props} />
+  </Composer>
+);
+
+SayWithContext.defaultProps = {
+  ...SayUtterance.defaultProps,
+  ponyfill: undefined
+};
+
+SayWithContext.propTypes = {
+  ...SayUtterance.propTypes,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any.isRequired,
+    SpeechSynthesisUtterance: PropTypes.any.isRequired
+  })
+};
+
+export default SayWithContext

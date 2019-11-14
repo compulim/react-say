@@ -1,28 +1,34 @@
 import hasResolved from 'has-resolved';
 
-import createContext from './createContext';
 import createMockSpeechSynthesisPonyfill from './createMockSpeechSynthesisPonyfill';
+import createNativeUtterance from './createNativeUtterance';
+import createSynthesize from './createSynthesize';
 
-let context;
-let ponyfill;
 let originalConsole;
+let ponyfill;
+let synthesize;
 
 beforeEach(() => {
   originalConsole = console;
   console = { ...console, error: jest.fn() };
 
   ponyfill = createMockSpeechSynthesisPonyfill();
-  context = createContext(ponyfill);
+  synthesize = createSynthesize(ponyfill);
 });
 
 afterEach(() => {
   console = originalConsole;
 });
 
+function createUtterance(props) {
+  return createNativeUtterance(ponyfill, props);
+}
+
 test('speak one utterance', async () => {
-  const promise = context.speak({
-    text: 'Hello, World!'
-  });
+  const { promise } = synthesize(
+    ponyfill,
+    createUtterance({ text: 'Hello, World!' })
+  );
 
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -34,8 +40,8 @@ test('speak one utterance', async () => {
 });
 
 test('speak two utterances', async () => {
-  const promise1 = context.speak({ text: 'Hello, World!' });
-  const promise2 = context.speak({ text: 'Aloha!' });
+  const { promise: promise1 } = synthesize(ponyfill, createUtterance({ text: 'Hello, World!' }));
+  const { promise: promise2 } = synthesize(ponyfill, createUtterance({ text: 'Aloha!' }));
 
   const [[nativeUtterance1]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -59,14 +65,14 @@ test('speak two utterances', async () => {
 });
 
 test('speak three utterances and cancel the second while the first is being spoken', async () => {
-  const promise1 = context.speak({ id: '1', text: 'A quick brown fox' });
-  const promise2 = context.speak({ id: '2', text: 'jumped over' });
-  const promise3 = context.speak({ id: '3', text: 'the lazy dogs.' });
+  const { promise: promise1 } = synthesize(ponyfill, createUtterance({ text: 'A quick brown fox' }));
+  const { cancel: cancel2, promise: promise2 } = synthesize(ponyfill, createUtterance({ text: 'jumped over' }));
+  const { promise: promise3 } = synthesize(ponyfill, createUtterance({ text: 'the lazy dogs.' }));
 
   const [[nativeUtterance1]] = ponyfill.speechSynthesis.speak.mock.calls;
 
   nativeUtterance1.dispatchEvent(new Event('start'));
-  context.cancel('2');
+  cancel2();
   nativeUtterance1.dispatchEvent(new Event('end'));
 
   await promise1;
@@ -82,37 +88,8 @@ test('speak three utterances and cancel the second while the first is being spok
   await promise3;
 });
 
-test('change ponyfill while speaking', async () => {
-  const ponyfill1 = createMockSpeechSynthesisPonyfill();
-  const context = createContext(ponyfill1);
-
-  const promise1 = context.speak({ text: 'Hello, World!' });
-  const promise2 = context.speak({ text: 'Aloha!' });
-
-  const [[nativeUtterance1]] = ponyfill1.speechSynthesis.speak.mock.calls;
-
-  expect(nativeUtterance1).toHaveProperty('text', 'Hello, World!');
-  nativeUtterance1.dispatchEvent(new Event('start'));
-
-  const ponyfill2 = createMockSpeechSynthesisPonyfill();
-
-  context.setPonyfill(ponyfill2);
-
-  nativeUtterance1.dispatchEvent(new Event('end'));
-
-  await promise1;
-
-  const [[nativeUtterance2]] = ponyfill2.speechSynthesis.speak.mock.calls;
-
-  expect(nativeUtterance2).toHaveProperty('text', 'Aloha!');
-  nativeUtterance2.dispatchEvent(new Event('start'));
-  nativeUtterance2.dispatchEvent(new Event('end'));
-
-  await promise2;
-});
-
 test('error while speaking an utterance', async () => {
-  const promise = context.speak({ text: 'Hello, World!' });
+  const { promise } = synthesize(ponyfill, createUtterance({ text: 'Hello, World!' }));
 
   const [[nativeUtterance]] = ponyfill.speechSynthesis.speak.mock.calls;
 
@@ -127,22 +104,4 @@ test('error while speaking an utterance', async () => {
   await expect(promise).rejects.toThrow('artificial');
 
   expect(console.error).toHaveBeenCalledTimes(1);
-});
-
-test('do not queue subsequent utterances with same ID', async () => {
-  const promise1 = context.speak({ id: 'dupe', text: 'Hello, World!' });
-  const promise2 = context.speak({ id: 'dupe', text: 'Aloha!' });
-  const [[nativeUtterance1]] = ponyfill.speechSynthesis.speak.mock.calls;
-
-  expect(ponyfill.speechSynthesis.speak).toHaveBeenCalledTimes(1);
-
-  expect(nativeUtterance1).toHaveProperty('text', 'Hello, World!');
-  nativeUtterance1.dispatchEvent(new Event('start'));
-  nativeUtterance1.dispatchEvent(new Event('end'));
-
-  await promise1;
-
-  expect(ponyfill.speechSynthesis.speak).toHaveBeenCalledTimes(1);
-
-  await expect(promise2).rejects.toThrow(/same\sID/);
 });

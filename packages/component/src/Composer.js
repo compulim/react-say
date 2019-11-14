@@ -1,112 +1,61 @@
-import memoize from 'memoize-one';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 import Context from './Context';
-import createSpeechContext from './createContext';
+import createSynthesize from './createSynthesize';
+import migrateDeprecatedProps from './migrateDeprecatedProps';
+import useEvent from './useEvent';
 
-export default class Composer extends React.Component {
-  constructor(props) {
-    super(props);
+const Composer = props => {
+  const { children, ponyfill: ponyfillFromProps } = migrateDeprecatedProps(props, Composer);
 
-    this.handleVoicesChanged = this.handleVoicesChanged.bind(this);
+  // If we have the parent context, we will use that synthesize() function and its internal queue.
+  const { ponyfill: parentPonyfill, synthesize: parentSynthesize } = useContext(Context) || {};
 
-    let voices = [];
+  const ponyfill = ponyfillFromProps || parentPonyfill || {
+    speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+    SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance,
+  };
 
-    if (props.speechSynthesis) {
-      props.speechSynthesis.addEventListener && props.speechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
-      voices = props.speechSynthesis.getVoices();
-    }
+  // If the parent context changed and no longer has a synthesize() function, we will create the queue.
+  // This is very unlikely to happen.
+  const synthesize = useMemo(() => parentSynthesize || createSynthesize(), [parentSynthesize]);
+  const { speechSynthesis } = ponyfill;
+  const [voices, setVoices] = useState(speechSynthesis.getVoices());
 
-    this.mergeContext = memoize(({ cancel, speak }, voices) => ({
-      cancel,
-      speak,
-      voices
-    }));
+  useEvent(speechSynthesis, 'voiceschanged', () => setVoices(speechSynthesis.getVoices()));
 
-    this.state = {
-      context: createSpeechContext({
-        speechSynthesis: props.speechSynthesis,
-        SpeechSynthesisUtterance: props.speechSynthesisUtterance
-      }),
-      voices
-    };
-  }
+  const context = useMemo(() => ({
+    ponyfill,
+    synthesize,
+    voices
+  }), [ponyfill, synthesize, voices]);
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      props
-    } = this;
-
-    const changed = [
-      'speechSynthesis',
-      'speechSynthesisUtterance'
-    ].some(name => nextProps[name] !== props[name]);
-
-    if (changed) {
-      const { speechSynthesis } = props;
-      const { speechSynthesis: nextSpeechSynthesis } = nextProps;
-      let nextVoices = [];
-
-      if (speechSynthesis && speechSynthesis.removeEventListener) {
-        speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
+  return (
+    <Context.Provider value={ context }>
+      {
+        typeof children === 'function' ?
+          <Context.Consumer>
+            { context => children(context) }
+          </Context.Consumer>
+        :
+          children
       }
-
-      this.state.context.setPonyfill({
-        speechSynthesis: nextProps.speechSynthesis,
-        SpeechSynthesisUtterance: nextProps.speechSynthesisUtterance
-      });
-
-      if (nextSpeechSynthesis) {
-        nextSpeechSynthesis.addEventListener && nextSpeechSynthesis.addEventListener('voiceschanged', this.handleVoicesChanged);
-        nextVoices = nextSpeechSynthesis.getVoices() || [];
-      }
-
-      this.setState(() => ({ voices: nextVoices }));
-    }
-  }
-
-  componentWillUnmount() {
-    const { speechSynthesis } = this.props;
-
-    speechSynthesis && speechSynthesis.removeEventListener && speechSynthesis.removeEventListener('voiceschanged', this.handleVoicesChanged);
-  }
-
-  handleVoicesChanged({ target }) {
-    this.setState(() => ({ voices: target.getVoices() }));
-  }
-
-  render() {
-    const { props, state } = this;
-    const { children } = props;
-
-    return (
-      <Context.Consumer>
-        { context => context ?
-            typeof children === 'function' ? children(context) : children
-          :
-            <Context.Provider value={ this.mergeContext(state.context, state.voices) }>
-              {
-                typeof children === 'function' ?
-                  <Context.Consumer>
-                    { context => children(context) }
-                  </Context.Consumer>
-                :
-                  children
-              }
-            </Context.Provider>
-        }
-      </Context.Consumer>
-    );
-  }
-}
+    </Context.Provider>
+  );
+};
 
 Composer.defaultProps = {
-  speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-  speechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+  children: undefined,
+  ponyfill: undefined
 };
 
 Composer.propTypes = {
-  speechSynthesis: PropTypes.any,
-  speechSynthesisUtterance: PropTypes.any
+  children: PropTypes.any,
+  ponyfill: PropTypes.shape({
+    speechSynthesis: PropTypes.any,
+    SpeechSynthesisUtterance: PropTypes.any
+  })
 };
+
+export default Composer;
