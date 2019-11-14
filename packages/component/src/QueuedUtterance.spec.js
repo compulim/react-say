@@ -25,7 +25,7 @@ test('speak with success', async () => {
       onStart
     }
   );
-createMockUtterance
+
   const promise = utterance.speak(ponyfill);
 
   expect(await hasResolved(promise)).toBeFalsy();
