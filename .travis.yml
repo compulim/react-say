@@ -16,22 +16,17 @@ install:
 - npm run build
 
 deploy:
-- provider: npm
-  api_key:
-    secure: "ESUF38Lxb4IIUGiU5Kf93n2GrRoQFdiKIUgOnrDfjGykDkkyOH88BHJQ2pGEqzWZGsfTEgMgU51qFBEMmUg0QpXyCot9x8KcZdJ+b4jSdx+24zO7WvcdyNK/BcnRvHwq6QNJq8SadqS+hCSDi/izcrtty48KsarfsJbyKcwxnOoooo50COnhe6pOHgnyaaD4nFu1U3Cu/jI7plK/cBULxzeY4pjdumgKvKOrVBVrwnHgD5bCYz25e9LrdikODQ2R+eSl9RBuQSXLkI1sa0SFUCXjRtRmQKcurSlvka4zrlqnWBhYYykig4oRhXIkIffITVS+tMxffjqdaYy6qPhLcfyKmoZsZuVtRntm57BgkEmm0x6zxT29HbXF1N8jch5G9IO/Bb5B9R2rgLxzL0VYOCoU2134jExYjbtikbQircYbPGTPN0pmLgpjvxq/4AXkI+0QHu47SOloZl38lkxGM3VwflXcjGMIrzYGkwjcmu7oU7EajRCeQXmrH/M/GbqKYpGmOs46AOSLSsgNrPy9NEEoxDva9VBdwSlmD6fCNFvpX/S+NgftxnvUa3fInSZtSQ/+xpNZtUof1oXr2lYZ593NhhJ6mWctWRdnMxUh4N8IkF3nqxpY1Vhps8Fs12LoENt03rNdY5RYPlxG7UuMoPzsd+h3PhydtrkbxJoPZFA="
-  email: "compulim@hotmail.com"
+- provider: script
+  script: bash scripts/lerna_publish
+  skip_cleanup: true
   on:
     branch: master
-  skip_cleanup: true
-  tag: master
 
-- provider: npm
-  api_key:
-    secure: "ESUF38Lxb4IIUGiU5Kf93n2GrRoQFdiKIUgOnrDfjGykDkkyOH88BHJQ2pGEqzWZGsfTEgMgU51qFBEMmUg0QpXyCot9x8KcZdJ+b4jSdx+24zO7WvcdyNK/BcnRvHwq6QNJq8SadqS+hCSDi/izcrtty48KsarfsJbyKcwxnOoooo50COnhe6pOHgnyaaD4nFu1U3Cu/jI7plK/cBULxzeY4pjdumgKvKOrVBVrwnHgD5bCYz25e9LrdikODQ2R+eSl9RBuQSXLkI1sa0SFUCXjRtRmQKcurSlvka4zrlqnWBhYYykig4oRhXIkIffITVS+tMxffjqdaYy6qPhLcfyKmoZsZuVtRntm57BgkEmm0x6zxT29HbXF1N8jch5G9IO/Bb5B9R2rgLxzL0VYOCoU2134jExYjbtikbQircYbPGTPN0pmLgpjvxq/4AXkI+0QHu47SOloZl38lkxGM3VwflXcjGMIrzYGkwjcmu7oU7EajRCeQXmrH/M/GbqKYpGmOs46AOSLSsgNrPy9NEEoxDva9VBdwSlmD6fCNFvpX/S+NgftxnvUa3fInSZtSQ/+xpNZtUof1oXr2lYZ593NhhJ6mWctWRdnMxUh4N8IkF3nqxpY1Vhps8Fs12LoENt03rNdY5RYPlxG7UuMoPzsd+h3PhydtrkbxJoPZFA="
-  email: "compulim@hotmail.com"
+- provider: script
+  script: bash scripts/lerna_publish
+  skip_cleanup: true
   on:
     tags: true
-  skip_cleanup: true
 
 - provider: pages
   skip-cleanup: true
