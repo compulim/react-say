@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2019-11-19
+
 ### Breaking changes
 
 - Now requires React 16.8.6 or up
