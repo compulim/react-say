@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Breaking changes
 
+- Now requires React 16.8.6 or up
 - Updates to `<Say>` component
    - Renamed prop `speak` to `text`
    - Will no longer renders its children
@@ -48,6 +49,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
    - 🔥 All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
       - Using browser speech would become as simple as `<Say ponyfill={ window }>`
+- Bumped dependencies in [PR #18](https://github.com/compulim/react-say/pull/18)
+   - [`@babel/cli@7.7.0`](https://npmjs.com/package/@babel/cli)
+   - [`@babel/core@7.7.2`](https://npmjs.com/package/@babel/core)
+   - [`@babel/plugin-proposal-object-rest-spread@7.6.2`](https://npmjs.com/package/@babel/plugin-proposal-object-rest-spread)
+   - [`@babel/plugin-transform-runtime@7.6.2`](https://npmjs.com/package/@babel/plugin-transform-runtime)
+   - [`@babel/preset-env@7.7.1`](https://npmjs.com/package/@babel/preset-env)
+   - [`@babel/preset-react@7.7.0`](https://npmjs.com/package/@babel/preset-react)
+   - [`@babel/runtime@7.7.2`](https://npmjs.com/package/@babel/runtime)
+   - [`jest@24.9.0`](https://npmjs.com/package/jest)
+   - [`memoize-one@5.1.1`](https://npmjs.com/package/memoize-one)
 
 ## [1.2.0] - 2019-05-28
 ### Changed
