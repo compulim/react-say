@@ -1,3 +1,4 @@
+import createCustomEvent from './createCustomEvent';
 import createDeferred from './createDeferred';
 import createErrorEvent from './createErrorEvent';
 
@@ -93,7 +94,7 @@ export default class QueuedUtterance {
           throw new Error('cancelled');
         } else {
           this._cancel = cancel;
-          this._onStart && this._onStart(new Event('start'));
+          this._onStart && this._onStart(createCustomEvent('start'));
         }
       });
 
@@ -101,7 +102,7 @@ export default class QueuedUtterance {
         throw new Error('cancelled');
       }
     })().then(() => {
-      this._onEnd && this._onEnd(new Event('end'));
+      this._onEnd && this._onEnd(createCustomEvent('end'));
       this._deferred.resolve();
     }, error => {
       this._onError && this._onError(createErrorEvent(error));
