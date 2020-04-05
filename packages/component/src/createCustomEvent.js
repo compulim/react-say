@@ -1,5 +1,9 @@
 export default function createCustomEvent(name, eventInitDict) {
-  if (typeof CustomEvent === 'function') {
+  if (name === 'error') {
+    if (typeof ErrorEvent === 'function') {
+      return new ErrorEvent(name, eventInitDict);
+    }
+  } else if (typeof CustomEvent === 'function') {
     return new CustomEvent(name, eventInitDict);
   }
 
