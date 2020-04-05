@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 
 import Composer from './Composer';
+import createCustomEvent from './createCustomEvent';
 import createErrorEvent from './createErrorEvent';
 import migrateDeprecatedProps from './migrateDeprecatedProps';
 import useSynthesize from './useSynthesize';
@@ -31,11 +32,11 @@ const SayUtterance = props => {
     let cancelled;
     const { cancel, promise } = synthesize(utterance, () => {
       started.current = true;
-      !cancelled && onStart && onStart(new Event('start'));
+      !cancelled && onStart && onStart(createCustomEvent('start'));
     });
 
     promise.then(
-      () => !cancelled && onEnd && onEnd(new Event('end')),
+      () => !cancelled && onEnd && onEnd(createCustomEvent('end')),
       error => !cancelled && onError && onError(createErrorEvent(error))
     );
 
