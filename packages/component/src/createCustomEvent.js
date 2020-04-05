@@ -11,7 +11,7 @@ export default function createCustomEvent(name, eventInitDict) {
 
   event.initEvent(name, true, true);
 
-  Object.entries(eventInitDict).forEach(([key, value]) => {
+  Object.entries(eventInitDict || {}).forEach(([key, value]) => {
     event[key] = value;
   });
 
