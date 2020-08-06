@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Changed
-
-- Use `new CustomEvent()` and fallback to `document.createElement` for custom events, by [@compulim](https://github.com/compulim), in PR [#22](https://github.com/compulim/react-say/pull/22)
+## [2.0.1] - 2020-08-06
 
 ### Fixed
+
+- Use `new CustomEvent()` and fallback to `document.createElement` for custom events, by [@compulim](https://github.com/compulim), in PR [#22](https://github.com/compulim/react-say/pull/22), [#23](https://github.com/compulim/react-say/pull/23), and [#24](https://github.com/compulim/react-say/pull/24)
 
 ## [2.0.0] - 2019-11-19
 
