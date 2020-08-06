@@ -71,6 +71,7 @@ test('cancel while speaking', async () => {
 
   const cancelPromise = utterance.cancel();
 
+  await ponyfill.speechSynthesis.cancel.promises[0];
   expect(ponyfill.speechSynthesis.cancel).toHaveBeenCalledTimes(1);
 
   nativeUtterance.dispatchEvent(new Event('end'));
