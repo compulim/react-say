@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Added support of GitHub Codespaces, by [@compulim](https://github.com/compulim) in PR [#39](https://github.com/compulim/react-say/pull/39)
+- Changed peer dependencies requirement to `react >= 16.8.6`, by [@compulim](https://github.com/compulim) in PR [#39](https://github.com/compulim/react-say/pull/39)
+- Bumped dependencies, by [@compulim](https://github.com/compulim) in PR [#39](https://github.com/compulim/react-say/pull/39)
+   - Production dependencies
+      - [`classnames@2.3.1`](https://npmjs.com/package/classnames)
+      - [`event-as-promise@1.0.5`](https://npmjs.com/package/event-as-promise)
+      - [`memoize-one@5.2.1`](https://npmjs.com/package/memoize-one)
+   - Non-production dependencies- [`@babel/runtime@7.15.4`](https://npmjs.com/package/@babel/runtime)
+      - [`@babel/cli@7.15.7`](https://npmjs.com/package/@babel/cli)
+      - [`@babel/core@7.15.8`](https://npmjs.com/package/@babel/core)
+      - [`@babel/plugin-proposal-object-rest-spread@7.15.6`](https://npmjs.com/package/@babel/plugin-proposal-object-rest-spread)
+      - [`@babel/plugin-transform-runtime@7.15.8`](https://npmjs.com/package/@babel/plugin-transform-runtime)
+      - [`@babel/preset-env@7.15.8`](https://npmjs.com/package/@babel/preset-env)
+      - [`@babel/preset-react@7.14.5`](https://npmjs.com/package/@babel/preset-react)
+      - [`jest@27.2.5`](https://npmjs.com/package/jest)
+      - [`lerna@4.0.0`](https://npmjs.com/package/lerna)
+
 ## [2.0.1] - 2020-08-06
 
 ### Fixed
