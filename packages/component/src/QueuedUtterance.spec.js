@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 import createErrorEvent from './createErrorEvent';
 import createMockSpeechSynthesisPonyfill, { jestFnWithPromises } from './createMockSpeechSynthesisPonyfill';
 import createNativeUtterance from './createNativeUtterance';

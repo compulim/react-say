@@ -34,22 +34,22 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
     "has-resolved": "^1.1.0",
-    "jest": "^24.9.0"
+    "jest": "^27.2.5"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
-    "classnames": "^2.2.6",
-    "event-as-promise": "^1.0.5",
-    "memoize-one": "^5.1.1"
+    "@babel/runtime": "7.15.4",
+    "classnames": "2.3.1",
+    "event-as-promise": "1.0.5",
+    "memoize-one": "5.2.1"
   },
   "peerDependencies": {
-    "react": "^16.8.6"
+    "react": ">= 16.8.6"
   }
 }
