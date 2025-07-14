@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 
-import hasResolved from 'has-resolved';
+import hasResolved from "has-resolved";
 
 import createMockSpeechSynthesisPonyfill from './createMockSpeechSynthesisPonyfill';
 import createNativeUtterance from './createNativeUtterance';

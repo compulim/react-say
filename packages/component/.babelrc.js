@@ -1,31 +1,32 @@
 module.exports = api => {
   if (api.env('test')) {
     return {
-      plugins: [
-        '@babel/plugin-proposal-object-rest-spread'
-      ],
+      plugins: ["@babel/plugin-transform-object-rest-spread"],
       presets: [
-        ['@babel/preset-env', {
-          targets: {
-            node: 'current'
-          }
-        }],
-        '@babel/preset-react'
-      ]
+        [
+          "@babel/preset-env",
+          {
+            targets: {
+              node: "current",
+            },
+          },
+        ],
+        "@babel/preset-react",
+      ],
     };
   }
 
   return {
-    plugins: [
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-transform-runtime'
-    ],
+    plugins: ["@babel/plugin-transform-object-rest-spread", "@babel/plugin-transform-runtime"],
     presets: [
-      ['@babel/preset-env', {
-        forceAllTransforms: true,
-        modules: 'commonjs'
-      }],
-      '@babel/preset-react'
-    ]
+      [
+        "@babel/preset-env",
+        {
+          forceAllTransforms: true,
+          modules: "commonjs",
+        },
+      ],
+      "@babel/preset-react",
+    ],
   };
 };

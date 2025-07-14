@@ -20,12 +20,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - Non-production dependencies- [`@babel/runtime@7.15.4`](https://npmjs.com/package/@babel/runtime)
       - [`@babel/cli@7.15.7`](https://npmjs.com/package/@babel/cli)
       - [`@babel/core@7.15.8`](https://npmjs.com/package/@babel/core)
-      - [`@babel/plugin-proposal-object-rest-spread@7.15.6`](https://npmjs.com/package/@babel/plugin-proposal-object-rest-spread)
-      - [`@babel/plugin-transform-runtime@7.15.8`](https://npmjs.com/package/@babel/plugin-transform-runtime)
-      - [`@babel/preset-env@7.15.8`](https://npmjs.com/package/@babel/preset-env)
-      - [`@babel/preset-react@7.14.5`](https://npmjs.com/package/@babel/preset-react)
-      - [`jest@27.2.5`](https://npmjs.com/package/jest)
-      - [`lerna@4.0.0`](https://npmjs.com/package/lerna)
+    - [`@babel/plugin-transform-object-rest-spread@7.15.6`](https://npmjs.com/package/@babel/plugin-transform-object-rest-spread)
+    - [`@babel/plugin-transform-runtime@7.15.8`](https://npmjs.com/package/@babel/plugin-transform-runtime)
+    - [`@babel/preset-env@7.15.8`](https://npmjs.com/package/@babel/preset-env)
+    - [`@babel/preset-react@7.14.5`](https://npmjs.com/package/@babel/preset-react)
+    - [`jest@27.2.5`](https://npmjs.com/package/jest)
+    - [`lerna@4.0.0`](https://npmjs.com/package/lerna)
 
 ## [2.0.1] - 2020-08-06
 
@@ -39,49 +39,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Now requires React 16.8.6 or up
 - Updates to `<Say>` component
-   - Renamed prop `speak` to `text`
-   - Will no longer renders its children
+  - Renamed prop `speak` to `text`
+  - Will no longer renders its children
 - Updates to `<SayButton>` component
-   - Renamed prop `speak` to `text`
+  - Renamed prop `speak` to `text`
 - `Composer` signature is being updated
-   - New `synthesize` function to replace `speak` and `cancel`
-      - When called, it will return `{ cancel: Function, promise: Promise }`
-      - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
-      - `promise` will be resolved when the utterance is synthesized or errored
-   - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
+  - New `synthesize` function to replace `speak` and `cancel`
+    - When called, it will return `{ cancel: Function, promise: Promise }`
+    - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
+    - `promise` will be resolved when the utterance is synthesized or errored
+  - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
 - All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
-   - Using browser speech would become as simple as `<Say ponyfill={ window }>`
+  - Using browser speech would become as simple as `<Say ponyfill={ window }>`
 
 ### Changed
 
 - Update build scripts to publish `/packages/component/package.json`, by [@compulim](https://github.com/compulim) in [PR #17](https://github.com/compulim/react-say/pull/17)
 - Rework of all components, by [@compulim](https://github.com/compulim) in [PR #17](https://github.com/compulim/react-say/pull/17)
-   - Support nested `<Context>` and `<Composer>`
-      - Nested context will share the same queue, with different ponyfills
-      - If not ponyfill is specified, it will inherit from its parent, or default to browser-based speech
-      - Upgraded `<Composer>` component from class component to functional component
-   - Added new `useSynthesize()` hook, which returns a function to queue an utterance
-      - `synthesize(utteranceOrText: (SpeechSynthesisUtterance | string), progressFn: () => void) => void`
-   - New `<SayUtterance>` component to synthesis `SpeechSynthesisUtterance` instead of text
-      - `<Say>` is being refactored to use `<SayUtterance>` to simplify the codebase
-      - `<SayButton>` is being refactored to use `<Say>` to simplify the codebase
-   - 🔥 Updates to `<Say>` component
-      - Renamed prop `speak` to `text`
-      - Will no longer renders its children
-   - 🔥 Updates to `<SayButton>` component
-      - Renamed prop `speak` to `text`
-   - 🔥 `Composer` signature is being updated
-      - New `synthesize` function to replace `speak` and `cancel`
-         - When called, it will return `{ cancel: Function, promise: Promise }`
-         - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
-         - `promise` will be resolved when the utterance is synthesized or errored
-      - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
-   - 🔥 All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
-      - Using browser speech would become as simple as `<Say ponyfill={ window }>`
+  - Support nested `<Context>` and `<Composer>`
+    - Nested context will share the same queue, with different ponyfills
+    - If not ponyfill is specified, it will inherit from its parent, or default to browser-based speech
+    - Upgraded `<Composer>` component from class component to functional component
+  - Added new `useSynthesize()` hook, which returns a function to queue an utterance
+    - `synthesize(utteranceOrText: (SpeechSynthesisUtterance | string), progressFn: () => void) => void`
+  - New `<SayUtterance>` component to synthesis `SpeechSynthesisUtterance` instead of text
+    - `<Say>` is being refactored to use `<SayUtterance>` to simplify the codebase
+    - `<SayButton>` is being refactored to use `<Say>` to simplify the codebase
+  - 🔥 Updates to `<Say>` component
+    - Renamed prop `speak` to `text`
+    - Will no longer renders its children
+  - 🔥 Updates to `<SayButton>` component
+    - Renamed prop `speak` to `text`
+  - 🔥 `Composer` signature is being updated
+    - New `synthesize` function to replace `speak` and `cancel`
+      - When called, it will return `{ cancel: Function, promise: Promise }`
+      - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
+      - `promise` will be resolved when the utterance is synthesized or errored
+    - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
+  - 🔥 All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
+    - Using browser speech would become as simple as `<Say ponyfill={ window }>`
 - Bumped dependencies in [PR #18](https://github.com/compulim/react-say/pull/18)
-   - [`@babel/cli@7.7.0`](https://npmjs.com/package/@babel/cli)
-   - [`@babel/core@7.7.2`](https://npmjs.com/package/@babel/core)
-   - [`@babel/plugin-proposal-object-rest-spread@7.6.2`](https://npmjs.com/package/@babel/plugin-proposal-object-rest-spread)
+  - [`@babel/cli@7.7.0`](https://npmjs.com/package/@babel/cli)
+  - [`@babel/core@7.7.2`](https://npmjs.com/package/@babel/core)
+  - [`@babel/plugin-transform-object-rest-spread@7.6.2`](https://npmjs.com/package/@babel/plugin-transform-object-rest-spread)
    - [`@babel/plugin-transform-runtime@7.6.2`](https://npmjs.com/package/@babel/plugin-transform-runtime)
    - [`@babel/preset-env@7.7.1`](https://npmjs.com/package/@babel/preset-env)
    - [`@babel/preset-react@7.7.0`](https://npmjs.com/package/@babel/preset-react)
