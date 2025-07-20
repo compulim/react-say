@@ -47,23 +47,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [`typescript@5.8.3`](https://npmjs.com/package/typescript/)
       - [`web-speech-cognitive-services@8.1.3`](https://npmjs.com/package/web-speech-cognitive-services/)
 - Bumped dependencies, in PR [#51](https://github.com/compulim/react-say/pull/51)
-  - Production dependencies
-    - [`classnames@2.5.1`](https://npmjs.com/package/classnames/v/2.5.1)
-    - [`event-as-promise@2.0.0`](https://npmjs.com/package/event-as-promise/v/2.0.0)
-    - [`memoize-one@6.0.0`](https://npmjs.com/package/memoize-one/v/6.0.0)
-    - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/v/15.8.1)
-  - Development dependencies
-    - [`@emotion/css@11.13.5`](https://npmjs.com/package/@emotion/css/v/11.13.5)
-    - [`@testduet/given-when-then@0.1.0-main.5e524dc`](https://npmjs.com/package/@testduet/given-when-then/v/0.1.0-main.5e524dc)
-    - [`@types/node@24.0.15`](https://npmjs.com/package/@types/node/v/24.0.15)
-    - [`@typescript-eslint/eslint-plugin@8.37.0`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/v/8.37.0)
-    - [`@typescript-eslint/parser@8.37.0`](https://npmjs.com/package/@typescript-eslint/parser/v/8.37.0)
-    - [`esbuild@0.25.8`](https://npmjs.com/package/esbuild/v/0.25.8)
-    - [`escape-string-regexp@5.0.0`](https://npmjs.com/package/escape-string-regexp/v/5.0.0)
-    - [`eslint@9.31.0`](https://npmjs.com/package/eslint/v/9.31.0)
-    - [`eslint-import-resolver-typescript@4.4.4`](https://npmjs.com/package/eslint-import-resolver-typescript/v/4.4.4)
-    - [`eslint-plugin-prettier@5.5.3`](https://npmjs.com/package/eslint-plugin-prettier/v/5.5.3)
-    - [`prettier@3.6.2`](https://npmjs.com/package/prettier/v/3.6.2)
+   - Production dependencies
+      - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/v/15.8.1)
+   - Development dependencies
+      - [`@emotion/css@11.13.5`](https://npmjs.com/package/@emotion/css/v/11.13.5)
+      - [`@testduet/given-when-then@0.1.0-main.5e524dc`](https://npmjs.com/package/@testduet/given-when-then/v/0.1.0-main.5e524dc)
+      - [`@types/node@24.0.15`](https://npmjs.com/package/@types/node/v/24.0.15)
+      - [`@typescript-eslint/eslint-plugin@8.37.0`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/v/8.37.0)
+      - [`@typescript-eslint/parser@8.37.0`](https://npmjs.com/package/@typescript-eslint/parser/v/8.37.0)
+      - [`esbuild@0.25.8`](https://npmjs.com/package/esbuild/v/0.25.8)
+      - [`escape-string-regexp@5.0.0`](https://npmjs.com/package/escape-string-regexp/v/5.0.0)
+      - [`eslint@9.31.0`](https://npmjs.com/package/eslint/v/9.31.0)
+      - [`eslint-import-resolver-typescript@4.4.4`](https://npmjs.com/package/eslint-import-resolver-typescript/v/4.4.4)
+      - [`eslint-plugin-prettier@5.5.3`](https://npmjs.com/package/eslint-plugin-prettier/v/5.5.3)
+      - [`prettier@3.6.2`](https://npmjs.com/package/prettier/v/3.6.2)
 
 ## 2.1.0 - 2021-10-14
 

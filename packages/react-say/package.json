@@ -84,9 +84,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "classnames": "^2.5.1",
-    "event-as-promise": "^2.0.0",
-    "memoize-one": "^6.0.0",
     "prop-types": "^15.8.1"
   }
 }
