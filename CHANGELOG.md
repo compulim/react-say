@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
 ### Changed
 
@@ -46,8 +46,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [`tsup@8.5.0`](https://npmjs.com/package/tsup/)
       - [`typescript@5.8.3`](https://npmjs.com/package/typescript/)
       - [`web-speech-cognitive-services@8.1.3`](https://npmjs.com/package/web-speech-cognitive-services/)
+- Bumped dependencies, in PR [#51](https://github.com/compulim/react-say/pull/51)
+   - Production dependencies
+      - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/v/15.8.1)
+   - Development dependencies
+      - [`@emotion/css@11.13.5`](https://npmjs.com/package/@emotion/css/v/11.13.5)
+      - [`@testduet/given-when-then@0.1.0-main.5e524dc`](https://npmjs.com/package/@testduet/given-when-then/v/0.1.0-main.5e524dc)
+      - [`@types/node@24.0.15`](https://npmjs.com/package/@types/node/v/24.0.15)
+      - [`@typescript-eslint/eslint-plugin@8.37.0`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/v/8.37.0)
+      - [`@typescript-eslint/parser@8.37.0`](https://npmjs.com/package/@typescript-eslint/parser/v/8.37.0)
+      - [`esbuild@0.25.8`](https://npmjs.com/package/esbuild/v/0.25.8)
+      - [`escape-string-regexp@5.0.0`](https://npmjs.com/package/escape-string-regexp/v/5.0.0)
+      - [`eslint@9.31.0`](https://npmjs.com/package/eslint/v/9.31.0)
+      - [`eslint-import-resolver-typescript@4.4.4`](https://npmjs.com/package/eslint-import-resolver-typescript/v/4.4.4)
+      - [`eslint-plugin-prettier@5.5.3`](https://npmjs.com/package/eslint-plugin-prettier/v/5.5.3)
+      - [`prettier@3.6.2`](https://npmjs.com/package/prettier/v/3.6.2)
 
-## [2.1.0] - 2021-10-14
+## 2.1.0 - 2021-10-14
 
 ### Changed
 
@@ -68,13 +83,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [`jest@27.2.5`](https://npmjs.com/package/jest)
       - [`lerna@4.0.0`](https://npmjs.com/package/lerna)
 
-## [2.0.1] - 2020-08-06
+## 2.0.1 - 2020-08-06
 
 ### Fixed
 
 - Use `new CustomEvent()` and fallback to `document.createElement` for custom events, by [@compulim](https://github.com/compulim), in PR [#22](https://github.com/compulim/react-say/pull/22), [#23](https://github.com/compulim/react-say/pull/23), and [#24](https://github.com/compulim/react-say/pull/24)
 
-## [2.0.0] - 2019-11-19
+## 2.0.0 - 2019-11-19
 
 ### Changed
 
@@ -127,7 +142,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`jest@24.9.0`](https://npmjs.com/package/jest)
    - [`memoize-one@5.1.1`](https://npmjs.com/package/memoize-one)
 
-## [1.2.0] - 2019-05-28
+## 1.2.0 - 2019-05-28
 
 ### Changed
 
@@ -145,13 +160,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix [#8](https://github.com/compulim/react-say/issues/8) by removing workaround for Chrome bug, in [PR #7](https://github.com/compulim/react-say/pull/7)
    - The workaround caused unnecessary kill-and-retry if the speech synthesizer legitimately took more than a second to signal `start` event
 
-## [1.1.1] - 2018-10-31
+## 1.1.1 - 2018-10-31
 
 ### Changed
 
 - Bump to [`event-as-promise@1.0.5`](https://npmjs.com/package/event-as-promise/v/1.0.5)
 
-## [1.1.0] - 2018-10-28
+## 1.1.0 - 2018-10-28
 
 ### Added
 
@@ -169,7 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Null reference on `props.speechSynthesis`
 
-## [1.0.0] - 2018-07-09
+## 1.0.0 - 2018-07-09
 
 ### Added
 
