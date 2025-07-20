@@ -1,3 +1,4 @@
+/* eslint import/no-commonjs: "off" */
 const EventEmitter = require('events');
 const { mock } = require('node:test');
 const createDeferred = require('./createDeferred.js');

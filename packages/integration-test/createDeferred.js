@@ -1,3 +1,4 @@
+/* eslint import/no-commonjs: "off" */
 module.exports = function createDeferred() {
   let reject, resolve;
 
