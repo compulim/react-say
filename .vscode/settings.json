@@ -1,6 +1,0 @@
-{
-  "files.exclude": {
-    "packages/**/lib": true,
-    "packages/playground/build": true
-  }
-}

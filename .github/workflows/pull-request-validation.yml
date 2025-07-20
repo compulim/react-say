@@ -1,0 +1,20 @@
+name: Pull request validation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  call-workflow:
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        switch: [current]
+    uses: compulim/workflows/.github/workflows/pull-request-validation.yml@main
+    with:
+      node-version: 24
+      package-name: react-say
+      skip-integration-test: false
+      switch: ${{ matrix.switch }}
