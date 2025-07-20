@@ -2,7 +2,6 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
   {
-    // dts: true,
     entry: {
       'react-say': './src/index.mjs'
     },
@@ -11,7 +10,6 @@ export default defineConfig([
     target: 'esnext',
 
     // Remove the followings after we ported to TypeScript.
-    dts: false,
-    loader: { '.js': 'jsx' },
+    loader: { '.js': 'jsx' }
   }
 ]);
