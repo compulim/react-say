@@ -23,7 +23,7 @@
   "pinDependencies": {},
   "devDependencies": {
     "@happy-dom/global-registrator": "^18.0.1",
-    "@testduet/given-when-then": "^0.1.0-main.5e524dc",
+    "@testduet/given-when-then": "^0.1.0-main.334801c",
     "@testduet/wait-for": "^0.1.0",
     "@testing-library/react": "^16.3.0",
     "@tsconfig/strictest": "^2.0.5",
