@@ -1,6 +1,7 @@
 import { css } from '@emotion/css';
 import React, { memo, useCallback, useMemo, useState } from 'react';
 
+// @ts-expect-error Remove this after ported to TypeScript.
 import Say, { Composer, SayButton, SayUtterance } from 'react-say';
 
 const ROOT_CSS = css({
@@ -14,6 +15,7 @@ const ROOT_CSS = css({
 const SEGMENTS = ['A quick brown fox', 'jumped over', 'the lazy dogs', 'A quick brown fox jumped over the lazy dogs.'];
 
 type Ponyfill = Pick<typeof globalThis, 'speechSynthesis' | 'SpeechSynthesisUtterance'>;
+
 type QueueEntry = {
   readonly id: string;
   readonly text: string;
@@ -27,9 +29,12 @@ type QueueEntry = {
 const App = () => {
   const ponyfill = useMemo<Ponyfill>(
     () => ({
-      speechSynthesis: window.speechSynthesis || (window['webkitSpeechSynthesis'] as SpeechSynthesis),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      speechSynthesis: window.speechSynthesis || ((window as any)['webkitSpeechSynthesis'] as SpeechSynthesis),
       SpeechSynthesisUtterance:
-        window.SpeechSynthesisUtterance || (window['webkitSpeechSynthesisUtterance'] as SpeechSynthesisUtterance)
+        window.SpeechSynthesisUtterance ||
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ((window as any)['webkitSpeechSynthesisUtterance'] as SpeechSynthesisUtterance)
     }),
     []
   );
@@ -70,19 +75,19 @@ const App = () => {
   );
 
   const handleSelectedVoiceChange = useCallback(
-    ({ target: { value } }) => setSelectedVoiceURI(value),
+    ({ target: { value } }: { target: { value: string } }) => setSelectedVoiceURI(value),
     [setSelectedVoiceURI]
   );
 
   const selectVoice = useCallback(
-    voices =>
+    (voices: readonly SpeechSynthesisVoice[]) =>
       voices.find(({ voiceURI }) => voiceURI === selectedVoiceURI) ||
       voices.find(({ lang }) => lang === window.navigator.language),
     [selectedVoiceURI]
   );
 
   const selectLocalizedVoice = useCallback(
-    (language, voices) => {
+    (language: string, voices: readonly SpeechSynthesisVoice[]) => {
       const voice = voices.find(({ voiceURI }) => voiceURI === selectedVoiceURI);
 
       return voice && voice.lang === language ? voice : voices.find(voice => voice.lang === language);
@@ -92,7 +97,7 @@ const App = () => {
 
   return (
     <Composer ponyfill={ponyfill}>
-      {({ voices }) => (
+      {({ voices }: { voices: SpeechSynthesisVoice[] }) => (
         <div className={ROOT_CSS}>
           <section className="words">
             <article>
@@ -223,7 +228,7 @@ const App = () => {
               </header>
               <select onChange={handleSelectedVoiceChange} value={selectedVoiceURI || ''}>
                 <option>Browser language default ({window.navigator.language})</option>
-                {voices.map(({ lang, name, voiceURI }) => (
+                {voices.map(({ lang, name, voiceURI }: SpeechSynthesisVoice) => (
                   <option key={voiceURI} value={voiceURI}>{`[${lang}] ${name || voiceURI}`}</option>
                 ))}
               </select>
