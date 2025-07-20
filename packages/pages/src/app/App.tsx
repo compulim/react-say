@@ -1,7 +1,5 @@
 import { css } from '@emotion/css';
 import React, { memo, useCallback, useMemo, useState } from 'react';
-
-// @ts-expect-error Remove this after ported to TypeScript.
 import Say, { Composer, SayButton, SayUtterance } from 'react-say';
 
 const ROOT_CSS = css({
