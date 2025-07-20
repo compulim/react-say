@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Updated scaffold and bumped dependencies, by [@compulim](https://github.com/compulim), in PR [#49](https://github.com/compulim/react-say/pull/49)
+- Updated scaffold and bumped dependencies, by [@compulim](https://github.com/compulim), in PR [#49](https://github.com/compulim/react-say/pull/49) and [#50](https://github.com/compulim/react-say/pull/50)
    - Production dependencies
       - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/)
    - Development dependencies
