@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [2.2.0] - 2025-07-20
 
 ### Changed
 
@@ -62,7 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [`eslint-plugin-prettier@5.5.3`](https://npmjs.com/package/eslint-plugin-prettier/v/5.5.3)
       - [`prettier@3.6.2`](https://npmjs.com/package/prettier/v/3.6.2)
 
-## 2.1.0 - 2021-10-14
+## [2.1.0] - 2021-10-14
 
 ### Changed
 
@@ -83,13 +83,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [`jest@27.2.5`](https://npmjs.com/package/jest)
       - [`lerna@4.0.0`](https://npmjs.com/package/lerna)
 
-## 2.0.1 - 2020-08-06
+## [2.0.1] - 2020-08-06
 
 ### Fixed
 
 - Use `new CustomEvent()` and fallback to `document.createElement` for custom events, by [@compulim](https://github.com/compulim), in PR [#22](https://github.com/compulim/react-say/pull/22), [#23](https://github.com/compulim/react-say/pull/23), and [#24](https://github.com/compulim/react-say/pull/24)
 
-## 2.0.0 - 2019-11-19
+## [2.0.0] - 2019-11-19
 
 ### Changed
 
@@ -142,7 +142,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`jest@24.9.0`](https://npmjs.com/package/jest)
    - [`memoize-one@5.1.1`](https://npmjs.com/package/memoize-one)
 
-## 1.2.0 - 2019-05-28
+## [1.2.0] - 2019-05-28
 
 ### Changed
 
@@ -160,13 +160,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix [#8](https://github.com/compulim/react-say/issues/8) by removing workaround for Chrome bug, in [PR #7](https://github.com/compulim/react-say/pull/7)
    - The workaround caused unnecessary kill-and-retry if the speech synthesizer legitimately took more than a second to signal `start` event
 
-## 1.1.1 - 2018-10-31
+## [1.1.1] - 2018-10-31
 
 ### Changed
 
 - Bump to [`event-as-promise@1.0.5`](https://npmjs.com/package/event-as-promise/v/1.0.5)
 
-## 1.1.0 - 2018-10-28
+## [1.1.0] - 2018-10-28
 
 ### Added
 
@@ -184,8 +184,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Null reference on `props.speechSynthesis`
 
-## 1.0.0 - 2018-07-09
+## [1.0.0] - 2018-07-09
 
 ### Added
 
 - Initial release
+
+[2.2.0]: https://github.com/compulim/react-say/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/compulim/react-say/compare/v2.0.1...v2.1.0
+[2.0.1]: https://github.com/compulim/react-say/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/compulim/react-say/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/compulim/react-say/compare/v1.1.1...v1.2.0
+[1.1.1]: https://github.com/compulim/react-say/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/compulim/react-say/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/compulim/react-say/releases/tag/v1.0.0
