@@ -2,6 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
   {
+    dts: true,
     entry: {
       'react-say': './src/index.mjs'
     },
