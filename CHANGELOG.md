@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Updated scaffold and bumped dependencies, in PR [#49](https://github.com/compulim/react-say/pull/49)
+  - Production dependencies
+    - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/)
+  - Development dependencies
+    - [`@emotion/css@11.13.5`](https://npmjs.com/package/@emotion/css/)
+    - [`@happy-dom/global-registrator@18.0.1`](https://npmjs.com/package/@happy-dom/global-registrator/)
+    - [`@testduet/given-when-then@0.1.0-main.334801c`](https://npmjs.com/package/@testduet/given-when-then/)
+    - [`@testduet/wait-for@0.1.0`](https://npmjs.com/package/@testduet/wait-for/)
+    - [`@testing-library/react@16.3.0`](https://npmjs.com/package/@testing-library/react/)
+    - [`@tsconfig/recommended@1.0.10`](https://npmjs.com/package/@tsconfig/recommended/)
+    - [`@tsconfig/strictest@2.0.5`](https://npmjs.com/package/@tsconfig/strictest/)
+    - [`@types/dom-speech-recognition@0.0.6`](https://npmjs.com/package/@types/dom-speech-recognition/)
+    - [`@types/node@24.0.15`](https://npmjs.com/package/@types/node/)
+    - [`@types/react-dom@18.3.7`](https://npmjs.com/package/@types/react-dom/)
+    - [`@types/react@18.3.23`](https://npmjs.com/package/@types/react/)
+    - [`@typescript-eslint/eslint-plugin@8.34.1`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/)
+    - [`@typescript-eslint/parser@8.34.1`](https://npmjs.com/package/@typescript-eslint/parser/)
+    - [`classnames@2.5.1`](https://npmjs.com/package/classnames/)
+    - [`esbuild@0.25.5`](https://npmjs.com/package/esbuild/)
+    - [`escape-string-regexp@4.0.0`](https://npmjs.com/package/escape-string-regexp/)
+    - [`eslint-import-resolver-node@0.3.9`](https://npmjs.com/package/eslint-import-resolver-node/)
+    - [`eslint-import-resolver-typescript@4.4.3`](https://npmjs.com/package/eslint-import-resolver-typescript/)
+    - [`eslint-plugin-import@2.32.0`](https://npmjs.com/package/eslint-plugin-import/)
+    - [`eslint-plugin-prettier@5.5.0`](https://npmjs.com/package/eslint-plugin-prettier/)
+    - [`eslint-plugin-react@7.37.5`](https://npmjs.com/package/eslint-plugin-react/)
+    - [`eslint@9.29.0`](https://npmjs.com/package/eslint/)
+    - [`expect@30.0.4`](https://npmjs.com/package/expect/)
+    - [`happy-dom@18.0.1`](https://npmjs.com/package/happy-dom/)
+    - [`has-resolved@1.1.0`](https://npmjs.com/package/has-resolved/)
+    - [`prettier@3.5.3`](https://npmjs.com/package/prettier/)
+    - [`publint@0.3.12`](https://npmjs.com/package/publint/)
+    - [`react-dom@18.3.1`](https://npmjs.com/package/react-dom/)
+    - [`react@18.3.1`](https://npmjs.com/package/react/)
+    - [`resolve-cwd@3.0.0`](https://npmjs.com/package/resolve-cwd/)
+    - [`tsup@8.5.0`](https://npmjs.com/package/tsup/)
+    - [`typescript@5.8.3`](https://npmjs.com/package/typescript/)
+    - [`web-speech-cognitive-services@8.1.3`](https://npmjs.com/package/web-speech-cognitive-services/)
+
 ## [2.1.0] - 2021-10-14
 
 ### Changed
