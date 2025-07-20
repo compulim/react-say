@@ -20,7 +20,11 @@
   "localPeerDependencies": {
     "react-say": "^0.0.0-0"
   },
-  "pinDependencies": {},
+  "pinDependencies": {
+    "react": [
+      "18"
+    ]
+  },
   "devDependencies": {
     "@happy-dom/global-registrator": "^18.0.1",
     "@testduet/given-when-then": "^0.1.0-main.334801c",
@@ -29,6 +33,7 @@
     "@tsconfig/strictest": "^2.0.5",
     "expect": "^30.0.4",
     "happy-dom": "^18.0.1",
+    "react": "^18.3.1",
     "resolve-cwd": "^3.0.0",
     "typescript": "^5.8.3"
   },
