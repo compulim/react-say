@@ -13,7 +13,7 @@
     "precommit": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts ./",
     "pretest": "if test \"$CI\" = \"true\"; then npm run build; npm run docker -- --detach --wait; fi",
     "switch": "cat package.json | jq --arg SWITCH_NAME $SWITCH_NAME -r '(.[\"switch:\" + $SWITCH_NAME] // {}) as $TEMPLATE | .devDependencies += ($TEMPLATE.devDependencies // {}) | .dependencies += ($TEMPLATE.dependencies // {})' | tee ./package.json.tmp && mv ./package.json.tmp ./package.json",
-    "test": "node --test ${CI:---watch} **/*.{spec,test}.{[jt]s,c[jt]s,m[jt]s}"
+    "test": "node --import ./happy-dom-env.ts --test ${CI:---watch} **/*.{spec,test}.{[jt]s,c[jt]s,m[jt]s}"
   },
   "author": "William Wong (https://github.com/compulim)",
   "license": "MIT",
@@ -22,10 +22,13 @@
   },
   "pinDependencies": {},
   "devDependencies": {
+    "@happy-dom/global-registrator": "^18.0.1",
     "@testduet/given-when-then": "^0.1.0-main.5e524dc",
     "@testduet/wait-for": "^0.1.0",
+    "@testing-library/react": "^16.3.0",
     "@tsconfig/strictest": "^2.0.5",
     "expect": "^30.0.4",
+    "happy-dom": "^18.0.1",
     "resolve-cwd": "^3.0.0",
     "typescript": "^5.8.3"
   },
