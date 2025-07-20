@@ -8,14 +8,17 @@
   "exports": {
     ".": {
       "import": {
+        "types": "./dist/react-say.d.mts",
         "default": "./dist/react-say.mjs"
       },
       "require": {
+        "types": "./dist/react-say.d.ts",
         "default": "./dist/react-say.js"
       }
     }
   },
   "main": "./dist/react-say.js",
+  "typings": "./dist/react-say.d.ts",
   "scripts": {
     "build": "tsup",
     "bump": "npm run bump:prod && npm run bump:dev",
