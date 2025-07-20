@@ -1,0 +1,14 @@
+extends:
+  - ./.eslintrc.custom.yml
+ignorePatterns:
+  - test/webDriver/static/**
+overrides:
+  - env:
+      commonjs: true
+    files:
+      - '**/*.js'
+  - files:
+      - '**/*.mjs'
+    parserOptions:
+      ecmaVersion: latest
+      sourceType: module

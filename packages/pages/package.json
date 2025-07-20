@@ -1,0 +1,84 @@
+{
+  "name": "react-say-pages",
+  "version": "0.0.0-0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "esbuild --bundle --entry-names=[name]/[ext]/main --format=esm --jsx=automatic --minify --outdir=./public/static/ --sourcemap app=./src/app/index.tsx",
+    "bump": "npm run bump:prod && npm run bump:dev",
+    "bump:dev": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.devDependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
+    "bump:prod": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.dependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
+    "precommit": "npm run precommit:eslint && npm run precommit:typescript",
+    "precommit:eslint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts ./src/",
+    "precommit:typescript": "tsc --project ./src/tsconfig.json",
+    "reinstall": "rm -r node_modules package-lock.json && npm install",
+    "start": "npm run build -- --define:IS_DEVELOPMENT=true --servedir=./public --watch",
+    "switch": "cat package.json | jq --arg SWITCH_NAME $SWITCH_NAME -r '(.[\"switch:\" + $SWITCH_NAME] // {}) as $TEMPLATE | .devDependencies += ($TEMPLATE.devDependencies // {}) | .dependencies += ($TEMPLATE.dependencies // {})' | tee ./package.json.tmp && mv ./package.json.tmp ./package.json"
+  },
+  "author": "William Wong (https://github.com/compulim)",
+  "license": "MIT",
+  "localPeerDependencies": {
+    "react-say": "^0.0.0-0"
+  },
+  "switch:react-16": {
+    "devDependencies": {
+      "@types/react": "^16",
+      "@types/react-dom": "^16"
+    },
+    "dependencies": {
+      "react": "16.8.0",
+      "react-dom": "16.8.0"
+    }
+  },
+  "switch:react-17": {
+    "devDependencies": {
+      "@types/react": "^17",
+      "@types/react-dom": "^17"
+    },
+    "dependencies": {
+      "react": "17.0.0",
+      "react-dom": "17.0.0"
+    }
+  },
+  "switch:react-18": {
+    "devDependencies": {
+      "@types/react": "^18",
+      "@types/react-dom": "^18"
+    },
+    "dependencies": {
+      "react": "18.0.0",
+      "react-dom": "18.0.0"
+    }
+  },
+  "pinDependencies": {
+    "@types/react": [
+      "18"
+    ],
+    "@types/react-dom": [
+      "18"
+    ],
+    "react": [
+      "18"
+    ],
+    "react-dom": [
+      "18"
+    ]
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.10",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/dom-speech-recognition": "^0.0.6",
+    "@types/node": "^24.0.15",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "esbuild": "^0.25.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@emotion/css": "11.13.5",
+    "classnames": "^2.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-say": "^0.0.0-0"
+  }
+}

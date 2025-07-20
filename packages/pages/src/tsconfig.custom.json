@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    // TODO: Remove "skipLibCheck" after ported to TypeScript.
+    "skipLibCheck": true
+  },
+  // "extends": "@tsconfig/strict/tsconfig.json"
+    // TODO: Use "@tsconfig/strict" after ported to TypeScript.
+  "extends": "@tsconfig/recommended/tsconfig.json"
+}

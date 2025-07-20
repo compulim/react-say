@@ -1,0 +1,83 @@
+{
+  "name": "react-say",
+  "version": "0.0.0-0",
+  "description": "A React component that synthesis text into speech using Web Speech API",
+  "files": [
+    "./dist/"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/react-say.d.mts",
+        "default": "./dist/react-say.mjs"
+      },
+      "require": {
+        "types": "./dist/react-say.d.ts",
+        "default": "./dist/react-say.js"
+      }
+    }
+  },
+  "main": "./dist/react-say.js",
+  "typings": "./dist/react-say.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "bump": "npm run bump:prod && npm run bump:dev",
+    "bump:dev": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.devDependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
+    "bump:prod": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.dependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
+    "precommit": "npm run precommit:eslint && npm run precommit:publint && npm run precommit:typescript:production && npm run precommit:typescript:test",
+    "precommit:eslint": "ESLINT_USE_FLAT_CONFIG=false eslint ./src/",
+    "precommit:publint": "publint",
+    "precommit:typescript:production": "tsc --noEmit --project ./src/tsconfig.precommit.production.json",
+    "precommit:typescript:test": "tsc --noEmit --project ./src/tsconfig.precommit.test.json",
+    "prepack": "cp ../../CHANGELOG.md . && cp ../../LICENSE . && cp ../../README.md .",
+    "switch": "cat package.json | jq --arg SWITCH_NAME $SWITCH_NAME -r '(.[\"switch:\" + $SWITCH_NAME] // {}) as $TEMPLATE | .devDependencies += ($TEMPLATE.devDependencies // {}) | .dependencies += ($TEMPLATE.dependencies // {})' | tee ./package.json.tmp && mv ./package.json.tmp ./package.json",
+    "test": "node --import ./happy-dom-env.ts --test ${CI:---watch} **/*.{spec,test}.{[jt]s,c[jt]s,m[jt]s}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/compulim/react-say.git"
+  },
+  "keywords": [
+    "react",
+    "speak",
+    "speech synthesis",
+    "speechsynthesis",
+    "text to speech",
+    "tts",
+    "utterance",
+    "web speech",
+    "webspeech"
+  ],
+  "author": "William Wong (https://github.com/compulim)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/compulim/react-say/issues"
+  },
+  "homepage": "https://github.com/compulim/react-say#readme",
+  "pinDependencies": {},
+  "peerDependencies": {
+    "react": ">= 16.8.6"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^18.0.1",
+    "@testduet/given-when-then": "^0.1.0-main.334801c",
+    "@tsconfig/recommended": "^1.0.10",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/node": "^24.0.3",
+    "esbuild": "^0.25.5",
+    "escape-string-regexp": "^4.0.0",
+    "expect": "^30.0.4",
+    "happy-dom": "^18.0.1",
+    "has-resolved": "^1.1.0",
+    "prettier": "^3.5.3",
+    "publint": "^0.3.12",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "classnames": "2.3.1",
+    "event-as-promise": "1.0.5",
+    "memoize-one": "5.2.1",
+    "prop-types": "15.8.1"
+  }
+}

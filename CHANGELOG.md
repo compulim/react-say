@@ -1,10 +1,51 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- Updated scaffold and bumped dependencies, by [@compulim](https://github.com/compulim), in PR [#49](https://github.com/compulim/react-say/pull/49)
+   - Production dependencies
+      - [`prop-types@15.8.1`](https://npmjs.com/package/prop-types/)
+   - Development dependencies
+      - [`@emotion/css@11.13.5`](https://npmjs.com/package/@emotion/css/)
+      - [`@happy-dom/global-registrator@18.0.1`](https://npmjs.com/package/@happy-dom/global-registrator/)
+      - [`@testduet/given-when-then@0.1.0-main.334801c`](https://npmjs.com/package/@testduet/given-when-then/)
+      - [`@testduet/wait-for@0.1.0`](https://npmjs.com/package/@testduet/wait-for/)
+      - [`@testing-library/react@16.3.0`](https://npmjs.com/package/@testing-library/react/)
+      - [`@tsconfig/recommended@1.0.10`](https://npmjs.com/package/@tsconfig/recommended/)
+      - [`@tsconfig/strictest@2.0.5`](https://npmjs.com/package/@tsconfig/strictest/)
+      - [`@types/dom-speech-recognition@0.0.6`](https://npmjs.com/package/@types/dom-speech-recognition/)
+      - [`@types/node@24.0.15`](https://npmjs.com/package/@types/node/)
+      - [`@types/react-dom@18.3.7`](https://npmjs.com/package/@types/react-dom/)
+      - [`@types/react@18.3.23`](https://npmjs.com/package/@types/react/)
+      - [`@typescript-eslint/eslint-plugin@8.34.1`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/)
+      - [`@typescript-eslint/parser@8.34.1`](https://npmjs.com/package/@typescript-eslint/parser/)
+      - [`classnames@2.5.1`](https://npmjs.com/package/classnames/)
+      - [`esbuild@0.25.5`](https://npmjs.com/package/esbuild/)
+      - [`escape-string-regexp@4.0.0`](https://npmjs.com/package/escape-string-regexp/)
+      - [`eslint-import-resolver-node@0.3.9`](https://npmjs.com/package/eslint-import-resolver-node/)
+      - [`eslint-import-resolver-typescript@4.4.3`](https://npmjs.com/package/eslint-import-resolver-typescript/)
+      - [`eslint-plugin-import@2.32.0`](https://npmjs.com/package/eslint-plugin-import/)
+      - [`eslint-plugin-prettier@5.5.0`](https://npmjs.com/package/eslint-plugin-prettier/)
+      - [`eslint-plugin-react@7.37.5`](https://npmjs.com/package/eslint-plugin-react/)
+      - [`eslint@9.29.0`](https://npmjs.com/package/eslint/)
+      - [`expect@30.0.4`](https://npmjs.com/package/expect/)
+      - [`happy-dom@18.0.1`](https://npmjs.com/package/happy-dom/)
+      - [`has-resolved@1.1.0`](https://npmjs.com/package/has-resolved/)
+      - [`prettier@3.5.3`](https://npmjs.com/package/prettier/)
+      - [`publint@0.3.12`](https://npmjs.com/package/publint/)
+      - [`react-dom@18.3.1`](https://npmjs.com/package/react-dom/)
+      - [`react@18.3.1`](https://npmjs.com/package/react/)
+      - [`resolve-cwd@3.0.0`](https://npmjs.com/package/resolve-cwd/)
+      - [`tsup@8.5.0`](https://npmjs.com/package/tsup/)
+      - [`typescript@5.8.3`](https://npmjs.com/package/typescript/)
+      - [`web-speech-cognitive-services@8.1.3`](https://npmjs.com/package/web-speech-cognitive-services/)
 
 ## [2.1.0] - 2021-10-14
 
@@ -35,25 +76,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - 2019-11-19
 
-### Breaking changes
+### Changed
 
-- Now requires React 16.8.6 or up
-- Updates to `<Say>` component
+- 💥 Now requires React 16.8.6 or up
+- 💥 Updates to `<Say>` component
    - Renamed prop `speak` to `text`
    - Will no longer renders its children
-- Updates to `<SayButton>` component
+- 💥 Updates to `<SayButton>` component
    - Renamed prop `speak` to `text`
-- `Composer` signature is being updated
+- 💥 `Composer` signature is being updated
    - New `synthesize` function to replace `speak` and `cancel`
       - When called, it will return `{ cancel: Function, promise: Promise }`
       - `cancel`, when called, will cancel the utterance. If the utterance is being synthesized, it will be stopped abruptly
       - `promise` will be resolved when the utterance is synthesized or errored
    - `cancel` and `speak` is removed because the newer `synthesize` function offer same functionality with simplified interface
-- All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
+- 💥 All React components now accepts `ponyfill` instead of `speechSynthesis` and `speechSynthesisUtterance`
    - Using browser speech would become as simple as `<Say ponyfill={ window }>`
-
-### Changed
-
 - Update build scripts to publish `/packages/component/package.json`, by [@compulim](https://github.com/compulim) in [PR #17](https://github.com/compulim/react-say/pull/17)
 - Rework of all components, by [@compulim](https://github.com/compulim) in [PR #17](https://github.com/compulim/react-say/pull/17)
    - Support nested `<Context>` and `<Composer>`
@@ -90,7 +128,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - [`memoize-one@5.1.1`](https://npmjs.com/package/memoize-one)
 
 ## [1.2.0] - 2019-05-28
+
 ### Changed
+
 - Added babel-runtime dependency, by [@corinagum](https://github.com/corinagum) in [PR #5](https://github.com/compulim/react-say/pull/5)
 - Bumped dependencies by `npm audit` in [PR #9](https://github.com/compulim/react-say/pull/9)
    - `@babel/core@7.4.5` and related packages
@@ -101,27 +141,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    - `rimraf@2.6.3`
 
 ### Fixed
+
 - Fix [#8](https://github.com/compulim/react-say/issues/8) by removing workaround for Chrome bug, in [PR #7](https://github.com/compulim/react-say/pull/7)
    - The workaround caused unnecessary kill-and-retry if the speech synthesizer legitimately took more than a second to signal `start` event
 
 ## [1.1.1] - 2018-10-31
+
 ### Changed
+
 - Bump to [`event-as-promise@1.0.5`](https://npmjs.com/package/event-as-promise/v/1.0.5)
 
 ## [1.1.0] - 2018-10-28
+
 ### Added
+
 - Utterance queue are now controlled by `<Composer>` instance, instead of native `speechSynthesis` for better browser compatibility
    - Chrome: does not fire `start` and `end` events if `speak`/`cancel` are called too fast
    - Safari: does not play audio or `start` event if the first utterance is not triggered by user event
 - Unmounting elements will cancel the speech in progress or pending speech
 
 ### Changed
+
 - Lerna bootstrap will no longer hoist
 - Playground: Bump to [`react@16.6.0`](https://npmjs.com/package/react/v/16.6.0), [`react-dom@16.6.0`](https://npmjs.com/package/react-dom/v/16.6.0), and [`react-scripts@2.0.5`](https://npmjs.com/package/react-scripts/v/2.0.5)
 
 ### Fixed
+
 - Null reference on `props.speechSynthesis`
 
 ## [1.0.0] - 2018-07-09
+
 ### Added
+
 - Initial release
