@@ -75,7 +75,7 @@
     "esbuild": "^0.25.8",
     "escape-string-regexp": "^5.0.0",
     "expect": "^30.0.4",
-    "happy-dom": "^18.0.1",
+    "happy-dom": "^20.0.0",
     "has-resolved": "^1.1.0",
     "prettier": "^3.6.2",
     "publint": "^0.3.12",
