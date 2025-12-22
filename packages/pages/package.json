@@ -65,14 +65,14 @@
     ]
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.10",
-    "@tsconfig/strictest": "^2.0.5",
-    "@types/dom-speech-recognition": "^0.0.6",
-    "@types/node": "^24.0.15",
-    "@types/react": "^18.3.23",
+    "@tsconfig/recommended": "^1.0.13",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/dom-speech-recognition": "^0.0.7",
+    "@types/node": "^25.0.3",
+    "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
-    "esbuild": "^0.25.8",
-    "typescript": "^5.8.3"
+    "esbuild": "^0.27.2",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",

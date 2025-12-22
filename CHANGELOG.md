@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Bumped dependencies, in PR [#59](https://github.com/compulim/react-say/pull/59)
+  - Development dependencies
+    - [`@happy-dom/global-registrator@20.0.11`](https://npmjs.com/package/@happy-dom/global-registrator/v/20.0.11)
+    - [`@testduet/given-when-then@0.1.0`](https://npmjs.com/package/@testduet/given-when-then/v/0.1.0)
+    - [`@tsconfig/recommended@1.0.13`](https://npmjs.com/package/@tsconfig/recommended/v/1.0.13)
+    - [`@tsconfig/strictest@2.0.8`](https://npmjs.com/package/@tsconfig/strictest/v/2.0.8)
+    - [`@types/dom-speech-recognition@0.0.7`](https://npmjs.com/package/@types/dom-speech-recognition/v/0.0.7)
+    - [`@types/node@25.0.3`](https://npmjs.com/package/@types/node/v/25.0.3)
+    - [`@types/react@18.3.27`](https://npmjs.com/package/@types/react/v/18.3.27)
+    - [`@typescript-eslint/eslint-plugin@8.50.0`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/v/8.50.0)
+    - [`@typescript-eslint/parser@8.50.0`](https://npmjs.com/package/@typescript-eslint/parser/v/8.50.0)
+    - [`esbuild@0.27.2`](https://npmjs.com/package/esbuild/v/0.27.2)
+    - [`eslint@9.39.2`](https://npmjs.com/package/eslint/v/9.39.2)
+    - [`eslint-plugin-prettier@5.5.4`](https://npmjs.com/package/eslint-plugin-prettier/v/5.5.4)
+    - [`expect@30.2.0`](https://npmjs.com/package/expect/v/30.2.0)
+    - [`happy-dom@20.0.11`](https://npmjs.com/package/happy-dom/v/20.0.11)
+    - [`prettier@3.7.4`](https://npmjs.com/package/prettier/v/3.7.4)
+    - [`publint@0.3.16`](https://npmjs.com/package/publint/v/0.3.16)
+    - [`tsup@8.5.1`](https://npmjs.com/package/tsup/v/8.5.1)
+    - [`typescript@5.9.3`](https://npmjs.com/package/typescript/v/5.9.3)
+
 ## [2.2.0] - 2025-07-20
 
 ### Changed
