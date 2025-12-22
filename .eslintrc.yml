@@ -61,6 +61,8 @@ overrides:
       - '**/*.ts'
       - '**/*.tsx'
 parserOptions:
+  ecmaFeatures:
+    jsx: true
   ecmaVersion: latest
   sourceType: module
 plugins:
