@@ -6,7 +6,10 @@ overrides:
   - env:
       commonjs: true
     files:
+      - '**/*.cjs'
       - '**/*.js'
+    rules:
+      import/no-commonjs: off
   - files:
       - '**/*.mjs'
     parserOptions:

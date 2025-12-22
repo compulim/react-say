@@ -11,10 +11,9 @@ jobs:
       contents: read
     strategy:
       matrix:
-        switch: [current]
+        switch: [current, react-16, react-17, react-18]
     uses: compulim/workflows/.github/workflows/pull-request-validation.yml@main
     with:
-      node-version: 24
-      package-name: react-say
+      package-name: 'react-say'
       skip-integration-test: false
       switch: ${{ matrix.switch }}
