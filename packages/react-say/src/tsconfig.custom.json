@@ -1,3 +1,10 @@
 {
-  "extends": "@tsconfig/strictest/tsconfig.json"
+  "compilerOptions": {
+    "allowJs": true,
+    "types": ["node"]
+  },
+  // "extends": "@tsconfig/strictest/tsconfig.json"
+
+  // Commented out @tsconfig/strictest until ported to TypeScript.
+  "extends": "@tsconfig/recommended/tsconfig.json"
 }
