@@ -1,5 +1,0 @@
-env:
-  browser: true
-  es2020: true
-rules:
-  'import/no-cycle': off # TODO: Fix this.
