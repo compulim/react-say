@@ -15,5 +15,4 @@ jobs:
     uses: compulim/workflows/.github/workflows/pull-request-validation.yml@main
     with:
       package-name: 'react-say'
-      skip-integration-test: false
       switch: ${{ matrix.switch }}
