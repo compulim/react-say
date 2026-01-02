@@ -15,6 +15,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - 👷🏻 Test framework moved to Node.js test runner, by [@compulim](https://github.com/compulim) in PR [#62](https://github.com/compulim/react-say/pull/62)
+- Bumped dependencies, in PR [#63](https://github.com/compulim/react-say/pull/63)
+  - Development dependencies
+    - [`@testduet/given-when-then@0.1.0`](https://npmjs.com/package/@testduet/given-when-then/v/0.1.0)
+    - [`@testing-library/react@16.3.1`](https://npmjs.com/package/@testing-library/react/v/16.3.1)
+    - [`@tsconfig/strictest@2.0.8`](https://npmjs.com/package/@tsconfig/strictest/v/2.0.8)
+    - [`@typescript-eslint/eslint-plugin@8.51.0`](https://npmjs.com/package/@typescript-eslint/eslint-plugin/v/8.51.0)
+    - [`@typescript-eslint/parser@8.51.0`](https://npmjs.com/package/@typescript-eslint/parser/v/8.51.0)
+    - [`expect@30.2.0`](https://npmjs.com/package/expect/v/30.2.0)
+    - [`has-resolved@2.0.0`](https://npmjs.com/package/has-resolved/v/2.0.0)
+    - [`typescript@5.9.3`](https://npmjs.com/package/typescript/v/5.9.3)
 
 ## [2.2.1] - 2025-12-22
 

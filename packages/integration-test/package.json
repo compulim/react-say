@@ -90,15 +90,15 @@
     ]
   },
   "devDependencies": {
-    "@testduet/given-when-then": "^0.1.0-main.334801c",
-    "@testing-library/react": "^16.3.0",
-    "@tsconfig/strictest": "^2.0.5",
+    "@testduet/given-when-then": "^0.1.0",
+    "@testing-library/react": "^16.3.1",
+    "@tsconfig/strictest": "^2.0.8",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@types/react-test-renderer": "^18.3.1",
-    "expect": "^30.0.4",
+    "expect": "^30.2.0",
     "resolve-cwd": "^3.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "react": "^18.3.1",

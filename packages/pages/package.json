@@ -68,7 +68,6 @@
       "18"
     ]
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.13",
     "@tsconfig/strictest": "^2.0.8",
