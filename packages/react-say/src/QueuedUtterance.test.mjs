@@ -1,5 +1,3 @@
-/** @jest-environment jsdom */
-
 import { expect } from 'expect';
 import { beforeEach, mock, test } from 'node:test';
 import createErrorEvent from './createErrorEvent.mjs';
