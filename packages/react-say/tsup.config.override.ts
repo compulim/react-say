@@ -2,6 +2,9 @@ import { type Options } from 'tsup';
 
 export default function override(options: Options): Options {
   return {
-    ...options
+    ...options,
+    entry: {
+      'react-say': './src/index.mjs'
+    }
   };
 }

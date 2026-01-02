@@ -1,8 +1,14 @@
 {
-  "name": "react-say-integration-test",
+  "name": "@compulim/integration-test",
   "version": "0.0.0-0",
   "description": "",
   "private": true,
+  "files": [
+    "**/*.cjs",
+    "**/*.js",
+    "**/*.mjs",
+    "webDriver/**/*"
+  ],
   "scripts": {
     "build": "npm run build:copy && npm run build:custom --if-present",
     "build:copy": "mkdir -p ./webDriver/static/; SRC=$(node --eval=\"console.log(require('path').resolve(require('resolve-cwd')('react-say'), '../../dist'))\"); DEST=$(realpath ./webDriver/static); rm -rf $DEST; mkdir -p $DEST/js/; cp $SRC/** $DEST/js/",
@@ -27,51 +33,6 @@
     "@compulim/test-harness": "0.0.0-0",
     "react-say": "0.0.0-0"
   },
-  "pinDependencies": {
-    "react": [
-      "18"
-    ],
-    "@types/react": [
-      "18"
-    ],
-    "@types/react-dom": [
-      "18"
-    ],
-    "@types/react-test-renderer": [
-      "18"
-    ],
-    "react-dom": [
-      "18"
-    ],
-    "react-test-renderer": [
-      "18"
-    ]
-  },
-  "devDependencies": {
-    "@happy-dom/global-registrator": "^18.0.1",
-    "@testduet/given-when-then": "^0.1.0-main.334801c",
-    "@testduet/wait-for": "^0.1.1",
-    "@testing-library/react": "^16.3.0",
-    "@tsconfig/strictest": "^2.0.5",
-    "@types/react-dom": "^18.3.7",
-    "expect": "^30.0.4",
-    "happy-dom": "^18.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "resolve-cwd": "^3.0.0",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "react-say": "^0.0.0-0"
-  },
-  "files": [
-    "**/*.cjs",
-    "**/*.js",
-    "**/*.mjs",
-    "webDriver/**/*"
-  ],
-  "exports": {},
-  "peerDependencies": {},
   "switch:react-16": {
     "dependencies": {
       "react": "16.8.0",
@@ -107,5 +68,42 @@
       "@types/react-dom": "^18",
       "@types/react-test-renderer": "^18"
     }
+  },
+  "pinDependencies": {
+    "react": [
+      "18"
+    ],
+    "@types/react": [
+      "18"
+    ],
+    "@types/react-dom": [
+      "18"
+    ],
+    "@types/react-test-renderer": [
+      "18"
+    ],
+    "react-dom": [
+      "18"
+    ],
+    "react-test-renderer": [
+      "18"
+    ]
+  },
+  "devDependencies": {
+    "@testduet/given-when-then": "^0.1.0-main.334801c",
+    "@testing-library/react": "^16.3.0",
+    "@tsconfig/strictest": "^2.0.5",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@types/react-test-renderer": "^18.3.1",
+    "expect": "^30.0.4",
+    "resolve-cwd": "^3.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-say": "0.0.0-0",
+    "react-test-renderer": "^18.3.1"
   }
 }

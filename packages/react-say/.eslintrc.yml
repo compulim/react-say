@@ -1,2 +1,5 @@
+env:
+  browser: true
+  es2024: true
 extends:
   - ./.eslintrc.custom.yml

@@ -1,8 +1,9 @@
 {
-  "name": "react-say-pages",
+  "name": "@compulim/pages",
   "version": "0.0.0-0",
   "description": "",
   "private": true,
+  "exports": {},
   "scripts": {
     "build": "esbuild --bundle --entry-names=[name]/[ext]/main --jsx=transform --minify --outdir=./public/static/ --sourcemap $(find ./src -mindepth 1 -maxdepth 1 -type d -printf '%f=./src/%f/index.tsx ')",
     "bump": "npm run bump:prod && npm run bump:dev",
@@ -67,6 +68,7 @@
       "18"
     ]
   },
+  "peerDependencies": {},
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.13",
     "@tsconfig/strictest": "^2.0.8",
@@ -83,7 +85,5 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-say": "^0.0.0-0"
-  },
-  "exports": {},
-  "peerDependencies": {}
+  }
 }

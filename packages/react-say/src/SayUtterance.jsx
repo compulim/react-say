@@ -39,6 +39,9 @@ const SayUtterance = props => {
       cancelled = true;
       cancel();
     };
+
+    // TODO: Fix this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return false;

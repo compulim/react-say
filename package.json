@@ -3,10 +3,10 @@
   "version": "2.2.2-0",
   "private": true,
   "workspaces": [
-    "packages/test-harness",
     "packages/react-say",
     "packages/integration-test",
-    "packages/pages"
+    "packages/pages",
+    "packages/test-harness"
   ],
   "scripts": {
     "build": "npm run build --if-present --workspaces",
@@ -26,6 +26,11 @@
     "switch:react-18": "SWITCH_NAME=react-18 npm run switch:_",
     "test": "npm run test --if-present --workspaces"
   },
+  "author": "William Wong (https://github.com/compulim)",
+  "license": "MIT",
+  "pinDependencies": {},
+  "localPeerDependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
@@ -38,11 +43,5 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "prettier": "^3.7.4"
   },
-  "author": "William Wong (https://github.com/compulim)",
-  "license": "MIT",
-  "dependencies": {},
-  "exports": {},
-  "localPeerDependencies": {},
-  "pinDependencies": {},
-  "peerDependencies": {}
+  "dependencies": {}
 }

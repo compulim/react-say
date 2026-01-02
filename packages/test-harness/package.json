@@ -63,12 +63,8 @@
     "precommit:typescript": "tsc --noEmit --project ./src/tsconfig.precommit.json",
     "switch": "cat package.json | jq --arg SWITCH_NAME $SWITCH_NAME -r '(.[\"switch:\" + $SWITCH_NAME] // {}) as $TEMPLATE | .devDependencies += ($TEMPLATE.devDependencies // {}) | .dependencies += ($TEMPLATE.dependencies // {})' | tee ./package.json.tmp && mv ./package.json.tmp ./package.json"
   },
-  "peerDependencies": {
-    "typescript": ">=5",
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
-    "react-test-renderer": ">=16.8.0"
-  },
+  "author": "William Wong (https://github.com/compulim)",
+  "license": "MIT",
   "switch:react-16": {
     "dependencies": {
       "@testing-library/react": "^12",
@@ -127,5 +123,30 @@
     "react-test-renderer": [
       "18"
     ]
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "react-test-renderer": ">=16.8.0",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@types/react-test-renderer": "^18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-test-renderer": "^18.3.1",
+    "resolve-cwd": "^3.0.0"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@happy-dom/global-registrator": "^20.0.11",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.1",
+    "esbuild": "^0.27.2",
+    "escape-string-regexp": "^5.0.0",
+    "expect": "^30.2.0"
   }
 }
