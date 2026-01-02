@@ -25,6 +25,8 @@
     "bump": "npm run bump:prod && npm run bump:dev",
     "bump:dev": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.devDependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
     "bump:prod": "PACKAGES_TO_BUMP=$(cat package.json | jq -r '(.pinDependencies // {}) as $P | (.localPeerDependencies // {}) as $L | (.dependencies // {}) | to_entries | map(select(.key as $K | $L | has($K) | not)) | map(.key + \"@\" + ($P[.key] // [\"latest\"])[0]) | join(\" \")') && [ ! -z \"$PACKAGES_TO_BUMP\" ] && npm install $PACKAGES_TO_BUMP || true",
+    "init": "npm run init:dev --if-present && npm run init:prod --if-present",
+    "init:dev": "npm install --save--dev @compulim/test-harness@0.0.0-0 @tsconfig/recommended @tsconfig/strictest @types/node @types/react@18 @types/react-dom@18 escape-string-regexp expect publint react@18 react-dom@18 react-test-renderer@18 tsup typescript",
     "precommit": "npm run precommit:eslint && npm run precommit:publint && npm run precommit:typescript:production && npm run precommit:typescript:test",
     "precommit:eslint": "ESLINT_USE_FLAT_CONFIG=false eslint ./src/",
     "precommit:publint": "publint",
@@ -33,7 +35,9 @@
     "prepack": "cp ../../CHANGELOG.md . && cp ../../LICENSE . && cp ../../README.md .",
     "start": "npm run build -- --onSuccess \"touch ../pages/package.json\" --watch",
     "switch": "cat package.json | jq --arg SWITCH_NAME $SWITCH_NAME -r '(.[\"switch:\" + $SWITCH_NAME] // {}) as $TEMPLATE | .devDependencies += ($TEMPLATE.devDependencies // {}) | .dependencies += ($TEMPLATE.dependencies // {})' | tee ./package.json.tmp && mv ./package.json.tmp ./package.json",
-    "test": "node --import ./happy-dom-env.ts --test ${CI:---watch} **/*.{spec,test}.{[jt]s,[jt]sx,c[jt]s,m[jt]s}"
+    "test": "npm run test:unit && npm run test:types",
+    "test:types": "node --experimental-strip-types --import @compulim/test-harness/test-types.import --test **/*.test-types.ts",
+    "test:unit": "node --experimental-strip-types --experimental-test-coverage --experimental-test-isolation=none --import @compulim/test-harness/happy-dom.import --import @compulim/test-harness/jsx.import --test --test-force-exit **/*.test.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"
   },
   "repository": {
     "type": "git",
@@ -56,28 +60,68 @@
     "url": "https://github.com/compulim/react-say/issues"
   },
   "homepage": "https://github.com/compulim/react-say#readme",
+  "switch:react-16": {
+    "devDependencies": {
+      "@types/react": "^16",
+      "@types/react-dom": "^16",
+      "@types/react-test-renderer": "^16",
+      "react": "16.8.0",
+      "react-dom": "16.8.0",
+      "react-test-renderer": "16.8.0"
+    }
+  },
+  "switch:react-17": {
+    "devDependencies": {
+      "@types/react": "^17",
+      "@types/react-dom": "^17",
+      "@types/react-test-renderer": "^17",
+      "react": "17.0.0",
+      "react-dom": "17.0.0",
+      "react-test-renderer": "17.0.0"
+    }
+  },
+  "switch:react-18": {
+    "devDependencies": {
+      "@types/react": "^18",
+      "@types/react-dom": "^18",
+      "@types/react-test-renderer": "^18",
+      "react": "18.0.0",
+      "react-dom": "18.0.0",
+      "react-test-renderer": "18.0.0"
+    }
+  },
   "pinDependencies": {
     "@types/react": [
       "18"
     ],
     "react": [
       "18"
+    ],
+    "@types/react-dom": [
+      "18"
+    ],
+    "@types/react-test-renderer": [
+      "18"
+    ],
+    "react-dom": [
+      "18"
+    ],
+    "react-test-renderer": [
+      "18"
     ]
   },
   "peerDependencies": {
-    "react": ">= 16.8.6"
+    "react": ">=16.8.0"
+  },
+  "localPeerDependencies": {
+    "@compulim/test-harness": "0.0.0-0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^20.0.11",
     "@testduet/given-when-then": "^0.1.0",
     "@tsconfig/recommended": "^1.0.13",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "^25.0.3",
     "@types/react": "^18.3.27",
-    "esbuild": "^0.27.2",
-    "escape-string-regexp": "^5.0.0",
     "expect": "^30.2.0",
-    "happy-dom": "^20.0.11",
     "has-resolved": "^1.1.0",
     "prettier": "^3.7.4",
     "publint": "^0.3.16",

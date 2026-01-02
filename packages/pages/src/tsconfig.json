@@ -3,11 +3,7 @@
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": [
-      "DOM",
-      "ESNext",
-      "WebWorker"
-    ],
+    "lib": ["DOM", "ESNext", "WebWorker"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,

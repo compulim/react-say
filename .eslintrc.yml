@@ -1,3 +1,5 @@
+env:
+  es2024: true # Target ESNext
 extends:
   - eslint:recommended
 overrides:
@@ -61,8 +63,6 @@ overrides:
       - '**/*.ts'
       - '**/*.tsx'
 parserOptions:
-  ecmaFeatures:
-    jsx: true
   ecmaVersion: latest
   sourceType: module
 plugins:

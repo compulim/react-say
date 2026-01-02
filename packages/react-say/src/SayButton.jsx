@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 
+// TODO: Fix this cyclic in `migrateDeprecatedProps.mjs`.
+// eslint-disable-next-line import/no-cycle
 import migrateDeprecatedProps from './migrateDeprecatedProps.mjs';
 import Say from './Say.jsx';
 
@@ -9,7 +11,7 @@ const SayButton = props => {
     migrateDeprecatedProps(props, SayButton);
 
   const [busy, setBusy] = useState(false);
-  const handleClick = useCallback(() => setBusy(true));
+  const handleClick = useCallback(() => setBusy(true), [setBusy]);
   const sayProps = {
     lang,
     onBoundary,

@@ -4,6 +4,8 @@ import React, { useContext, useMemo } from 'react';
 import Composer from './Composer.jsx';
 import Context from './Context.mjs';
 import createNativeUtterance from './createNativeUtterance.mjs';
+// TODO: Fix this cyclic in `migrateDeprecatedProps.mjs`.
+// eslint-disable-next-line import/no-cycle
 import migrateDeprecatedProps from './migrateDeprecatedProps.mjs';
 import SayUtterance from './SayUtterance.jsx';
 

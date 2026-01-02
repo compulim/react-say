@@ -12,11 +12,15 @@ const Composer = props => {
   // If we have the parent context, we will use that synthesize() function and its internal queue.
   const { ponyfill: parentPonyfill, synthesize: parentSynthesize } = useContext(Context) || {};
 
-  const ponyfill = ponyfillFromProps ||
-    parentPonyfill || {
-      speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
-      SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
-    };
+  const ponyfill = useMemo(
+    () =>
+      ponyfillFromProps ||
+      parentPonyfill || {
+        speechSynthesis: window.speechSynthesis || window.webkitSpeechSynthesis,
+        SpeechSynthesisUtterance: window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance
+      },
+    [parentPonyfill, ponyfillFromProps]
+  );
 
   // If the parent context changed and no longer has a synthesize() function, we will create the queue.
   // This is very unlikely to happen.
